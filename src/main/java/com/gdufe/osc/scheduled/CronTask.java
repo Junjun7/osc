@@ -1,4 +1,4 @@
-package com.gdufe.osc.cron;
+package com.gdufe.osc.scheduled;
 
 import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.AccessToken;

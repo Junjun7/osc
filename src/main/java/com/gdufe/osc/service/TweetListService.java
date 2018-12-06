@@ -1,6 +1,7 @@
 package com.gdufe.osc.service;
 
-import com.gdufe.osc.entity.TweetList;
+import com.gdufe.osc.entity.TweetListDetails;
+import com.gdufe.osc.utils.CacheToken;
 
 import java.util.List;
 
@@ -10,9 +11,14 @@ import java.util.List;
  */
 public interface TweetListService {
 
-	List<TweetList> getTweetList(int page, int pageSize, int user);
+	List<TweetListDetails> getTweetList(int page, int pageSize, int user);
 
-	default String getUrl() {
-		return "https://www.oschina.net/action/openapi/tweet_list?dataType=json";
+	default String getIdsUrl() {
+
+		return "https://www.oschina.net/action/openapi/tweet_list?dataType=json&access_token=" + CacheToken.getToken();
+	}
+
+	default String getDetailsUrl() {
+		return "https://www.oschina.net/action/openapi/tweet_detail?dataType=json&access_token=" + CacheToken.getToken();
 	}
 }
