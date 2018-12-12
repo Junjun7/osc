@@ -1,4 +1,4 @@
-package com.gdufe.osc.web;
+package com.gdufe.osc.controller;
 
 import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.TokenUtils;

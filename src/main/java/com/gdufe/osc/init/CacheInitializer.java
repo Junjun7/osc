@@ -23,6 +23,10 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		init();
 	}
 
+	/**
+	 * code获取
+	 * https://www.oschina.net/action/oauth2/authorize?state=cwb&response_type=code&client_id=sW9a1Tf8AP8IIbUydQrr&redirect_uri=https://www.wenber.com
+	 */
 	private void init() {
 		String token = redisService.getToken();
 		String freshToken = redisService.getFreshToken();

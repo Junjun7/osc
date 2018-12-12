@@ -27,7 +27,8 @@ public class CronTask {
 	private static String url = "https://www.oschina.net/action/openapi/token?callback=json&client_id=sW9a1Tf8AP8IIbUydQrr&client_secret=jkaHxvkGmrbpjZcebnDUhQbF6ieu9Qqc&grant_type=refresh_token&dataType=json&redirect_uri=https://www.wenber.com&refresh_token=";
 
 	// 每天凌晨3.30更新token
-	@Scheduled(cron = "0 30 3 * * ?")
+//	@Scheduled(cron = "0 30 3 * * ?")
+	@Scheduled(cron = "0 0/1 * * * ?")
 	public void refreshCache() {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		AccessToken accessToken = getAccessToken();
