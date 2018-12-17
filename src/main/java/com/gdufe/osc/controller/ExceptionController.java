@@ -27,7 +27,7 @@ public class ExceptionController {
 
 		if (throwable instanceof NullPointerException || throwable instanceof IOException) {
 			cronTask.refreshCache();
-			return new OscResult<String>().fail("token失效，请刷新");
+			return new OscResult<String>().fail("网络出错，请刷新");
 		}
 		String msg = throwable.getMessage();
 		log.error(msg);

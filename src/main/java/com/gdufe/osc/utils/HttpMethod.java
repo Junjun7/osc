@@ -43,9 +43,7 @@ public class HttpMethod {
 
 		Map<String, Object> map = getMaps();
 		List<NameValuePair> list = Lists.newArrayList();
-		map.forEach((x, y) -> {
-			list.add(new BasicNameValuePair(x, y.toString()));
-		});
+		map.forEach((x, y) -> list.add(new BasicNameValuePair(x, y.toString())));
 		Header[] headers = getHeader();
 		CloseableHttpClient client = null;
 		HttpPost httpPost = null;
