@@ -33,6 +33,7 @@ public class TweetListServiceImp implements TweetListService {
 		List<TweetListDetails> res = Lists.newArrayList();
 		for (int id : ids) {
 			String url = tweetUrl + "&id=" + id;
+			log.info("id = " + id);
 			res.add(getTweetDetails(url));
 		}
 		return res;
@@ -43,12 +44,12 @@ public class TweetListServiceImp implements TweetListService {
 		String data = HttpMethod.get(url);
 		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
 		if (details.getImgBig() != null && details.getImgBig() != null) {
-			details = changeImg(details);
+			details = filterImg(details);
 		}
 		return details;
 	}
 
-	private TweetListDetails changeImg(TweetListDetails details) {
+	private TweetListDetails filterImg(TweetListDetails details) {
 
 		StringBuilder sb = new StringBuilder();
 		String[] smallImg = details.getImgSmall().split("https");

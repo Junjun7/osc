@@ -34,7 +34,7 @@ public class HttpMethod {
 		try {
 			content = HttpClientUtil.get(config.url(url));
 		} catch (HttpProcessException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return content;
 	}
@@ -84,7 +84,7 @@ public class HttpMethod {
 		map.put("client_id", "sW9a1Tf8AP8IIbUydQrr");
 		map.put("response_type", "code");
 		map.put("redirect_uri", "https://www.wenber.com");
-		map.put("scope", "tweet_api,user_api,");
+		map.put("scope", "comment_api,tweet_api,user_api,");
 		map.put("state", "cwb");
 		map.put("user_oauth_approval", "true");
 		return map;

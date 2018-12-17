@@ -8,15 +8,14 @@ import java.util.List;
 
 /**
  * @Author: yizhen
- * @Date: 2018/12/6 15:00
+ * @Date: 2018/12/17 15:53
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TweetListMore {
-
+public class CommentListMore {
 
 	private Notice notice;
-	private List<TweetList> tweetlist;
 
+	private List<CommentList> commentList;
 }
