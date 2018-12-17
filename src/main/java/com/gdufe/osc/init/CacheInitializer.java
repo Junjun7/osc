@@ -1,5 +1,6 @@
 package com.gdufe.osc.init;
 
+import com.gdufe.osc.scheduled.CronTask;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.utils.CacheToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 
 	@Autowired
 	private RedisService redisService;
+	@Autowired
+	CronTask cronTask;
 
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -23,11 +26,9 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		init();
 	}
 
-	/**
-	 * code获取
-	 * https://www.oschina.net/action/oauth2/authorize?state=cwb&response_type=code&client_id=sW9a1Tf8AP8IIbUydQrr&redirect_uri=https://www.wenber.com
-	 */
 	private void init() {
+		// fresh token by code
+		cronTask.refreshCache();
 		String token = redisService.getToken();
 		String freshToken = redisService.getFreshToken();
 		CacheToken.cache.put("token", token);

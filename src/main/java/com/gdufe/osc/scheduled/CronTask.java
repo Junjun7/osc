@@ -7,10 +7,12 @@ import com.gdufe.osc.utils.CacheToken;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,11 +26,11 @@ public class CronTask {
 	@Autowired
 	private RedisService redisService;
 
-	private static String url = "https://www.oschina.net/action/openapi/token?callback=json&client_id=sW9a1Tf8AP8IIbUydQrr&client_secret=jkaHxvkGmrbpjZcebnDUhQbF6ieu9Qqc&grant_type=refresh_token&dataType=json&redirect_uri=https://www.wenber.com&refresh_token=";
+	private static String url = "https://www.oschina.net/action/openapi/token?callback=json&client_id=sW9a1Tf8AP8IIbUydQrr&client_secret=jkaHxvkGmrbpjZcebnDUhQbF6ieu9Qqc&grant_type=authorization_code&dataType=json&redirect_uri=https://www.wenber.com&code=";
 
 	// 每天凌晨3.30更新token
 //	@Scheduled(cron = "0 30 3 * * ?")
-	@Scheduled(cron = "0 0/1 * * * ?")
+	@Scheduled(cron = "0 0/5 * * * ?")
 	public void refreshCache() {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		AccessToken accessToken = getAccessToken();
@@ -37,13 +39,18 @@ public class CronTask {
 		freshGuavaCache(newToken, newFreshToken);
 		freshRedisCache(newToken, newFreshToken);
 		long duration = stopwatch.elapsed(TimeUnit.MILLISECONDS);
-		log.info("refreshCache 执行花费时长： {}", duration);
 		log.info("token：{}  -----  freshToken：{}", newToken, newFreshToken);
+		log.info("refreshCache 执行花费时长： {}", duration);
 	}
 
 	private AccessToken getAccessToken() {
-		String freshToken = CacheToken.getFreshToken();
-		String urlToken = url + freshToken;
+		String urlToken = null;
+		try {
+			urlToken = url + HttpMethod.getCode();
+			log.info("code = {}", StringUtils.substringAfter(urlToken, "code="));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		String data = HttpMethod.get(urlToken);
 		return JSON.parseObject(data, AccessToken.class);
 	}
