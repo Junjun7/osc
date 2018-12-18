@@ -1,5 +1,7 @@
 package com.gdufe.osc.controller;
 
+import com.gdufe.osc.entity.AccessToken;
+import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 	@Autowired
-	TweetListService tweetListService;
+	private TweetListService tweetListService;
+	@Autowired
+	private RedisHelper<AccessToken> redisHelper;
 
 	@GetMapping("/token")
 	public String getToken() {
@@ -26,4 +30,25 @@ public class TestController {
 
 		return TokenUtils.getFreshToken();
 	}
+
+	@GetMapping("/getKey")
+	public AccessToken getAccess(String key) {
+
+		return redisHelper.get(key, AccessToken.class);
+	}
+
+	@GetMapping("/setKey")
+	public Boolean setAccess(String key) {
+
+		AccessToken accessToken = new AccessToken("aaa", "bbb", "ccc", 111, 222);
+		return redisHelper.setEx(key, 30L, accessToken);
+	}
 }
+
+
+
+
+
+
+
+
