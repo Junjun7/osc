@@ -6,7 +6,7 @@
 - 创建分支   **git branch dev**
 - 合并分支   
     - 首先切换分支到master
-    - **git merge dev  ==> 合并dev到master**
+    - **git merge dev  > 合并dev到master**
 - 切换分支问题：
     - 存储当前分支内容   **git stash**
     - 查看存储内容   **git stash list**
@@ -65,6 +65,7 @@ spring.profiles.active=dev
 
 - 如果想用其他数据源，一样配置这个参数即可。 但要注意，配置文件必须是  **application-xxx.properties**
 
+
 ![1543494203354](http://images.cnblogs.com/cnblogs_com/wenbochang/1355057/o_1543494203354.png)
 
 
@@ -75,7 +76,7 @@ spring.profiles.active=dev
 
 #### SpringMVC拦截器：	
 
-- 拦截器配置   ==>  实现**HandlerInterceptor**方法，并且重写**preHandle**方法即可
+- 拦截器配置   >  实现**HandlerInterceptor**方法，并且重写**preHandle**方法即可
 
 ```java
 public class CommonInterceptor implements HandlerInterceptor {
@@ -85,7 +86,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Users userInfo = (Users)request.getSession().getAttribute("userInfo");
-        if (userInfo == null) {
+        if (userInfo  null) {
             response.sendRedirect("/admin/login/index");
             return false;
         }
@@ -99,9 +100,13 @@ public class CommonInterceptor implements HandlerInterceptor {
 #### SpringMVC拦截器配置：	
 
 - 如果有多个拦截器，则配置拦截器规则
+
 - 实现**WebMvcConfigurer**接口，并重写里面的**addInterceptors**方法即可
+
 - 添加**拦截器**的时候，记得要注意自己定义一个**Bean**出来
-- ***==假如一个拦截器没有配置addPathPatterns，它会默认拦截所有==***   ==> **这点要特别注意**
+
+- ***假如一个拦截器没有配置addPathPatterns，它会默认拦截所有***   > **这点要特别注意**
+
 
 ```java
 public class InterceptorConfig  implements WebMvcConfigurer {
@@ -317,7 +322,7 @@ mybatis.generate.resource.target=src/main/resources
 
 
 
-- **==BaseMapper文件  ==>  用于进行插入和选择性插入==**   这个有点神奇欸，看情况而定
+- **BaseMapper文件  >  用于进行插入和选择性插入**   这个有点神奇欸，看情况而定
 
 ```java
 public interface BaseMapper<T> {
@@ -332,7 +337,7 @@ public interface BaseMapper<T> {
 
 - **分页 重中之重**
 
-    - 第一步：在**xxxExample** 中，加入两个参数，并设置getter && setter  **==一定要给一个默认值==**，否则会报错
+    - 第一步：在**xxxExample** 中，加入两个参数，并设置getter && setter  **一定要给一个默认值**，否则会报错
 
     ```java
     protected Integer offset = 0;
@@ -461,7 +466,7 @@ public boolean extractSecret(String secretKey, long timestamp, String ...clearKe
         return false;
     }
     String nonceKey = extractNonceKey(secretKey);
-    if (nonceKey == null) {
+    if (nonceKey  null) {
         return false;
     }
     String dataKey = getSecretKey();
@@ -595,7 +600,7 @@ public class RedisServiceImpl<K, V> {
 >
 >  4：ApplicationStaredEvent，在application和command-line调用之后context刷新之前。
 >
->  **5：ApplicationReadyEvent，与4相反，此时应用以具备服务的能力，可以处理请求。 **==常用==
+>  **5：ApplicationReadyEvent，与4相反，此时应用以具备服务的能力，可以处理请求。 **常用
 >
 >  6：ApplicationFailedEvent，在启动过程中如果发生异常则触发。
 
@@ -606,6 +611,7 @@ public class RedisServiceImpl<K, V> {
 
 
 - 如果我们想在SpringBoot一启动，就加载某些类，或者放入cache中，此时哦我们就可以用到监听器
+
 
 ```java
 public class AttributeValueInitializer implements ApplicationListener<ApplicationReadyEvent> {
@@ -622,7 +628,7 @@ public class AttributeValueInitializer implements ApplicationListener<Applicatio
 - **结果**
 
 ```properties
-2018-12-05 17:47:22.916  INFO 1464 --- [           main] com.test.mybatis.demo.DemoApplication    : Started DemoApplication in 5.544 seconds (JVM running for 6.776)   ==>  这里已经启动成功了 然后打印StaredEvent和ReadyEvent
+2018-12-05 17:47:22.916  INFO 1464 --- [           main] com.test.mybatis.demo.DemoApplication    : Started DemoApplication in 5.544 seconds (JVM running for 6.776)   >  这里已经启动成功了 然后打印StaredEvent和ReadyEvent
 ApplicationStaredEvent
 ApplicationReadyEvent
 ```
@@ -683,6 +689,7 @@ public ResponseResult<String> handleFileError(Throwable throwable) {
 
 
 - **throwable instanceof IndexOutOfBoundsException**  因为**Throwable**是所有异常的超类
+
 
 ![img](http://images.cnblogs.com/cnblogs_com/wenbochang/1355057/o_%E5%BC%82%E5%B8%B8.png)
 
@@ -749,7 +756,7 @@ dubbo.registry.address=zookeeper://120.78.159.149:2181
 
 
 
-> ps.  一定记得在启动类加上 **==@EnableDubbo==**  注解
+> ps.  一定记得在启动类加上 **@EnableDubbo**  注解
 >
 > 提供方的service文档： http://dubbo.apache.org/zh-cn/docs/user/references/xml/dubbo-service.html
 >
@@ -768,9 +775,7 @@ dubbo.registry.address=zookeeper://120.78.159.149:2181
 
 
 
-```
-![dubbo-config-override](http://dubbo.apache.org/docs/zh-cn/user/sources/images/dubbo-config-override.jpg)
-```
+    ![dubbo-config-override](http://dubbo.apache.org/docs/zh-cn/user/sources/images/dubbo-config-override.jpg)
 
 
 
@@ -843,20 +848,21 @@ get /dubbo
 
 #### 代码的坏味道：
 
-- ==**当你感觉需要攥写注释的时候，请先尝试重构，试着让注释变得多余。**==
+- **当你感觉需要攥写注释的时候，请先尝试重构，试着让注释变得多余。**
+
 - 重复代码(**Duplicated** **Code**)
 
 > 同一个类的两个函数有相同的表达式
 >
-> 两个互为兄弟的子类内含相同的表达式  **==>**  提解到超类中去
+> 两个互为兄弟的子类内含相同的表达式  **>**  提解到超类中去
 >
-> 两个毫不相关的类出现重复代码  **==>**  放到第三个类，用一个静态方法，或者放入其中一个类，另一个类调用它即可，看具体详情
+> 两个毫不相关的类出现重复代码  **>**  放到第三个类，用一个静态方法，或者放入其中一个类，另一个类调用它即可，看具体详情
 
 
 
 - 过长的函数(**Long Method**)
 
-> ==**每当感觉需要以注释来说明点什么的时候，我们就把需要说明的东西写进一个独立函数中，并以其用途(而非实现手法)来命名。**==
+> **每当感觉需要以注释来说明点什么的时候，我们就把需要说明的东西写进一个独立函数中，并以其用途(而非实现手法)来命名。**
 >
 > 如果函数内有大量的参数和临时变量，他们会对你的函数提炼形成阻碍。传递临时变量给新函数，导致可读性是非常的差的。此时你可以 **把临时变量放到子函数中去**，最终需要的变量，return回来即可
 >
@@ -942,7 +948,7 @@ private int getRes() {
 >
 > **int res = getRes();**
 >
-> **==但对于有临时变量的，这个是特别的注意。传参，还有返回值，这十分的谨慎琢磨。==**
+> **但对于有临时变量的，这个是特别的注意。传参，还有返回值，这十分的谨慎琢磨。**
 
 
 
@@ -985,7 +991,7 @@ int discount(int inputVal, int quantity) {
 
 - 以函数对象取代函数 **(Replace Method with Method Object**)
 
-> 如果一个函数之中局部变量泛滥成灾，那么想分解这个函数是非常困难的，有时你会发现根本无法拆解一个需要拆解的函数。这种情况，你就需要**==函数对象==**这件法宝了。
+> 如果一个函数之中局部变量泛滥成灾，那么想分解这个函数是非常困难的，有时你会发现根本无法拆解一个需要拆解的函数。这种情况，你就需要**函数对象**这件法宝了。
 >
 > 将这个函数变为对象，函数的局部变量变为函数对象的字段。在新类里面建立一个 **compute** 的函数，然后使用分解函数进行重构即可
 
@@ -993,7 +999,7 @@ int discount(int inputVal, int quantity) {
 
 **下面举一个很长很长的例子，OA系统中的例子，已经运用在实际了**
 
-**==原函数：==**
+**原函数：**
 
 ```java
 private String getDepartmentRecur(List<DeparmentNameVO> deparmentName) {
@@ -1016,13 +1022,13 @@ private String getDepartmentRecur(List<DeparmentNameVO> deparmentName) {
         int parentId = x.getParentId();
         int deptId = x.getId();
         while (parentId != 0) {
-            stack.push(map1.get(deptId) == null ? "0" : map1.get(deptId));
+            stack.push(map1.get(deptId)  null ? "0" : map1.get(deptId));
             deptId = parentId;
-            parentId = map2.get(deptId) == null ? 0 : map2.get(deptId);
+            parentId = map2.get(deptId)  null ? 0 : map2.get(deptId);
         }
         stack.add("哆啦科技");
         while (!stack.isEmpty()) {
-            if (stack.size() == 1) {
+            if (stack.size()  1) {
                 sb.append(stack.pop());
             } else {
                 sb.append(stack.pop() + "/");
@@ -1040,7 +1046,7 @@ private String getDepartmentRecur(List<DeparmentNameVO> deparmentName) {
 
 **但是这个方法还是太长了，又臭又长，极其的难以维护。但我每次想抽离函数，有感觉很复杂，不止从何下手，这时，可以将其剥离为一个对象**
 
-**==重构后代码：==**
+**重构后代码：**
 
 ```java
 public class DepartmentRecur {
@@ -1073,13 +1079,13 @@ public class DepartmentRecur {
 			int parentId = x.getParentId();
 			int deptId = x.getId();
 			while (parentId != 0) {
-				stack.push(map1.get(deptId) == null ? "0" : map1.get(deptId));
+				stack.push(map1.get(deptId)  null ? "0" : map1.get(deptId));
 				deptId = parentId;
-				parentId = map2.get(deptId) == null ? 0 : map2.get(deptId);
+				parentId = map2.get(deptId)  null ? 0 : map2.get(deptId);
 			}
 			stack.add("哆啦科技");
 			while (!stack.isEmpty()) {
-				if (stack.size() == 1) {
+				if (stack.size()  1) {
 					sb.append(stack.pop());
 				} else {
 					sb.append(stack.pop() + "/");
@@ -1124,7 +1130,7 @@ public class DepartmentRecur {
 >
 > 对这个 “电话号码” 你有很多的操作，这是非常不友好的。
 >
-> 所以必要时，将 String phone  ==>  Phone phone  一个对象
+> 所以必要时，将 String phone  >  Phone phone  一个对象
 
 
 
@@ -1144,7 +1150,7 @@ public class DepartmentRecur {
 
 ```java
 public static boolean isEmpty(final CharSequence cs) {
-	return cs == null || cs.length() == 0;
+	return cs  null || cs.length()  0;
 }
 
 // 双胞胎
@@ -1160,10 +1166,10 @@ public static boolean isNotEmpty(final CharSequence cs) {
 ```java
 // 源码  所有join都是重载了此方法
 public static String join(final Object[] array, String separator, final int startIndex, final int endIndex) {
-    if (array == null) {
+    if (array  null) {
         return null;
     }
-    if (separator == null) {
+    if (separator  null) {
         separator = EMPTY;
     }
 
@@ -1206,7 +1212,7 @@ public static void main(String[] args) {
 
 ```java
 public static boolean contains(final CharSequence seq, final CharSequence searchSeq) {
-    if (seq == null || searchSeq == null) {
+    if (seq  null || searchSeq  null) {
         return false;
     }
     return CharSequenceUtils.indexOf(seq, searchSeq, 0) >= 0;
@@ -1219,7 +1225,7 @@ public static boolean contains(final CharSequence seq, final CharSequence search
 
 ```java
 public static String substring(final String str, int start) {
-    if (str == null) {
+    if (str  null) {
         return null;
     }
 
@@ -1292,12 +1298,12 @@ public static boolean isNumeric(final CharSequence cs) {
 
 ```java
 public static boolean isEmpty(@Nullable Collection<?> collection) {
-    return (collection == null || collection.isEmpty());
+    return (collection  null || collection.isEmpty());
 }
 
 // 重载了Map
 public static boolean isEmpty(@Nullable Map<?, ?> map) {
-    return (map == null || map.isEmpty());
+    return (map  null || map.isEmpty());
 }
 ```
 
@@ -1367,6 +1373,7 @@ Person(name=小明, age=18, parent=[张三, 李四])
     - 在方法执行前Spring先是否有缓存数据
     - **如果有直接返回**。
     - **如果没有数据，调用方法并将方法返回值存放在缓存当中**。
+
 - @CachePut
     - 相当于Put，无论如何，一定会去数据库查内容，并且将结果放到缓存中
 - @CacheEvict   
@@ -1433,7 +1440,7 @@ Person(name=小明, age=18, parent=[张三, 李四])
     - LRU(Least Recently Used 最近最少使用)
     - LFU(Less Frequently Used最不常用的)
     - FIFO(first in first out先进先出)
-- **==eternal==**  **缓存中对象是否永久有效,即是否永驻内存**
+- **eternal**  **缓存中对象是否永久有效,即是否永驻内存**
 
 
 
@@ -1474,6 +1481,7 @@ public Items getOne(Integer id) {
 ##### Cache学习：
 
 - **推荐博客**   [**Guava Cache用法介绍**](https://segmentfault.com/a/1190000011105644)
+
 - **Cache接口**  => **可满足大部分需求**
 
 ```java
@@ -1588,11 +1596,11 @@ private static final double LIMIT = 10;
 private static RateLimiter rateLimiter = RateLimiter.create(LIMIT);
 ```
 
-**==注意：==** LIMIT = 10，表示每秒往桶里面放10个令牌，**==匀速==**放置。也就是说，1000ms放10个，100ms放1个。
+**注意：** LIMIT = 10，表示每秒往桶里面放10个令牌，**匀速**放置。也就是说，1000ms放10个，100ms放1个。
 
 如果100ms请求10次，只有一次会通过，其他九次都会被拒绝。就算后面900ms没有请求。
 
-匀速放置，注意理解这一个词汇。**==匀速==**
+匀速放置，注意理解这一个词汇。**匀速**
 
 
 
@@ -1632,7 +1640,7 @@ private static Boolean tryAcquire() {
 
 - **例子二：**
 
- **==注意看代码第12行==**
+ **注意看代码第12行**
 
 ```java
 // LIMIT 相当于QPS
@@ -1677,13 +1685,13 @@ private static Boolean tryAcquire() {
 
 
 
-- @AllArgsConstructor注解  ==> 出现了全参构造器，但是！！！！无参构造器消失了
+- @AllArgsConstructor注解  > 出现了全参构造器，但是！！！！无参构造器消失了
 
 ![img](http://images.cnblogs.com/cnblogs_com/wenbochang/1355057/o_1543837420(1).jpg)
 
 
 
-- @NoArgsConstructor   ==>  无参构造器
+- @NoArgsConstructor   >  无参构造器
 
 ![img](http://images.cnblogs.com/cnblogs_com/wenbochang/1355057/o_1543837471(1).jpg)
 
@@ -1777,8 +1785,8 @@ public class BasicParameterValidator implements Validator<ValuationWO> {
 
     @Override
     public boolean handle(ValuationWO valuationWO) throws FordealException {
-        if (valuationWO.getItemId() == null || valuationWO.getSkuId() == null || valuationWO.getOrderId() == null ||
-                StringUtils.isEmpty(valuationWO.getToken()) || valuationWO.getTimestamp() == null) {
+        if (valuationWO.getItemId()  null || valuationWO.getSkuId()  null || valuationWO.getOrderId()  null ||
+                StringUtils.isEmpty(valuationWO.getToken()) || valuationWO.getTimestamp()  null) {
             log.error("valuation check. basic validator occur error, token|itemId|orderId|skuId|timestamp can not be empty.");
             throw new FordealException(ErrorCodeEnum.ARGUMENT_ERROR_CODE);
         }
@@ -1814,7 +1822,7 @@ public class TokenValidator implements Validator<ValuationWO> {
         String orderId = String.valueOf(valuationWO.getOrderId());
         String skuId = String.valueOf(valuationWO.getSkuId());
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(itemId) || StringUtils.isEmpty(orderId)
-                ||StringUtils.isEmpty(skuId) || timestamp == null) {
+                ||StringUtils.isEmpty(skuId) || timestamp  null) {
             log.error("token validator occur error, token|itemId|orderId|skuId|timestamp can not be empty.");
             throw new FordealException(ErrorCodeEnum.ARGUMENT_ERROR_CODE);
         }
@@ -1850,7 +1858,7 @@ public class TokenValidator implements Validator<ValuationWO> {
 > - 一个对象必须通知其他对象，而并不知道这些对象是谁。
 > - 需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。
 >
-> ==**例子：**==
+> **例子：**
 >
 > **有一个微信公众号服务，不定时发布一些消息，关注公众号就可以收到推送消息，取消关注就收不到推送消息。**
 >
