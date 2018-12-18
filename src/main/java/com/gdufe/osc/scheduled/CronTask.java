@@ -46,7 +46,7 @@ public class CronTask {
 		String urlToken = null;
 		try {
 			urlToken = url + HttpMethod.getCode();
-			log.info("code = {}", StringUtils.substringAfter(urlToken, "code = "));
+			log.info("code = {}", StringUtils.substringAfter(urlToken, "code="));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

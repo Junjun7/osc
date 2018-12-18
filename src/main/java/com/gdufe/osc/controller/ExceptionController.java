@@ -25,10 +25,16 @@ public class ExceptionController {
 	@ExceptionHandler
 	public OscResult<String> exceptionError(Throwable throwable) {
 
+		// token失效
 		if (throwable instanceof NullPointerException || throwable instanceof IOException) {
 			cronTask.refreshCache();
 			return new OscResult<String>().fail("网络出错，请刷新");
 		}
+		// 缺少字段
+		if (throwable instanceof IllegalStateException) {
+			return new OscResult<String>().fail("缺少字段");
+		}
+		// 其他异常 未知
 		String msg = throwable.getMessage();
 		log.error(msg);
 		OscResult<String> res = new OscResult<String>().fail(msg);
