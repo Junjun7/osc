@@ -21,7 +21,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
 	// 配置拦截规则
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(blockListInterceptor())
-				.addPathPatterns("/**");
+				.addPathPatterns("/**")
+				.excludePathPatterns("/spring/**");
 	}
 }
 

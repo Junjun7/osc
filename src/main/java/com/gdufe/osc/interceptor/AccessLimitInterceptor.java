@@ -1,5 +1,7 @@
 package com.gdufe.osc.interceptor;
 
+import com.alibaba.fastjson.JSON;
+import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.service.AccessLimitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,10 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+		/**
+		 * 这个记得加上lock
+		 * 不加lock，在每个线程的工作内存都有一个limit，起不到限流的作用了
+		 */
 		synchronized (lock) {
 			boolean isOk = accessLimitService.tryAcquire();
 			if (isOk) {
@@ -31,6 +36,12 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 				return true;
 			} else {
 				log.error("请求过快，请稍后再试");
+				// 返回前端请求过快 稍后再试
+				OscResult<String> result = new OscResult<>();
+				result = result.fail("请求过快，请稍后再试");
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("content-type", "application/json;charset=UTF-8");
+				response.getWriter().print(JSON.toJSONString(result));
 				return false;
 			}
 		}

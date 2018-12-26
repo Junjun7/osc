@@ -37,7 +37,6 @@ public class ExceptionController {
 		// 其他异常 未知
 		String msg = throwable.getMessage();
 		log.error(msg);
-		OscResult<String> res = new OscResult<String>().fail(msg);
-		return res;
+		return new OscResult<String>().fail(msg);
 	}
 }
