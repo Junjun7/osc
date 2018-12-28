@@ -22,18 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class IPBlockInterceptor implements HandlerInterceptor {
 
+	private Object lock = new Object();
+	// 10s内访问100次，认为是刷接口，就要进行一个限制
+	private static final long TIME = 10;
+	private static final long CNT = 100;
+
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
-	private Object lock = new Object();
 
-	/**
-	 * 10s内访问100次，认为是刷接口，就要进行一个限制
-	 * @param request
-	 * @param response
-	 * @param handler
-	 * @return
-	 * @throws Exception
-	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		synchronized (lock) {
@@ -42,7 +38,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 			if (isExist) {
 				// 如果存在,不是第一次访问
 				int cnt = redisHelper.get(ip, Integer.class);
-				if (cnt >= 100) {
+				if (cnt >= IPBlockInterceptor.CNT) {
 					OscResult<String> result = new OscResult<>();
 					response.setCharacterEncoding("UTF-8");
 					response.setHeader("content-type", "application/json;charset=UTF-8");
@@ -51,11 +47,11 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					log.info("ip = {}, 请求过快，被限制", ip);
 					return false;
 				}
-				redisHelper.setEx(ip, 10L, ++cnt);
+				redisHelper.setEx(ip, IPBlockInterceptor.TIME, ++cnt);
 				log.info("ip = {}, 10s之内第{}次请求，通过", ip, cnt);
 			} else {
 				// 第一次访问
-				redisHelper.setEx(ip, 10L, 1);
+				redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
 				log.info("ip = {}, 10s之内第1次请求，通过", ip);
 			}
 		}
