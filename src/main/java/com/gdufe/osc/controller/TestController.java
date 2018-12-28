@@ -20,6 +20,11 @@ public class TestController {
 	@Autowired
 	private RedisHelper<AccessToken> redisHelper;
 
+	@GetMapping("/")
+	public String index() {
+		return "Hello Gdufe";
+	}
+
 	@GetMapping("/token")
 	public String getToken() {
 		return TokenUtils.getToken();

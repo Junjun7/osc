@@ -1,6 +1,7 @@
 package com.gdufe.osc.conf;
 
 import com.gdufe.osc.interceptor.AccessLimitInterceptor;
+import com.gdufe.osc.interceptor.IPBlockInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,13 +15,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorConfig implements WebMvcConfigurer {
 
 	@Bean
-	public AccessLimitInterceptor blockListInterceptor() {
+	public AccessLimitInterceptor accessLimitInterceptor() {
 		return new AccessLimitInterceptor();
+	}
+	@Bean
+	public IPBlockInterceptor ipBlockInterceptor() {
+		return new IPBlockInterceptor();
 	}
 
 	// 配置拦截规则
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(blockListInterceptor())
+		registry.addInterceptor(accessLimitInterceptor())
+				.addPathPatterns("/**")
+				.excludePathPatterns("/spring/**");
+
+		registry.addInterceptor(ipBlockInterceptor())
 				.addPathPatterns("/**")
 				.excludePathPatterns("/spring/**");
 	}

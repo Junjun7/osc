@@ -3,7 +3,6 @@ package com.gdufe.osc.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.service.AccessLimitService;
-import com.gdufe.osc.utils.IPUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -32,12 +31,11 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 		 */
 		synchronized (lock) {
 			boolean isOk = accessLimitService.tryAcquire();
-			String ip = IPUtils.getClientIp(request);
 			if (isOk) {
-				log.info("ip = {} --- 本次请求正常通过", ip);
+				log.info("本次请求正常通过");
 				return true;
 			} else {
-				log.error("ip = {} --- 请求过快，请稍后再试", ip);
+				log.error("请求过快，请稍后再试");
 				// 返回前端请求过快 稍后再试
 				OscResult<String> result = new OscResult<>();
 				result = result.fail("请求过快，请稍后再试");

@@ -45,4 +45,12 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 				conn.setEx(key.getBytes(), seconds, json.getBytes()));
 		return execute;
 	}
+
+	@Override
+	public Boolean isExist(String key) {
+
+		boolean flag = redisTemplate.execute((RedisCallback<Boolean>) conn ->
+				conn.exists(key.getBytes()));
+		return flag;
+	}
 }

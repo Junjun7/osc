@@ -15,4 +15,5 @@ public interface RedisHelper<V> {
 
 	Boolean setEx(String key, Long seconds, V value);
 
+	Boolean isExist(String key);
 }
