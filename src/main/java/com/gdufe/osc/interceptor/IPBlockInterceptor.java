@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 public class IPBlockInterceptor implements HandlerInterceptor {
 
 	private Object lock = new Object();
-	// 10s内访问100次，认为是刷接口，就要进行一个限制
-	private static final long TIME = 10;
+	// 30s内访问100次，认为是刷接口，就要进行一个限制
+	private static final long TIME = 30;
 	private static final long CNT = 100;
 
 	@Autowired
