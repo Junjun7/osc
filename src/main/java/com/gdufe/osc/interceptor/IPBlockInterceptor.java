@@ -34,6 +34,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		synchronized (lock) {
 			String ip = IPUtils.getClientIp(request);
+			String url = request.getRequestURL().toString();
 			boolean isExist = redisHelper.isExist(ip);
 			if (isExist) {
 				// 如果存在,不是第一次访问
@@ -48,11 +49,11 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					return false;
 				}
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, ++cnt);
-				log.info("ip = {}, 10s之内第{}次请求，通过", ip, cnt);
+				log.info("ip = {}, 10s之内第{}次请求{}，通过", ip, cnt, url);
 			} else {
 				// 第一次访问
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
-				log.info("ip = {}, 10s之内第1次请求，通过", ip);
+				log.info("ip = {}, 10s之内第1次请求{}，通过", ip, url);
 			}
 		}
 		return true;
