@@ -13,7 +13,7 @@
     <!-- 输出到文件 -->
     <appender name="fileLog"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>cronx.log</file>
+        <file>cron.log</file>
         <!--<append>true</append>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>cron.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
@@ -28,4 +28,8 @@
             </pattern>
         </encoder>
     </appender>
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="stdout" />
+    </root>
 </configuration>
