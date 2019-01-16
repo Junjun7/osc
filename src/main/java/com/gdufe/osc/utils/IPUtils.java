@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 获取真实IP的类
  * @Author: yizhen
  * @Date: 2018/12/28 10:51
  */

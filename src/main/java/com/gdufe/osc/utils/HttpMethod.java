@@ -62,7 +62,9 @@ public class HttpMethod {
 			httpPost.releaseConnection();
 		}
 		String code = getInstanceCode(headers);
-		if (StringUtils.isEmpty(code)) throw new NullPointerException();
+		if (StringUtils.isEmpty(code)) {
+			throw new NullPointerException();
+		}
 		return code;
 	}
 
