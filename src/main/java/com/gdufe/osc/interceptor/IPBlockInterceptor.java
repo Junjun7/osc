@@ -43,17 +43,17 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					OscResult<String> result = new OscResult<>();
 					response.setCharacterEncoding("UTF-8");
 					response.setHeader("content-type", "application/json;charset=UTF-8");
-					result = result.fail("10s，请求超过100次，请不要刷接口");
+					result = result.fail("30s，请求超过100次，请不要刷接口");
 					response.getWriter().print(JSON.toJSONString(result));
 					log.info("ip = {}, 请求过快，被限制", ip);
 					return false;
 				}
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, ++cnt);
-				log.info("ip = {}, 10s之内第{}次请求{}，通过", ip, cnt, url);
+				log.info("ip = {}, 30s之内第{}次请求{}，通过", ip, cnt, url);
 			} else {
 				// 第一次访问
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
-				log.info("ip = {}, 10s之内第1次请求{}，通过", ip, url);
+				log.info("ip = {}, 30s之内第1次请求{}，通过", ip, url);
 			}
 		}
 		return true;
