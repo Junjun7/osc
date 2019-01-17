@@ -22,7 +22,7 @@ public class TestController {
 
 	@GetMapping("/")
 	public String index() {
-		return "Hello Gdufe";
+		return "Hello Gdufe for Test";
 	}
 
 	@GetMapping("/token")
