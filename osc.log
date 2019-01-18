@@ -1,0 +1,69 @@
+[2019-01-17 12:00:58] [main] INFO  com.gdufe.osc.OscApplication - [] - Starting OscApplication on Chang with PID 12864 (E:\workspace\osc\target\classes started by Chang in E:\workspace\osc)
+[2019-01-17 12:00:58] [main] INFO  com.gdufe.osc.OscApplication - [] - No active profile set, falling back to default profiles: default
+[2019-01-17 12:01:00] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Multiple Spring Data modules found, entering strict repository configuration mode!
+[2019-01-17 12:01:00] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Bootstrapping Spring Data repositories in DEFAULT mode.
+[2019-01-17 12:01:00] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Finished Spring Data repository scanning in 29ms. Found 0 repository interfaces.
+[2019-01-17 12:01:00] [main] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer - [] - Tomcat initialized with port(s): 8083 (http)
+[2019-01-17 12:01:00] [main] INFO  o.apache.coyote.http11.Http11NioProtocol - [] - Initializing ProtocolHandler ["http-nio-8083"]
+[2019-01-17 12:01:00] [main] INFO  org.apache.catalina.core.StandardService - [] - Starting service [Tomcat]
+[2019-01-17 12:01:00] [main] INFO  org.apache.catalina.core.StandardEngine - [] - Starting Servlet Engine: Apache Tomcat/9.0.13
+[2019-01-17 12:01:00] [main] INFO  o.a.catalina.core.AprLifecycleListener - [] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_131\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;F:\QuickMethod;D:\Program Files\Java\apache-maven-3.5.2\bin;C:\Program Files\Java\jdk1.8.0_131\bin;D:\Program Files\nodejs\;C:\Users\Chang\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\Chang\AppData\Local\Programs\Python\Python36\;C:\Users\Chang\AppData\Local\Microsoft\WindowsApps;E:\git\Git\bin;C:\Users\Chang\AppData\Roaming\npm;.]
+[2019-01-17 12:01:00] [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - [] - Initializing Spring embedded WebApplicationContext
+[2019-01-17 12:01:00] [main] INFO  o.s.web.context.ContextLoader - [] - Root WebApplicationContext: initialization completed in 2150 ms
+[2019-01-17 12:01:01] [main] INFO  o.s.s.concurrent.ThreadPoolTaskExecutor - [] - Initializing ExecutorService 'applicationTaskExecutor'
+[2019-01-17 12:01:01] [main] INFO  o.s.s.concurrent.ThreadPoolTaskScheduler - [] - Initializing ExecutorService 'taskScheduler'
+[2019-01-17 12:01:01] [main] INFO  o.apache.coyote.http11.Http11NioProtocol - [] - Starting ProtocolHandler ["http-nio-8083"]
+[2019-01-17 12:01:01] [main] INFO  o.apache.tomcat.util.net.NioSelectorPool - [] - Using a shared selector for servlet write/read
+[2019-01-17 12:01:01] [main] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer - [] - Tomcat started on port(s): 8083 (http) with context path ''
+[2019-01-17 12:01:01] [main] INFO  com.gdufe.osc.OscApplication - [] - Started OscApplication in 3.943 seconds (JVM running for 5.431)
+[2019-01-17 12:01:02] [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - code = DqrIHq
+[2019-01-17 12:01:03] [main] INFO  io.lettuce.core.EpollProvider - [] - Starting without optional epoll library
+[2019-01-17 12:01:03] [main] INFO  io.lettuce.core.KqueueProvider - [] - Starting without optional kqueue library
+[2019-01-17 12:01:03] [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - token：72a7b850-3314-412a-a228-bc7665a98adc  -----  freshToken：a20c86f4-1f11-4336-8504-abf0de598366
+[2019-01-17 12:01:03] [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - refreshCache 执行花费时长： 1594
+2019-01-17 12:01:36 [main] INFO  com.gdufe.osc.OscApplication - [] - Starting OscApplication on Chang with PID 12424 (E:\workspace\osc\target\classes started by Chang in E:\workspace\osc)
+2019-01-17 12:01:36 [main] INFO  com.gdufe.osc.OscApplication - [] - No active profile set, falling back to default profiles: default
+2019-01-17 12:01:37 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-01-17 12:01:37 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-01-17 12:01:37 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Finished Spring Data repository scanning in 28ms. Found 0 repository interfaces.
+2019-01-17 12:01:38 [main] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer - [] - Tomcat initialized with port(s): 8083 (http)
+2019-01-17 12:01:38 [main] INFO  o.apache.coyote.http11.Http11NioProtocol - [] - Initializing ProtocolHandler ["http-nio-8083"]
+2019-01-17 12:01:38 [main] INFO  org.apache.catalina.core.StandardService - [] - Starting service [Tomcat]
+2019-01-17 12:01:38 [main] INFO  org.apache.catalina.core.StandardEngine - [] - Starting Servlet Engine: Apache Tomcat/9.0.13
+2019-01-17 12:01:38 [main] INFO  o.a.catalina.core.AprLifecycleListener - [] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_131\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;F:\QuickMethod;D:\Program Files\Java\apache-maven-3.5.2\bin;C:\Program Files\Java\jdk1.8.0_131\bin;D:\Program Files\nodejs\;C:\Users\Chang\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\Chang\AppData\Local\Programs\Python\Python36\;C:\Users\Chang\AppData\Local\Microsoft\WindowsApps;E:\git\Git\bin;C:\Users\Chang\AppData\Roaming\npm;.]
+2019-01-17 12:01:38 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - [] - Initializing Spring embedded WebApplicationContext
+2019-01-17 12:01:38 [main] INFO  o.s.web.context.ContextLoader - [] - Root WebApplicationContext: initialization completed in 1776 ms
+2019-01-17 12:01:38 [main] INFO  o.s.s.concurrent.ThreadPoolTaskExecutor - [] - Initializing ExecutorService 'applicationTaskExecutor'
+2019-01-17 12:01:39 [main] INFO  o.s.s.concurrent.ThreadPoolTaskScheduler - [] - Initializing ExecutorService 'taskScheduler'
+2019-01-17 12:01:39 [main] INFO  o.apache.coyote.http11.Http11NioProtocol - [] - Starting ProtocolHandler ["http-nio-8083"]
+2019-01-17 12:01:39 [main] INFO  o.apache.tomcat.util.net.NioSelectorPool - [] - Using a shared selector for servlet write/read
+2019-01-17 12:01:39 [main] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer - [] - Tomcat started on port(s): 8083 (http) with context path ''
+2019-01-17 12:01:39 [main] INFO  com.gdufe.osc.OscApplication - [] - Started OscApplication in 3.714 seconds (JVM running for 5.116)
+2019-01-17 12:01:39 [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - code = A2Jgcm
+2019-01-17 12:01:40 [main] INFO  io.lettuce.core.EpollProvider - [] - Starting without optional epoll library
+2019-01-17 12:01:40 [main] INFO  io.lettuce.core.KqueueProvider - [] - Starting without optional kqueue library
+2019-01-17 12:01:40 [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - token：72a7b850-3314-412a-a228-bc7665a98adc  -----  freshToken：a20c86f4-1f11-4336-8504-abf0de598366
+2019-01-17 12:01:40 [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - refreshCache 执行花费时长： 1439
+2019-01-17 12:02:24.218 [main] INFO  com.gdufe.osc.OscApplication - [] - Starting OscApplication on Chang with PID 7384 (E:\workspace\osc\target\classes started by Chang in E:\workspace\osc)
+2019-01-17 12:02:24.223 [main] INFO  com.gdufe.osc.OscApplication - [] - No active profile set, falling back to default profiles: default
+2019-01-17 12:02:25.241 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-01-17 12:02:25.251 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-01-17 12:02:25.289 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - [] - Finished Spring Data repository scanning in 22ms. Found 0 repository interfaces.
+2019-01-17 12:02:25.837 [main] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer - [] - Tomcat initialized with port(s): 8083 (http)
+2019-01-17 12:02:25.849 [main] INFO  o.apache.coyote.http11.Http11NioProtocol - [] - Initializing ProtocolHandler ["http-nio-8083"]
+2019-01-17 12:02:25.858 [main] INFO  org.apache.catalina.core.StandardService - [] - Starting service [Tomcat]
+2019-01-17 12:02:25.858 [main] INFO  org.apache.catalina.core.StandardEngine - [] - Starting Servlet Engine: Apache Tomcat/9.0.13
+2019-01-17 12:02:25.864 [main] INFO  o.a.catalina.core.AprLifecycleListener - [] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_131\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;F:\QuickMethod;D:\Program Files\Java\apache-maven-3.5.2\bin;C:\Program Files\Java\jdk1.8.0_131\bin;D:\Program Files\nodejs\;C:\Users\Chang\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\Chang\AppData\Local\Programs\Python\Python36\;C:\Users\Chang\AppData\Local\Microsoft\WindowsApps;E:\git\Git\bin;C:\Users\Chang\AppData\Roaming\npm;.]
+2019-01-17 12:02:25.994 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - [] - Initializing Spring embedded WebApplicationContext
+2019-01-17 12:02:25.995 [main] INFO  o.s.web.context.ContextLoader - [] - Root WebApplicationContext: initialization completed in 1671 ms
+2019-01-17 12:02:26.611 [main] INFO  o.s.s.concurrent.ThreadPoolTaskExecutor - [] - Initializing ExecutorService 'applicationTaskExecutor'
+2019-01-17 12:02:26.849 [main] INFO  o.s.s.concurrent.ThreadPoolTaskScheduler - [] - Initializing ExecutorService 'taskScheduler'
+2019-01-17 12:02:26.891 [main] INFO  o.apache.coyote.http11.Http11NioProtocol - [] - Starting ProtocolHandler ["http-nio-8083"]
+2019-01-17 12:02:26.900 [main] INFO  o.apache.tomcat.util.net.NioSelectorPool - [] - Using a shared selector for servlet write/read
+2019-01-17 12:02:26.914 [main] INFO  o.s.b.w.embedded.tomcat.TomcatWebServer - [] - Tomcat started on port(s): 8083 (http) with context path ''
+2019-01-17 12:02:26.917 [main] INFO  com.gdufe.osc.OscApplication - [] - Started OscApplication in 3.335 seconds (JVM running for 4.636)
+2019-01-17 12:02:27.580 [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - code = DGdIgJ
+2019-01-17 12:02:27.974 [main] INFO  io.lettuce.core.EpollProvider - [] - Starting without optional epoll library
+2019-01-17 12:02:27.976 [main] INFO  io.lettuce.core.KqueueProvider - [] - Starting without optional kqueue library
+2019-01-17 12:02:28.304 [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - token：72a7b850-3314-412a-a228-bc7665a98adc  -----  freshToken：a20c86f4-1f11-4336-8504-abf0de598366
+2019-01-17 12:02:28.304 [main] INFO  com.gdufe.osc.scheduled.CronTask - [] - refreshCache 执行花费时长： 1384
