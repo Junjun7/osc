@@ -22,7 +22,7 @@ public class TestController {
 
 	@GetMapping("/")
 	public String index() {
-		return "Hello Gdufe for Test";
+		return "Hello Gdufe";
 	}
 
 	@GetMapping("/token")
@@ -45,7 +45,7 @@ public class TestController {
 	@GetMapping("/setKey")
 	public Boolean setAccess(String key) {
 
-		AccessToken accessToken = new AccessToken("aaa", "bbb", "ccc", 111, 222);
+		AccessToken accessToken = new AccessToken();
 		return redisHelper.setEx(key, 30L, accessToken);
 	}
 }
