@@ -8,6 +8,7 @@ import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +22,9 @@ import java.util.List;
 public class TweetListServiceImp implements TweetListService {
 
 	@Override
-	public List<TweetListDetails> getTweetList(int page, int pageSize, int user) {
+	public List<TweetListDetails> getTweetList(int page, int pageSize, String user) {
 
-		List<Integer> ids = getTweetIds(page, pageSize, user);
+		List<Integer> ids = getTweetIds(page, pageSize, NumberUtils.toInt(user));
 		List<TweetListDetails> res = getTweetListDetails(ids);
 		return res;
 	}

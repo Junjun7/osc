@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface TweetListService {
 
-	List<TweetListDetails> getTweetList(int page, int pageSize, int user);
+	List<TweetListDetails> getTweetList(int page, int pageSize, String user);
 
 	default String getIdsUrl() {
 

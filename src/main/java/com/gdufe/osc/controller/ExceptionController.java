@@ -19,7 +19,7 @@ import java.io.IOException;
 public class ExceptionController {
 
 	@Autowired
-	CronTask cronTask;
+	private CronTask cronTask;
 
 	@ResponseBody
 	@ExceptionHandler
