@@ -2,6 +2,7 @@ package com.gdufe.osc.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.common.OscResult;
+import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.IPUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					OscResult<String> result = new OscResult<>();
 					response.setCharacterEncoding("UTF-8");
 					response.setHeader("content-type", "application/json;charset=UTF-8");
-					result = result.fail("30s，请求超过100次，请不要刷接口");
+					result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
 					response.getWriter().print(JSON.toJSONString(result));
 					log.info("ip = {}, 请求过快，被限制", ip);
 					return false;

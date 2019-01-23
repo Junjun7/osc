@@ -26,7 +26,7 @@ public class CronTask {
 	@Autowired
 	private RedisService redisService;
 
-	private static String url = "https://www.oschina.net/action/openapi/token?callback=json&client_id=sW9a1Tf8AP8IIbUydQrr&client_secret=jkaHxvkGmrbpjZcebnDUhQbF6ieu9Qqc&grant_type=authorization_code&dataType=json&redirect_uri=https://www.wenber.com&code=";
+	private static final String URL = "https://www.oschina.net/action/openapi/token?callback=json&client_id=sW9a1Tf8AP8IIbUydQrr&client_secret=jkaHxvkGmrbpjZcebnDUhQbF6ieu9Qqc&grant_type=authorization_code&dataType=json&redirect_uri=https://www.wenber.com&code=";
 
 	// 每天凌晨3.30更新token
 	@Scheduled(cron = "0 30 3 * * ?")
@@ -45,7 +45,7 @@ public class CronTask {
 	private AccessToken getAccessToken() {
 		String urlToken = null;
 		try {
-			urlToken = url + HttpMethod.getCode();
+			urlToken = URL + HttpMethod.getCode();
 			log.info("code = {}", StringUtils.substringAfter(urlToken, "code="));
 		} catch (IOException e) {
 			e.printStackTrace();

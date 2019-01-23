@@ -2,6 +2,7 @@ package com.gdufe.osc.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.common.OscResult;
+import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.AccessLimitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 				log.error("请求过快，请稍后再试");
 				// 返回前端请求过快 稍后再试
 				OscResult<String> result = new OscResult<>();
-				result = result.fail("请求过快，请稍后再试");
+				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
 				response.setCharacterEncoding("UTF-8");
 				response.setHeader("content-type", "application/json;charset=UTF-8");
 				response.getWriter().print(JSON.toJSONString(result));

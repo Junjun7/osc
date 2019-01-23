@@ -11,9 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CacheToken {
 
+	private static final int NUM = 100;
+
 	/** 永不过期，cron定时任务自动更新token，最大放入量为100 **/
 	public static Cache<String, String> cache = CacheBuilder.newBuilder()
-			.maximumSize(100)
+			.maximumSize(NUM)
 			.build();
 
 	public static void putToken(String token) {

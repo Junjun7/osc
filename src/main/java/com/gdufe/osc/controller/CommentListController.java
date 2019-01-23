@@ -20,9 +20,8 @@ public class CommentListController {
 	@Autowired
 	private CommentListService commentListService;
 
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<CommentList> getCommentList(int id, int page, int pageSize) {
-
 		return commentListService.getCommentList(id, page, pageSize);
 	}
 }

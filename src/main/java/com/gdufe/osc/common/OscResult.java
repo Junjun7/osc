@@ -1,5 +1,6 @@
 package com.gdufe.osc.common;
 
+import com.gdufe.osc.enums.OscResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class OscResult<T> {
 	/**
 	 * 返回的状态
 	 */
-	private int code;
+	private String code;
 
 	/**
 	 * 具体返回对象
@@ -34,32 +35,30 @@ public class OscResult<T> {
 	private T data;
 
 	public OscResult<T> success(T data) {
-
 		OscResult<T> res = new OscResult<>();
-		res.setCode(200);
+		res.setCode(OscResultEnum.SUCCESS.getCode());
 		res.setSuccess(true);
-		res.setMessage("请求成功");
+		res.setMessage(OscResultEnum.SUCCESS.getMsg());
 		res.setData(data);
 		return res;
 	}
 
 	public OscResult<T> fail() {
-
-		OscResult<T> res = getFail();
+		OscResult<T> res = getFail(OscResultEnum.OTHER_EXCEPTION);
 		return res;
 	}
 
-	public OscResult<T> fail(T data) {
-		OscResult<T> res = getFail();
+	public OscResult<T> fail(OscResultEnum oscResultEnum) {
+		OscResult<T> res = getFail(oscResultEnum);
 		res.setData(data);
 		return res;
 	}
 
-	private OscResult<T> getFail() {
+	private OscResult<T> getFail(OscResultEnum enums) {
 		OscResult<T> res = new OscResult<>();
-		res.setCode(500);
+		res.setCode(enums.getCode());
+		res.setMessage(enums.getMsg());
 		res.setSuccess(false);
-		res.setMessage("请求失败");
 		return res;
 	}
 }

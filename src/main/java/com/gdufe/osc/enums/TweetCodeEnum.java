@@ -12,8 +12,7 @@ import lombok.Getter;
 public enum TweetCodeEnum {
 
 	NEWEST_TWEET_CODE("0", "最新动弹"),
-	HOTEST_TWEET_CODE("-1", "热门动弹"),
-	MY_TWEET_CODE("1", "我的动弹");
+	HOTEST_TWEET_CODE("-1", "热门动弹");
 
 	private String code;
 	private String msg;

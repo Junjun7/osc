@@ -18,11 +18,10 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 	@Autowired
 	private RedisService redisService;
 	@Autowired
-	CronTask cronTask;
+	private CronTask cronTask;
 
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
-
 		init();
 	}
 

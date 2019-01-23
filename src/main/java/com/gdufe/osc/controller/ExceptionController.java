@@ -1,6 +1,7 @@
 package com.gdufe.osc.controller;
 
 import com.gdufe.osc.common.OscResult;
+import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.scheduled.CronTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,15 @@ public class ExceptionController {
 		// token失效
 		if (throwable instanceof NullPointerException || throwable instanceof IOException) {
 			cronTask.refreshCache();
-			return new OscResult<String>().fail("网络出错，请刷新");
+			return new OscResult<String>().fail(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		// 缺少字段
 		if (throwable instanceof IllegalStateException) {
-			return new OscResult<String>().fail("缺少字段");
+			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		// 其他异常 未知
 		String msg = throwable.getMessage();
 		log.error(msg);
-		return new OscResult<String>().fail(msg);
+		return new OscResult<String>().fail();
 	}
 }

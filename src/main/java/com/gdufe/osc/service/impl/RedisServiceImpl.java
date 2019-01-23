@@ -12,26 +12,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisServiceImpl implements RedisService {
 
+	private static final String TOKEN = "token";
+	private static final String FRESH_TOKEN = "freshToken";
+
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public void putToken(String token) {
-		stringRedisTemplate.opsForValue().set("token", token);
+		stringRedisTemplate.opsForValue().set(TOKEN, token);
 	}
 
 	@Override
 	public void putFreshToken(String freshToken) {
-		stringRedisTemplate.opsForValue().set("freshToken", freshToken);
+		stringRedisTemplate.opsForValue().set(FRESH_TOKEN, freshToken);
 	}
 
 	@Override
 	public String getToken() {
-		return stringRedisTemplate.opsForValue().get("token");
+		return stringRedisTemplate.opsForValue().get(TOKEN);
 	}
 
 	@Override
 	public String getFreshToken() {
-		return stringRedisTemplate.opsForValue().get("freshToken");
+		return stringRedisTemplate.opsForValue().get(FRESH_TOKEN);
 	}
 }

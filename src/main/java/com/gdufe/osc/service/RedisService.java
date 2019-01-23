@@ -1,6 +1,5 @@
 package com.gdufe.osc.service;
 
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 /**
