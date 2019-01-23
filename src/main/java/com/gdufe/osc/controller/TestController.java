@@ -5,7 +5,7 @@ import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,29 +20,29 @@ public class TestController {
 	@Autowired
 	private RedisHelper<AccessToken> redisHelper;
 
-	@GetMapping("/")
+	@RequestMapping(value = "/")
 	public String index() {
 		return "Hello Gdufe";
 	}
 
-	@GetMapping("/token")
+	@RequestMapping("/token")
 	public String getToken() {
 		return TokenUtils.getToken();
 	}
 
-	@GetMapping("/freshtoken")
+	@RequestMapping("/freshtoken")
 	public String getFreshToken() {
 
 		return TokenUtils.getFreshToken();
 	}
 
-	@GetMapping("/getKey")
+	@RequestMapping("/getKey")
 	public AccessToken getAccess(String key) {
 
 		return redisHelper.get(key, AccessToken.class);
 	}
 
-	@GetMapping("/setKey")
+	@RequestMapping("/setKey")
 	public Boolean setAccess(String key) {
 
 		AccessToken accessToken = new AccessToken();
