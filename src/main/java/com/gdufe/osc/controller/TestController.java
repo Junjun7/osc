@@ -2,7 +2,6 @@ package com.gdufe.osc.controller;
 
 import com.gdufe.osc.entity.AccessToken;
 import com.gdufe.osc.service.RedisHelper;
-import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 	@Autowired
-	private TweetListService tweetListService;
-	@Autowired
 	private RedisHelper<AccessToken> redisHelper;
 
 	@RequestMapping(value = "/")
 	public String index() {
-		return "Hello Gdufe";
+
+		return "Hello，ip = 47.244.46.112，这位同学，请问你是谁？代理是香港的阿里云";
 	}
 
 	@RequestMapping("/token")
