@@ -32,7 +32,7 @@ public class TweetListServiceImp implements TweetListService {
 		List<TweetListDetails> res = Lists.newArrayList();
 		for (int id : ids) {
 			String url = tweetUrl + "&id=" + id;
-			log.info("id = " + id);
+			//log.info("id = " + id);
 			res.add(getTweetDetails(url));
 		}
 		return res;
@@ -71,7 +71,7 @@ public class TweetListServiceImp implements TweetListService {
 		List<Integer> ids = Lists.newArrayList();
 		lists.forEach(x -> {
 			ids.add(x.getId());
-			log.info("authorId = " + x.getAuthorId());
+			//log.info("authorId = " + x.getAuthorId());
 		});
 		return ids;
 	}

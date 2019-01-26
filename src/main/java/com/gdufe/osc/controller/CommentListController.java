@@ -1,5 +1,6 @@
 package com.gdufe.osc.controller;
 
+import com.gdufe.osc.annotation.TimeWatch;
 import com.gdufe.osc.entity.CommentList;
 import com.gdufe.osc.service.CommentListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class CommentListController {
 	@Autowired
 	private CommentListService commentListService;
 
+	@TimeWatch
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<CommentList> getCommentList(int id, int page, int pageSize) {
 		return commentListService.getCommentList(id, page, pageSize);

@@ -1,5 +1,6 @@
 package com.gdufe.osc.controller;
 
+import com.gdufe.osc.annotation.TimeWatch;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.enums.OscResultEnum;
@@ -38,6 +39,7 @@ public class TweetListController {
 		return new OscResult<List<TweetListDetails>>().success(details);
 	}
 
+	@TimeWatch
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public OscResult<List<TweetListDetails>> getUsersTweetList(
 			int page, int pageSize, @PathVariable(value = "userId", required = false) String userId) {
