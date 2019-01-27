@@ -25,11 +25,11 @@ public class TimeWatchAspect {
 	@Pointcut("execution(public * com.gdufe.osc.controller..*(..))")
 	public void pointcutController() {}
 
-	@Pointcut("@annotation(com.gdufe.osc.annotation.TimeWatch)")
-	public void pointcutTimeWatch() {}
+	@Pointcut("@annotation(timeWatch)")
+	public void pointcutTimeWatch(TimeWatch timeWatch) {}
 
-	@Around(value = "pointcutController() && pointcutTimeWatch()")
-	public Object methodAround(ProceedingJoinPoint joinPoint) {
+	@Around(value = "pointcutController() && pointcutTimeWatch(timeWatch)")
+	public Object methodAround(ProceedingJoinPoint joinPoint, TimeWatch timeWatch) {
 		Object res = null;
 		String methodName = joinPoint.getSignature().getName();
 		try {

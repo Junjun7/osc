@@ -68,7 +68,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 		StringBuilder sb = new StringBuilder("[");
 		map.forEach((x, y) -> {
 			String s = StringUtils.join(y, ",");
-			sb.append(x + " = " + s + "；");
+			sb.append(x + " = " + s + ";");
 		});
 		sb.append("]");
 		return sb.toString();
