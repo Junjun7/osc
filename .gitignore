@@ -13,3 +13,5 @@ osc.iml
 src/main/resources/static/
 src/main/resources/templates/
 target/
+/.gitignore
+/osc.log
