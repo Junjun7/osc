@@ -1,13 +1,16 @@
 package com.gdufe.osc.interceptor;
 
+import com.gdufe.osc.annotation.TimeWatch;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,7 +43,21 @@ public class TimeWatchAspect {
 		} catch (Throwable throwable) {
 			throwable.printStackTrace();
 		}
+		//a(joinPoint);
 		return res;
+	}
+
+	// 获取注解的值
+	private void a(ProceedingJoinPoint joinPoint) {
+		MethodSignature ms = (MethodSignature) joinPoint.getSignature();
+		Class clazz = joinPoint.getTarget().getClass();
+		try {
+			Method method = clazz.getMethod(ms.getName(), ms.getParameterTypes());
+			TimeWatch tw = method.getAnnotation(TimeWatch.class);
+			System.out.println(tw);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

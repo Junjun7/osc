@@ -6,6 +6,7 @@ import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.IPUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @Author: yizhen
@@ -36,6 +38,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 		synchronized (lock) {
 			String ip = IPUtils.getClientIp(request);
 			String url = request.getRequestURL().toString();
+			String param = getAllParam(request);
 			boolean isExist = redisHelper.isExist(ip);
 			if (isExist) {
 				// 如果存在,不是第一次访问
@@ -50,14 +53,24 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					return false;
 				}
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, ++cnt);
-				log.info("ip = {}, 30s之内第{}次请求{}，通过", ip, cnt, url);
+				log.info("ip = {}, 30s之内第{}次请求{}，参数为{}，通过", ip, cnt, url, param);
 			} else {
 				// 第一次访问
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
-				log.info("ip = {}, 30s之内第1次请求{}，通过", ip, url);
+				log.info("ip = {}, 30s之内第1次请求{}，参数为{}，通过", ip, url, param);
 			}
 		}
 		return true;
+	}
+
+	private String getAllParam(HttpServletRequest request) {
+		Map<String, String[]> map = request.getParameterMap();
+		StringBuilder sb = new StringBuilder();
+		map.forEach((x, y) -> {
+			String s = StringUtils.join(y, ",");
+			sb.append(x + " = " + s + "。");
+		});
+		return sb.toString();
 	}
 
 	@Override
