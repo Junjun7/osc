@@ -43,21 +43,7 @@ public class TimeWatchAspect {
 		} catch (Throwable throwable) {
 			throwable.printStackTrace();
 		}
-		//a(joinPoint);
 		return res;
-	}
-
-	// 获取注解的值
-	private void a(ProceedingJoinPoint joinPoint) {
-		MethodSignature ms = (MethodSignature) joinPoint.getSignature();
-		Class clazz = joinPoint.getTarget().getClass();
-		try {
-			Method method = clazz.getMethod(ms.getName(), ms.getParameterTypes());
-			TimeWatch tw = method.getAnnotation(TimeWatch.class);
-			System.out.println(tw);
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
 	}
 }
 

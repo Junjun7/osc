@@ -65,11 +65,12 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 
 	private String getAllParam(HttpServletRequest request) {
 		Map<String, String[]> map = request.getParameterMap();
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder("[");
 		map.forEach((x, y) -> {
 			String s = StringUtils.join(y, ",");
-			sb.append(x + " = " + s + "。");
+			sb.append(x + " = " + s + "；");
 		});
+		sb.append("]");
 		return sb.toString();
 	}
 
