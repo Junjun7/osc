@@ -49,7 +49,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					response.setHeader("content-type", "application/json;charset=UTF-8");
 					result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
 					response.getWriter().print(JSON.toJSONString(result));
-					log.info("ip = {}, 请求过快，被限制", ip);
+					log.error("ip = {}, 请求过快，被限制", ip);
 					return false;
 				}
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, ++cnt);
