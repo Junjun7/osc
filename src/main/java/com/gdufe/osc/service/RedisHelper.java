@@ -11,6 +11,8 @@ public interface RedisHelper<V> {
 
 	V get(String key, Class<V> clazz);
 
+	int incr(String key);
+
 	Boolean set(String key, V value);
 
 	Boolean setEx(String key, Long seconds, V value);

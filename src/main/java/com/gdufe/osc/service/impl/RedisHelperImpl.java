@@ -28,6 +28,18 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 		return JSON.parseObject(execute, clazz);
 	}
 
+	/**
+	 * 原子操作
+	 * @param key
+	 * @return
+	 */
+	@Override
+	public int incr(String key) {
+		Long cnt = redisTemplate.execute((RedisCallback<Long>) conn ->
+				conn.incr(key.getBytes()));
+		return Integer.parseInt(cnt.toString());
+	}
+
 	@Override
 	public Boolean set(String key, V value) {
 

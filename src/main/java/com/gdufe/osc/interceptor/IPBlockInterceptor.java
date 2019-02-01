@@ -25,7 +25,6 @@ import java.util.Map;
 @Component
 public class IPBlockInterceptor implements HandlerInterceptor {
 
-	private Object lock = new Object();
 	// 30s内访问100次，认为是刷接口，就要进行一个限制
 	private static final long TIME = 30;
 	private static final long CNT = 100;
@@ -35,30 +34,27 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		synchronized (lock) {
-			String ip = IPUtils.getClientIp(request);
-			String url = request.getRequestURL().toString();
-			String param = getAllParam(request);
-			boolean isExist = redisHelper.isExist(ip);
-			if (isExist) {
-				// 如果存在,不是第一次访问
-				int cnt = redisHelper.get(ip, Integer.class);
-				if (cnt >= IPBlockInterceptor.CNT) {
-					OscResult<String> result = new OscResult<>();
-					response.setCharacterEncoding("UTF-8");
-					response.setHeader("content-type", "application/json;charset=UTF-8");
-					result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
-					response.getWriter().print(JSON.toJSONString(result));
-					log.error("ip = {}, 请求过快，被限制", ip);
-					return false;
-				}
-				redisHelper.setEx(ip, IPBlockInterceptor.TIME, ++cnt);
-				log.info("ip = {}, 30s之内第{}次请求{}，参数为{}，通过", ip, cnt, url, param);
-			} else {
-				// 第一次访问
-				redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
-				log.info("ip = {}, 30s之内第1次请求{}，参数为{}，通过", ip, url, param);
+		String ip = IPUtils.getClientIp(request);
+		String url = request.getRequestURL().toString();
+		String param = getAllParam(request);
+		boolean isExist = redisHelper.isExist(ip);
+		if (isExist) {
+			// 如果存在,直接cnt++
+			int cnt = redisHelper.incr(ip);
+			if (cnt > IPBlockInterceptor.CNT) {
+				OscResult<String> result = new OscResult<>();
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("content-type", "application/json;charset=UTF-8");
+				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
+				response.getWriter().print(JSON.toJSONString(result));
+				log.error("ip = {}, 请求过快，被限制", ip);
+				return false;
 			}
+			log.info("ip = {}, 30s之内第{}次请求{}，参数为{}，通过", ip, cnt, url, param);
+		} else {
+			// 第一次访问
+			redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
+			log.info("ip = {}, 30s之内第1次请求{}，参数为{}，通过", ip, url, param);
 		}
 		return true;
 	}
@@ -81,5 +77,4 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
 	}
-
 }
