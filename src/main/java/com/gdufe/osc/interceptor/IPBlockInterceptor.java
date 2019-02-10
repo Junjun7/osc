@@ -32,6 +32,17 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
 
+	/**
+	 * redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
+	 * 这一句在并发情况下，可能会执行多次
+	 * 但不是特别影响 故暂时先不处理
+	 * 正确的是：直接加 sync(lock) 即可
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String ip = IPUtils.getClientIp(request);
