@@ -1,6 +1,6 @@
 package com.gdufe.osc.service.impl;
 
-import com.gdufe.osc.common.TokenConstant;
+import com.gdufe.osc.common.TokenConsts;
 import com.gdufe.osc.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,22 +19,22 @@ public class RedisServiceImpl implements RedisService {
 	@Override
 	public void putToken(String token) {
 
-		stringRedisTemplate.opsForValue().set(TokenConstant.TOKEN, token);
+		stringRedisTemplate.opsForValue().set(TokenConsts.TOKEN, token);
 	}
 
 	@Override
 	public void putFreshToken(String freshToken) {
 
-		stringRedisTemplate.opsForValue().set(TokenConstant.FRESH_TOKEN, freshToken);
+		stringRedisTemplate.opsForValue().set(TokenConsts.FRESH_TOKEN, freshToken);
 	}
 
 	@Override
 	public String getToken() {
-		return stringRedisTemplate.opsForValue().get(TokenConstant.TOKEN);
+		return stringRedisTemplate.opsForValue().get(TokenConsts.TOKEN);
 	}
 
 	@Override
 	public String getFreshToken() {
-		return stringRedisTemplate.opsForValue().get(TokenConstant.FRESH_TOKEN);
+		return stringRedisTemplate.opsForValue().get(TokenConsts.FRESH_TOKEN);
 	}
 }

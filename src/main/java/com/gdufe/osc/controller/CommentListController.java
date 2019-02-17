@@ -23,7 +23,7 @@ public class CommentListController {
 
 	@TimeWatch
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public List<CommentList> getCommentList(int id, int page, int pageSize) {
+	public List<CommentList> getCommentList(Integer id, Integer page, Integer pageSize) {
 		return commentListService.getCommentList(id, page, pageSize);
 	}
 }

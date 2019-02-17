@@ -5,7 +5,7 @@ package com.gdufe.osc.common;
  * @date: 2019/2/10 19:19
  * Token-freshToken 常量
  */
-public class TokenConstant {
+public class TokenConsts {
 
 	public static final String TOKEN = "token";
 

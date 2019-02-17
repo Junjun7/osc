@@ -6,6 +6,7 @@ import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.enums.TweetCodeEnum;
 import com.gdufe.osc.service.TweetListService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: yizhen
@@ -26,14 +28,14 @@ public class TweetListController {
 	private TweetListService tweetListService;
 
 	@RequestMapping(value = "/newest", method = RequestMethod.GET)
-	public OscResult<List<TweetListDetails>> getNewestTweetList(int page, int pageSize) {
+	public OscResult<List<TweetListDetails>> getNewestTweetList(Integer page, Integer pageSize) {
 		List<TweetListDetails> details =
 				tweetListService.getTweetList(page, pageSize, TweetCodeEnum.NEWEST_TWEET_CODE.getCode());
 		return new OscResult<List<TweetListDetails>>().success(details);
 	}
 
 	@RequestMapping(value = "/hotest", method = RequestMethod.GET)
-	public OscResult<List<TweetListDetails>> getHotestTweetList(int page, int pageSize) {
+	public OscResult<List<TweetListDetails>> getHotestTweetList(Integer page, Integer pageSize) {
 		List<TweetListDetails> details =
 				tweetListService.getTweetList(page, pageSize, TweetCodeEnum.HOTEST_TWEET_CODE.getCode());
 		return new OscResult<List<TweetListDetails>>().success(details);
@@ -42,8 +44,9 @@ public class TweetListController {
 	@TimeWatch
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public OscResult<List<TweetListDetails>> getUsersTweetList(
-			int page, int pageSize, @PathVariable(value = "userId", required = false) String userId) {
-		if (userId == null) {
+			Integer page, Integer pageSize,
+			@PathVariable(value = "userId", required = false) String userId) {
+		if (StringUtils.isEmpty(userId)) {
 			return new OscResult<List<TweetListDetails>>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		List<TweetListDetails> details =

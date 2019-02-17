@@ -28,6 +28,8 @@ import java.util.Map;
 @Component
 public class HttpMethod {
 
+	private HttpMethod() {}
+
 	public static String get(String url) {
 		HttpConfig config = getConfig();
 		String content = null;

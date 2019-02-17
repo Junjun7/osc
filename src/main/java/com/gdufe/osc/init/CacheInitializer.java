@@ -1,6 +1,6 @@
 package com.gdufe.osc.init;
 
-import com.gdufe.osc.common.TokenConstant;
+import com.gdufe.osc.common.TokenConsts;
 import com.gdufe.osc.scheduled.CronTask;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.utils.CacheToken;
@@ -31,7 +31,7 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		cronTask.refreshCache();
 		String token = redisService.getToken();
 		String freshToken = redisService.getFreshToken();
-		CacheToken.cache.put(TokenConstant.TOKEN, token);
-		CacheToken.cache.put(TokenConstant.FRESH_TOKEN, freshToken);
+		CacheToken.cache.put(TokenConsts.TOKEN, token);
+		CacheToken.cache.put(TokenConsts.FRESH_TOKEN, freshToken);
 	}
 }

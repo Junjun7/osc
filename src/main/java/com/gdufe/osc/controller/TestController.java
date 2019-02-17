@@ -20,7 +20,7 @@ public class TestController {
 	@RequestMapping(value = "/")
 	public String index() {
 
-		return "Hello，ip = 47.244.46.112，这位同学，请问你是谁？代理是香港的阿里云";
+		return "你们别再扫我的服务器了。不是PHP，是SpringBoot没有漏洞，别扫了";
 	}
 
 	@RequestMapping("/token")

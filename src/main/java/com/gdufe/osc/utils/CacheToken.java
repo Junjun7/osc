@@ -1,6 +1,6 @@
 package com.gdufe.osc.utils;
 
-import com.gdufe.osc.common.TokenConstant;
+import com.gdufe.osc.common.TokenConsts;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.stereotype.Component;
@@ -21,22 +21,22 @@ public class CacheToken {
 
 	public static void putToken(String token) {
 
-		cache.put(TokenConstant.TOKEN, token);
+		cache.put(TokenConsts.TOKEN, token);
 	}
 
 	public static void putFreshToken(String freshToken) {
 
-		cache.put(TokenConstant.FRESH_TOKEN, freshToken);
+		cache.put(TokenConsts.FRESH_TOKEN, freshToken);
 	}
 
 	public static String getToken() {
 
-		return cache.getIfPresent(TokenConstant.TOKEN);
+		return cache.getIfPresent(TokenConsts.TOKEN);
 	}
 
 	public static String getFreshToken() {
 
-		return cache.getIfPresent(TokenConstant.FRESH_TOKEN);
+		return cache.getIfPresent(TokenConsts.FRESH_TOKEN);
 	}
 }
 
