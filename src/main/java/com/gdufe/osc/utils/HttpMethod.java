@@ -71,6 +71,16 @@ public class HttpMethod {
 		return content;
 	}
 
+	public static String post(HttpConfig config) {
+		String content = null;
+		try {
+			content = HttpClientUtil.post(config);
+		} catch (HttpProcessException e) {
+			e.printStackTrace();
+		}
+		return content;
+	}
+
 	public static String getCode() throws IOException, NullPointerException {
 		Map<String, Object> map = getMaps();
 		List<NameValuePair> list = Lists.newArrayList();

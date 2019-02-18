@@ -3,7 +3,9 @@ package com.gdufe.osc.controller;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.scheduled.CronTask;
+import com.gdufe.osc.utils.WeChatNoticeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,22 +23,30 @@ public class ExceptionController {
 
 	@Autowired
 	private CronTask cronTask;
+	@Autowired
+	private WeChatNoticeUtils weChatNoticeUtils;
 
 	@ResponseBody
 	@ExceptionHandler
 	public OscResult<String> exceptionError(Throwable throwable) {
 
+		String msg = throwable.getMessage();
+		if (StringUtils.isEmpty(msg)) {
+			msg = throwable.toString();
+		}
 		// token失效
 		if (throwable instanceof NullPointerException || throwable instanceof IOException) {
 			cronTask.refreshCache();
+			weChatNoticeUtils.setMessage(msg);
 			return new OscResult<String>().fail(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		// 缺少字段
 		if (throwable instanceof IllegalStateException) {
+			weChatNoticeUtils.setMessage(msg);
 			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		// 其他异常 未知
-		String msg = throwable.getMessage();
+		weChatNoticeUtils.setMessage(msg);
 		log.error(msg);
 		return new OscResult<String>().fail();
 	}
