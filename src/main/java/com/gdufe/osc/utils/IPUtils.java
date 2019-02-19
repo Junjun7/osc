@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class IPUtils {
 
+	private IPUtils() {}
+
 	public static String getClientIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Real-IP");
 		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {

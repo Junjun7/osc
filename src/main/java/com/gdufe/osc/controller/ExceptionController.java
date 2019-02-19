@@ -38,16 +38,18 @@ public class ExceptionController {
 		if (throwable instanceof NullPointerException || throwable instanceof IOException) {
 			cronTask.refreshCache();
 			weChatNoticeUtils.setMessage(msg);
+			log.error(throwable + "");
 			return new OscResult<String>().fail(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		// 缺少字段
 		if (throwable instanceof IllegalStateException) {
 			weChatNoticeUtils.setMessage(msg);
+			log.error(throwable + "");
 			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		// 其他异常 未知
 		weChatNoticeUtils.setMessage(msg);
-		log.error(msg);
+		log.error(throwable + "");
 		return new OscResult<String>().fail();
 	}
 }
