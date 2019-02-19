@@ -28,16 +28,12 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	//5s内访问50次，认为是刷接口，就要进行一个限制
 	private static final long TIME = 5;
 	private static final long CNT = 50;
-	private static Object lock = new Object();
+	private Object lock = new Object();
 
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
 
 	/**
-	 * redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
-	 * 这一句在并发情况下，可能会执行多次
-	 * 但不是特别影响 故暂时先不处理
-	 * 正确的是：直接加 sync(lock) 即可
 	 * @param request
 	 * @param response
 	 * @param handler
@@ -63,11 +59,11 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					log.error("ip = {}, 请求过快，被限制", ip);
 					return false;
 				}
-				log.info("ip = {}, 30s之内第{}次请求{}，参数为{}，通过", ip, cnt, url, param);
+				log.info("ip = {}, {}s之内第{}次请求{}，参数为{}，通过", ip, TIME, cnt, url, param);
 			} else {
 				// 第一次访问
 				redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
-				log.info("ip = {}, 30s之内第1次请求{}，参数为{}，通过", ip, url, param);
+				log.info("ip = {}, {}s之内第1次请求{}，参数为{}，通过", ip, TIME, url, param);
 			}
 			return true;
 		}
