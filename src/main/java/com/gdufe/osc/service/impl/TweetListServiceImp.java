@@ -4,13 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.TweetList;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.entity.TweetListMore;
+import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: yizhen
@@ -19,6 +22,9 @@ import java.util.List;
 @Service
 @Slf4j
 public class TweetListServiceImp implements TweetListService {
+
+	@Autowired
+	private CacheHelper<TweetListDetails> cacheHelper;
 
 	@Override
 	public List<TweetListDetails> getTweetList(int page, int pageSize, String user) {
@@ -32,18 +38,22 @@ public class TweetListServiceImp implements TweetListService {
 		List<TweetListDetails> res = Lists.newArrayList();
 		for (int id : ids) {
 			String url = tweetUrl + "&id=" + id;
-			//log.info("id = " + id);
 			res.add(getTweetDetails(url));
 		}
 		return res;
 	}
 
 	private TweetListDetails getTweetDetails(String url) {
+		TweetListDetails cacheDetails = cacheHelper.get(url);
+		if (Objects.nonNull(cacheDetails)) {
+			return cacheDetails;
+		}
 		String data = HttpMethod.get(url);
 		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
 		if (details.getImgBig() != null && details.getImgBig() != null) {
 			details = filterImg(details);
 		}
+		cacheHelper.put(url, details);
 		return details;
 	}
 
@@ -71,7 +81,6 @@ public class TweetListServiceImp implements TweetListService {
 		List<Integer> ids = Lists.newArrayList();
 		lists.forEach(x -> {
 			ids.add(x.getId());
-			//log.info("authorId = " + x.getAuthorId());
 		});
 		return ids;
 	}

@@ -32,7 +32,7 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		cronTask.refreshCache();
 		String token = redisService.getToken();
 		String freshToken = redisService.getFreshToken();
-		CacheToken.cache.put(TokenConsts.TOKEN, token);
-		CacheToken.cache.put(TokenConsts.FRESH_TOKEN, freshToken);
+		CacheToken.putToken(token);
+		CacheToken.putFreshToken(freshToken);
 	}
 }
