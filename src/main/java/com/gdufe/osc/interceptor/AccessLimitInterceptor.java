@@ -33,7 +33,6 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 		synchronized (lock) {
 			boolean isOk = accessLimitService.tryAcquire();
 			if (isOk) {
-//				log.info("本次请求正常通过");
 				return true;
 			} else {
 				log.error("请求过快，请稍后再试");
