@@ -20,7 +20,7 @@ public class TestController {
 	@RequestMapping(value = "/")
 	public String index() {
 
-		return "你们别再扫我的服务器了。不是PHP，是SpringBoot没有漏洞，别扫了";
+		return "你们别再扫我的服务器了。不是PHP，是SpringBoot没有漏洞，别扫了----Test";
 	}
 
 	@RequestMapping("/token")
