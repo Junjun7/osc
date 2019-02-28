@@ -17,7 +17,7 @@ public class TweetList {
 
 	private Integer id;
 
-	private Date pubDate;
+	private String pubDate;
 
 	private String body;
 
