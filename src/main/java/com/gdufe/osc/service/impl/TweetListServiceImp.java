@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,11 +53,25 @@ public class TweetListServiceImp implements TweetListService {
 		}
 		String data = HttpMethod.get(url);
 		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
+		exchangeDateFormat(details);
 		if (details.getImgBig() != null && details.getImgBig() != null) {
 			details = filterImg(details);
 		}
 		cacheHelper.put(url, details);
 		return details;
+	}
+
+	private void exchangeDateFormat(TweetListDetails details) {
+		String pubDate = details.getPubDate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date = sdf.parse(pubDate);
+		} catch (ParseException e) {
+			date = new Date();
+		} finally {
+			details.setPubDate(date.getTime() + "");
+		}
 	}
 
 	private TweetListDetails filterImg(TweetListDetails details) {
