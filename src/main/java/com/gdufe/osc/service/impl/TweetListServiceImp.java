@@ -53,7 +53,7 @@ public class TweetListServiceImp implements TweetListService {
 		}
 		String data = HttpMethod.get(url);
 		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
-		exchangeDateFormat(details);
+		filterFormat(details);
 		if (details.getImgBig() != null && details.getImgBig() != null) {
 			details = filterImg(details);
 		}
@@ -61,7 +61,40 @@ public class TweetListServiceImp implements TweetListService {
 		return details;
 	}
 
-	private void exchangeDateFormat(TweetListDetails details) {
+	/**
+	 * 过滤一些不符合前端的字段
+	 * 如时间格式不符合
+	 * body里面的一些url，表情等
+	 *
+	 * @param details
+	 */
+	private void filterFormat(TweetListDetails details) {
+		filterDate(details);
+		filterBody(details);
+	}
+
+	private void filterBody(TweetListDetails details) {
+		String body = details.getBody();
+		// osc本地表情 基本格式如下 <emoji align=\"absmiddle\" data-emoji=\"emoji flushed\" data-name=\"flushed\"></emoji>
+		String regex = "<emo.+?ji>";
+		String res = body.replaceAll(regex, "");
+		// 网络表情 借本格式如下：<img src=\"http://www.oschina.net/js/ke/plugins/emoticons/35.gif\" alt=\"35\">
+		regex = "<img.+?>";
+		res = res.replaceAll(regex, "");
+		// 链接，@红薯，#AEAI HR# 如：
+		// <a href=\"https://gitee.com/johncoffey/gvt2paceko1hzlw7d09fb97.code\" target=\"_blank\" rel=\"nofollow\">https://gitee.com/johncoffey/gvt2paceko1hzlw7d09fb97.code</a>
+		// <a href='https://my.oschina.net/u/12' target=\"_blank\" rel=\"nofollow\">@红薯</a>
+		// <a href=\"https://www.oschina.net/p/aeaihr\" target=\"_blank\" rel=\"nofollow\">#AEAI HR#</a>
+		regex = "<a.+?>";
+		res = res.replaceAll(regex, "");
+		res = res.replaceAll("</a>", "");
+		// 箭头  \n还不清楚，先看看
+		regex = "&gt;";
+		res = res.replaceAll(regex, ">");
+		details.setBody(res);
+	}
+
+	private void filterDate(TweetListDetails details) {
 		String pubDate = details.getPubDate();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 		Date date = null;
