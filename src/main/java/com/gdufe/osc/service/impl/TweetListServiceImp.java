@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,7 +55,7 @@ public class TweetListServiceImp implements TweetListService {
 		String data = HttpMethod.get(url);
 		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
 		filterFormat(details);
-		if (details.getImgBig() != null && details.getImgBig() != null) {
+		if (!CollectionUtils.isEmpty(details.getImgSmall()) && !CollectionUtils.isEmpty(details.getImgBig())) {
 			details = filterImg(details);
 		}
 		cacheHelper.put(url, details);
@@ -108,18 +109,19 @@ public class TweetListServiceImp implements TweetListService {
 	}
 
 	private TweetListDetails filterImg(TweetListDetails details) {
-		StringBuilder sb = new StringBuilder();
-		String[] smallImg = details.getImgSmall().split("https");
+		List<String> imgList = Lists.newArrayList();
+		String[] smallImg = details.getImgSmall().get(0).split("https");
 		for (int i = 2; i < smallImg.length; i++) {
-			sb.append("https" + smallImg[i]);
+			imgList.add("https" + smallImg[i]);
 		}
-		details.setImgSmall(sb.toString());
-		sb = new StringBuilder();
-		String[] bigImg = details.getImgBig().split("https");
+		details.setImgSmall(imgList);
+
+		imgList = Lists.newArrayList();
+		String[] bigImg = details.getImgBig().get(0).split("https");
 		for (int i = 2; i < bigImg.length; i++) {
-			sb.append("https" + bigImg[i]);
+			imgList.add("https" + bigImg[i]);
 		}
-		details.setImgBig(sb.toString());
+		details.setImgBig(imgList);
 		return details;
 	}
 
