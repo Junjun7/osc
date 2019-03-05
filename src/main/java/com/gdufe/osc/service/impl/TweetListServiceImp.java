@@ -112,6 +112,7 @@ public class TweetListServiceImp implements TweetListService {
 		List<String> imgList = Lists.newArrayList();
 		String[] smallImg = details.getImgSmall().get(0).split("https");
 		for (int i = 2; i < smallImg.length; i++) {
+			smallImg[i] = smallImg[i].replaceAll(",", "");
 			imgList.add("https" + smallImg[i]);
 		}
 		details.setImgSmall(imgList);
@@ -119,6 +120,7 @@ public class TweetListServiceImp implements TweetListService {
 		imgList = Lists.newArrayList();
 		String[] bigImg = details.getImgBig().get(0).split("https");
 		for (int i = 2; i < bigImg.length; i++) {
+			bigImg[i] = bigImg[i].replaceAll(",", "");
 			imgList.add("https" + bigImg[i]);
 		}
 		details.setImgBig(imgList);
