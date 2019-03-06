@@ -90,7 +90,7 @@ public class TweetListServiceImp implements TweetListService {
 		res = res.replaceAll(regex, "");
 		res = res.replaceAll("</a>", "");
 		// 箭头  \n还不清楚，先看看
-		regex = "&gt;";
+		regex = "&.t;";
 		res = res.replaceAll(regex, ">");
 		details.setBody(res);
 	}

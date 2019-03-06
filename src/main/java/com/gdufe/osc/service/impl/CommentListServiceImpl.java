@@ -7,6 +7,9 @@ import com.gdufe.osc.service.CommentListService;
 import com.gdufe.osc.utils.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,8 +26,28 @@ public class CommentListServiceImpl implements CommentListService {
 		String commentList = HttpMethod.get(url);
 		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
-		filterBody(commentLists);
+		filterFormat(commentLists);
 		return commentLists;
+	}
+
+	private void filterFormat(List<CommentList> commentLists) {
+		filterDate(commentLists);
+		filterBody(commentLists);
+	}
+
+	private void filterDate(List<CommentList> commentLists) {
+		for (CommentList commentList : commentLists) {
+			String pubDate = commentList.getPubDate();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+			Date date = null;
+			try {
+				date = sdf.parse(pubDate);
+			} catch (ParseException e) {
+				date = new Date();
+			} finally {
+				commentList.setPubDate(date.getTime() + "");
+			}
+		}
 	}
 
 	private void filterBody(List<CommentList> commentLists) {
@@ -44,7 +67,7 @@ public class CommentListServiceImpl implements CommentListService {
 			res = res.replaceAll(regex, "");
 			res = res.replaceAll("</a>", "");
 			// 箭头  \n还不清楚，先看看
-			regex = "&gt;";
+			regex = "&.t;";
 			res = res.replaceAll(regex, ">");
 			commentList.setContent(res);
 		}
