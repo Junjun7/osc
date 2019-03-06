@@ -23,6 +23,30 @@ public class CommentListServiceImpl implements CommentListService {
 		String commentList = HttpMethod.get(url);
 		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
+		filterBody(commentLists);
 		return commentLists;
+	}
+
+	private void filterBody(List<CommentList> commentLists) {
+		for (CommentList commentList : commentLists) {
+			String body = commentList.getContent();
+			// osc本地表情 基本格式如下 <emoji align=\"absmiddle\" data-emoji=\"emoji flushed\" data-name=\"flushed\"></emoji>
+			String regex = "<emo.+?ji>";
+			String res = body.replaceAll(regex, "");
+			// 网络表情 借本格式如下：<img src=\"http://www.oschina.net/js/ke/plugins/emoticons/35.gif\" alt=\"35\">
+			regex = "<img.+?>";
+			res = res.replaceAll(regex, "");
+			// 链接，@红薯，#AEAI HR# 如：
+			// <a href=\"https://gitee.com/johncoffey/gvt2paceko1hzlw7d09fb97.code\" target=\"_blank\" rel=\"nofollow\">https://gitee.com/johncoffey/gvt2paceko1hzlw7d09fb97.code</a>
+			// <a href='https://my.oschina.net/u/12' target=\"_blank\" rel=\"nofollow\">@红薯</a>
+			// <a href=\"https://www.oschina.net/p/aeaihr\" target=\"_blank\" rel=\"nofollow\">#AEAI HR#</a>
+			regex = "<a.+?>";
+			res = res.replaceAll(regex, "");
+			res = res.replaceAll("</a>", "");
+			// 箭头  \n还不清楚，先看看
+			regex = "&gt;";
+			res = res.replaceAll(regex, ">");
+			commentList.setContent(res);
+		}
 	}
 }
