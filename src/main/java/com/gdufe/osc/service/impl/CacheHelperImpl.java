@@ -14,12 +14,13 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class CacheHelperImpl<V> implements CacheHelper<V> {
 
-	private static final int TIME = 24;
 	private static final int NUM = 1000;
 
-	// 过期25h，最大放入量为1000
+	private static final int TIME = 60;
+
+	// 默认过期60s
 	Cache<String, V> cache = CacheBuilder.newBuilder()
-			.expireAfterWrite(TIME, TimeUnit.HOURS)
+			.expireAfterWrite(TIME, TimeUnit.SECONDS)
 			.maximumSize(NUM)
 			.build();
 
