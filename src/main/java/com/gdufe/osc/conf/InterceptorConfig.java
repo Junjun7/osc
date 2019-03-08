@@ -29,9 +29,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
 				.addPathPatterns("/**")
 				.excludePathPatterns("/spring/**");
 
-		registry.addInterceptor(ipBlockInterceptor())
-				.addPathPatterns("/**")
-				.excludePathPatterns("/spring/**");
+//		registry.addInterceptor(ipBlockInterceptor())
+//				.addPathPatterns("/**")
+//				.excludePathPatterns("/spring/**");
 	}
 }
 
