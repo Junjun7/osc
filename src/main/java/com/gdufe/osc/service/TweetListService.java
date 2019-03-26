@@ -11,10 +11,13 @@ import java.util.List;
  */
 public interface TweetListService {
 
-	List<TweetListDetails> getTweetList(int page, int pageSize, String user);
+	/** 获取所有tweet的信息 */
+	List<TweetListDetails> listTweetList(int page, int pageSize, String user);
+
+	/** 根据tweetId获取tweet的信息 */
+	TweetListDetails getTweetList(String tweetId);
 
 	default String getIdsUrl() {
-
 		return "https://www.oschina.net/action/openapi/tweet_list?dataType=json&access_token=" + CacheToken.getToken();
 	}
 

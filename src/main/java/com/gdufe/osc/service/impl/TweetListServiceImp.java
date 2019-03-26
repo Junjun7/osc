@@ -9,6 +9,7 @@ import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -31,10 +32,18 @@ public class TweetListServiceImp implements TweetListService {
 	private CacheHelper<TweetListDetails> cacheHelper;
 
 	@Override
-	public List<TweetListDetails> getTweetList(int page, int pageSize, String user) {
+	public List<TweetListDetails> listTweetList(int page, int pageSize, String user) {
 		List<Integer> ids = getTweetIds(page, pageSize, user);
 		List<TweetListDetails> res = getTweetListDetails(ids);
 		return res;
+	}
+
+	@Override
+	public TweetListDetails getTweetList(String tweetId) {
+		Integer id = NumberUtils.toInt(tweetId, 0);
+		List<Integer> ids = Lists.newArrayList(id);
+		List<TweetListDetails> res = getTweetListDetails(ids);
+		return CollectionUtils.isEmpty(res) ? (new TweetListDetails()) : res.get(0);
 	}
 
 	private List<TweetListDetails> getTweetListDetails(List<Integer> ids) {

@@ -4,7 +4,6 @@ import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.service.TweetListService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class TweetListServiceTest extends OscApplicationTests {
 
 	@Test
 	public void getTweetListTest() {
-		List<TweetListDetails> tweetList = tweetListService.getTweetList(0, 10, "-1");
+		List<TweetListDetails> tweetList = tweetListService.listTweetList(0, 10, "-1");
 		for (TweetListDetails tweetListDetails : tweetList) {
 			System.out.println(tweetListDetails.getBody());
 		}
