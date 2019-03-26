@@ -54,7 +54,7 @@ public class TweetListController {
 	}
 
 	@TimeWatch
-	@RequestMapping(value = "/{tweetId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/single/{tweetId}", method = RequestMethod.GET)
 	public OscResult<TweetListDetails> getSingleTweetList(
 			@PathVariable(value = "tweetId", required = false) String tweetId) {
 		if (StringUtils.isEmpty(tweetId)) {
