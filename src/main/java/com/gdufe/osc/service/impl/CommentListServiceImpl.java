@@ -3,9 +3,12 @@ package com.gdufe.osc.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.CommentList;
 import com.gdufe.osc.entity.CommentListMore;
+import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.CommentListService;
 import com.gdufe.osc.utils.HttpMethod;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,14 +22,21 @@ import java.util.List;
 @Service
 public class CommentListServiceImpl implements CommentListService {
 
+	@Autowired
+	private CacheHelper<List<CommentList>> cacheHelper;
+
 	@Override
 	public List<CommentList> getCommentList(int id, int page, int pageSize) {
-
+		List<CommentList> cl = cacheHelper.get(id + "");
+		if (!CollectionUtils.isEmpty(cl)) {
+			return cl;
+		}
 		String url = getCommentUrl(id, page, pageSize);
 		String commentList = HttpMethod.get(url);
 		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
 		filterFormat(commentLists);
+		cacheHelper.put(id + "", commentLists);
 		return commentLists;
 	}
 
