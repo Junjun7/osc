@@ -8,6 +8,7 @@ import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.DeadEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class TweetListServiceImp implements TweetListService {
 		Integer id = NumberUtils.toInt(tweetId, 0);
 		List<Integer> ids = Lists.newArrayList(id);
 		List<TweetListDetails> res = getTweetListDetails(ids);
-		return CollectionUtils.isEmpty(res) ? (new TweetListDetails()) : res.get(0);
+		return CollectionUtils.isEmpty(res) ? null : res.get(0);
 	}
 
 	private List<TweetListDetails> getTweetListDetails(List<Integer> ids) {
@@ -51,7 +52,11 @@ public class TweetListServiceImp implements TweetListService {
 		List<TweetListDetails> res = Lists.newArrayList();
 		for (int id : ids) {
 			String url = tweetUrl + "&id=" + id;
-			res.add(getTweetDetails(url));
+			TweetListDetails tweetDetails = getTweetDetails(url);
+			if (Objects.isNull(tweetDetails)) {
+				continue;
+			}
+			res.add(tweetDetails);
 		}
 		return res;
 	}
@@ -63,6 +68,9 @@ public class TweetListServiceImp implements TweetListService {
 		}
 		String data = HttpMethod.get(url);
 		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
+		if (Objects.isNull(details)) {
+			return null;
+		}
 		filterFormat(details);
 		if (!CollectionUtils.isEmpty(details.getImgSmall()) && !CollectionUtils.isEmpty(details.getImgBig())) {
 			details = filterImg(details);

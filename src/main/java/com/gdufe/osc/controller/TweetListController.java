@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: yizhen
@@ -30,14 +31,14 @@ public class TweetListController {
 	public OscResult<List<TweetListDetails>> listNewestTweetList(Integer page, Integer pageSize) {
 		List<TweetListDetails> details =
 				tweetListService.listTweetList(page, pageSize, TweetCodeEnum.NEWEST_TWEET_CODE.getCode());
-		return new OscResult<List<TweetListDetails>>().success(details);
+		return toRes(details);
 	}
 
 	@RequestMapping(value = "/hotest", method = RequestMethod.GET)
 	public OscResult<List<TweetListDetails>> listHotestTweetList(Integer page, Integer pageSize) {
 		List<TweetListDetails> details =
 				tweetListService.listTweetList(page, pageSize, TweetCodeEnum.HOTEST_TWEET_CODE.getCode());
-		return new OscResult<List<TweetListDetails>>().success(details);
+		return toRes(details);
 	}
 
 	@TimeWatch
@@ -50,7 +51,7 @@ public class TweetListController {
 		}
 		List<TweetListDetails> details =
 				tweetListService.listTweetList(page, pageSize, userId);
-		return new OscResult<List<TweetListDetails>>().success(details);
+		return toRes(details);
 	}
 
 	@TimeWatch
@@ -61,6 +62,13 @@ public class TweetListController {
 			return new OscResult<TweetListDetails>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		TweetListDetails tweetList = tweetListService.getTweetList(tweetId);
-		return new OscResult<TweetListDetails>().success(tweetList);
+		return toRes(tweetList);
+	}
+
+	private <T> OscResult<T> toRes(T t) {
+		if (Objects.isNull(t)) {
+			return new OscResult<T>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
+		}
+		return new OscResult<T>().success(t);
 	}
 }
