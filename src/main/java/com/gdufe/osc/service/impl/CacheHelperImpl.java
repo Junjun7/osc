@@ -18,7 +18,7 @@ public class CacheHelperImpl<V> implements CacheHelper<V> {
 
 	private static final int TIME = 60;
 
-	// 默认过期60s
+	/** 默认过期60s */
 	Cache<String, V> cache = CacheBuilder.newBuilder()
 			.expireAfterWrite(TIME, TimeUnit.SECONDS)
 			.maximumSize(NUM)

@@ -25,7 +25,7 @@ import java.util.Map;
 @Component
 public class IPBlockInterceptor implements HandlerInterceptor {
 
-	//5s内访问50次，认为是刷接口，就要进行一个限制
+	/** 5s内访问50次，认为是刷接口，就要进行一个限制 */
 	private static final long TIME = 5;
 	private static final long CNT = 50;
 	private Object lock = new Object();
