@@ -6,9 +6,11 @@ import com.gdufe.osc.entity.CommentListMore;
 import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.CommentListService;
 import com.gdufe.osc.utils.HttpMethod;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +29,7 @@ public class CommentListServiceImpl implements CommentListService {
 
 	@Override
 	public List<CommentList> getCommentList(int id, int page, int pageSize) {
-		List<CommentList> cl = cacheHelper.get(id + "");
+		List<CommentList> cl = cacheHelper.get(buildCacheKey(id, page, pageSize));
 		if (!CollectionUtils.isEmpty(cl)) {
 			return cl;
 		}
@@ -36,8 +38,13 @@ public class CommentListServiceImpl implements CommentListService {
 		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
 		filterFormat(commentLists);
-		cacheHelper.put(id + "", commentLists);
+		cacheHelper.put(buildCacheKey(id, page, pageSize), commentLists);
 		return commentLists;
+	}
+
+	private String buildCacheKey(Integer... keys) {
+		String key = StringUtils.join(keys, "+");
+		return key;
 	}
 
 	private void filterFormat(List<CommentList> commentLists) {
