@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,11 +21,10 @@ import java.util.Map;
  * @Date: 2018/12/28 12:11
  */
 @Slf4j
-@Component
 public class IPBlockInterceptor implements HandlerInterceptor {
 
-	/** 5s内访问50次，认为是刷接口，就要进行一个限制 */
-	private static final long TIME = 5;
+	/** 10s内访问50次，认为是刷接口，就要进行一个限制 */
+	private static final long TIME = 10;
 	private static final long CNT = 50;
 	private Object lock = new Object();
 
@@ -57,6 +55,8 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 					result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
 					response.getWriter().print(JSON.toJSONString(result));
 					log.error("ip = {}, 请求过快，被限制", ip);
+					// 设置ip不过期 加入黑名单
+					redisHelper.set(ip, --cnt);
 					return false;
 				}
 				log.info("ip = {}, {}s之内第{}次请求{}，参数为{}，通过", ip, TIME, cnt, url, param);
