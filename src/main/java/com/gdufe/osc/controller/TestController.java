@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2018/12/6 11:49
  */
 @RestController
+@RequestMapping("/prefix")
 public class TestController {
 
 	@Autowired

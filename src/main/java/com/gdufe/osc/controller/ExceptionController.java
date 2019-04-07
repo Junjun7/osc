@@ -36,7 +36,11 @@ public class ExceptionController {
 		}
 		// token失效
 		if (throwable instanceof NullPointerException || throwable instanceof IOException) {
-			cronTask.refreshCache();
+			try {
+				cronTask.refreshCache();
+			} catch (Exception e) {
+				log.error(e.toString());
+			}
 			weChatNoticeUtils.setMessage(msg);
 			log.error(throwable + "");
 			return new OscResult<String>().fail(OscResultEnum.NETWORK_EXCEPTION);

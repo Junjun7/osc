@@ -21,7 +21,7 @@ import java.util.Objects;
  * @Date: 2018/12/6 17:58
  */
 @RestController
-@RequestMapping("/api2/tweet")
+@RequestMapping("/prefix/api/tweet")
 public class TweetListController {
 
 	@Autowired

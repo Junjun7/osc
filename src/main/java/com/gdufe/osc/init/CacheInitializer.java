@@ -23,7 +23,7 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
-		//init();
+		init();
 	}
 
 	private void init() {
