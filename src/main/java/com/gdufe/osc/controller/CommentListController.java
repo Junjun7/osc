@@ -15,7 +15,7 @@ import java.util.List;
  * @Date: 2018/12/17 16:04
  */
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/api2/comment")
 public class CommentListController {
 
 	@Autowired
