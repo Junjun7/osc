@@ -30,7 +30,6 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
-
 	/**
 	 * @param request
 	 * @param response
