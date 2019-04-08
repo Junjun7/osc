@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.NumberUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +34,9 @@ public class CommentListServiceImpl implements CommentListService {
 		}
 		String url = getCommentUrl(id, page, pageSize);
 		String commentList = HttpMethod.get(url);
+		if (StringUtils.isEmpty(commentList)) {
+			return null;
+		}
 		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
 		filterFormat(commentLists);
