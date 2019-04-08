@@ -28,44 +28,57 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	private static final long CNT = 50;
 	private Object lock = new Object();
 
+	/** 根据浏览器头进行限制 */
+	private static final String USERAGENT = "User-Agent";
+	private static final String CRAWLER = "crawler";
+
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
-	/**
-	 * @param request
-	 * @param response
-	 * @param handler
-	 * @return
-	 * @throws Exception
-	 */
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		synchronized (lock) {
-			String ip = IPUtils.getClientIp(request);
-			String url = request.getRequestURL().toString();
-			String param = getAllParam(request);
-			boolean isExist = redisHelper.isExist(ip);
-			if (isExist) {
-				// 如果存在,直接cnt++
-				int cnt = redisHelper.incr(ip);
-				if (cnt > IPBlockInterceptor.CNT) {
-					OscResult<String> result = new OscResult<>();
-					response.setCharacterEncoding("UTF-8");
-					response.setHeader("content-type", "application/json;charset=UTF-8");
-					result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
-					response.getWriter().print(JSON.toJSONString(result));
-					log.error("ip = {}, 请求过快，被限制", ip);
-					// 设置ip不过期 加入黑名单
-					redisHelper.set(ip, --cnt);
-					return false;
-				}
-				log.info("ip = {}, {}s之内第{}次请求{}，参数为{}，通过", ip, TIME, cnt, url, param);
-			} else {
-				// 第一次访问
-				redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
-				log.info("ip = {}, {}s之内第1次请求{}，参数为{}，通过", ip, TIME, url, param);
-			}
-			return true;
+			boolean checkAgent = checkAgent(request);
+			boolean checkIP = checkIP(request, response);
+			return checkAgent && checkIP;
 		}
+	}
+
+	private boolean checkAgent(HttpServletRequest request) {
+		String header = request.getHeader(USERAGENT);
+		if (header.contains(CRAWLER)) {
+			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean checkIP(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String ip = IPUtils.getClientIp(request);
+		String url = request.getRequestURL().toString();
+		String param = getAllParam(request);
+		boolean isExist = redisHelper.isExist(ip);
+		if (isExist) {
+			// 如果存在,直接cnt++
+			int cnt = redisHelper.incr(ip);
+			if (cnt > IPBlockInterceptor.CNT) {
+				OscResult<String> result = new OscResult<>();
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("content-type", "application/json;charset=UTF-8");
+				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
+				response.getWriter().print(JSON.toJSONString(result));
+				log.error("ip = {}, 请求过快，被限制", ip);
+				// 设置ip不过期 加入黑名单
+				redisHelper.set(ip, --cnt);
+				return false;
+			}
+			log.info("ip = {}, {}s之内第{}次请求{}，参数为{}，通过", ip, TIME, cnt, url, param);
+		} else {
+			// 第一次访问
+			redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
+			log.info("ip = {}, {}s之内第1次请求{}，参数为{}，通过", ip, TIME, url, param);
+		}
+		return true;
 	}
 
 	private String getAllParam(HttpServletRequest request) {

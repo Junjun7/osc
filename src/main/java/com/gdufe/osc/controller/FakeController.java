@@ -33,7 +33,9 @@ public class FakeController {
 	private RedisHelper<Integer> redisHelper;
 
 	@RequestMapping(value = "/comment/list", method = RequestMethod.GET)
-	public String getCommentList(Integer id, Integer page, Integer pageSize) {
+	public String getCommentList(Integer id, Integer page, Integer pageSize,
+	                             HttpServletRequest request) {
+		addBlockIP(request);
 		return RES;
 	}
 
