@@ -39,7 +39,7 @@ public class ExceptionController {
 			try {
 				cronTask.refreshCache();
 			} catch (Exception e) {
-				log.error(e.toString());
+				log.error("osc接口出现问题 ==> " + e);
 			}
 			weChatNoticeUtils.setMessage(msg);
 			log.error(throwable + "");

@@ -46,6 +46,9 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 
 	private boolean checkAgent(HttpServletRequest request) {
 		String header = request.getHeader(USERAGENT);
+		if (StringUtils.isEmpty(header)) {
+			return false;
+		}
 		if (header.contains(CRAWLER)) {
 			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
 			return false;
