@@ -39,6 +39,9 @@ public class CommentListServiceImpl implements CommentListService {
 		}
 		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
+		if (CollectionUtils.isEmpty(commentLists)) {
+			return null;
+		}
 		filterFormat(commentLists);
 		cacheHelper.put(buildCacheKey(id, page, pageSize), commentLists);
 		return commentLists;

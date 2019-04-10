@@ -23,6 +23,11 @@ public class TestController {
 		return "我日，竟然刷我接口，我靠！！！";
 	}
 
+	@RequestMapping(value = "/timestamp")
+	public Long getTimeStamp() {
+		return System.currentTimeMillis();
+	}
+
 	@RequestMapping("/token")
 	public String getToken() {
 		return TokenUtils.getToken();
