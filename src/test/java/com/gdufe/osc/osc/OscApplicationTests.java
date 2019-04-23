@@ -12,5 +12,4 @@ public class OscApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }

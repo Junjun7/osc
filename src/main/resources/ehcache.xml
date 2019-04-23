@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" dynamicConfig="false">
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <!-- 图片缓存 1day有效 -->
+    <cache name="zhiHuImg"
+           timeToLiveSeconds="86400"
+           maxElementsInMemory="10000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+    />
+
+</ehcache>
