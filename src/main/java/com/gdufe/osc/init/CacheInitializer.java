@@ -3,6 +3,7 @@ package com.gdufe.osc.init;
 import com.gdufe.osc.common.TokenConsts;
 import com.gdufe.osc.scheduled.CronTask;
 import com.gdufe.osc.service.RedisService;
+import com.gdufe.osc.service.ZhiHuSpider;
 import com.gdufe.osc.utils.CacheToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -20,6 +21,8 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 	private RedisService redisService;
 	@Autowired
 	private CronTask cronTask;
+	@Autowired
+	private ZhiHuSpider zhiHuSpider;
 
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -33,5 +36,8 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		String freshToken = redisService.getFreshToken();
 		CacheToken.putToken(token);
 		CacheToken.putFreshToken(freshToken);
+
+		// 爬虫
+		zhiHuSpider.imgSpider();
 	}
 }

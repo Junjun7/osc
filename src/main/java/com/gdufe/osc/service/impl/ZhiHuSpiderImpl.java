@@ -7,6 +7,7 @@ import com.gdufe.osc.service.ZhiHuSpider;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import java.util.regex.Pattern;
  * @date: 2019/4/20 13:05
  */
 @Service
+@Slf4j
 public class ZhiHuSpiderImpl implements ZhiHuSpider {
 
 	private static final String PREFIX = "https://www.zhihu.com/api/v4/questions/";
@@ -65,14 +67,17 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	}
 
 	public void spider(String id, String limit) {
+		// 统计更新了多少
+		int cnt = 0;
 		String url = getRealUrl(id, limit);
 		String data = HttpMethod.get(url, getHeader());
 		Set<String> imgSet = Sets.newHashSet();
 		fillImg(data, imgSet);
 		List<String> imgList = Lists.newArrayList(imgSet);
 		for (String img : imgList) {
-			imgDao.insertImgLink(img);
+			cnt += imgDao.insertImgLink(img);
 		}
+		log.info("id = {}, 总共更新{}条数据", id, cnt);
 	}
 
 	private void fillImg(String data, Set<String> imgSet) {
