@@ -56,13 +56,13 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	@Override
 	public void imgSpider() {
 		for (String id : ids) {
-			spider(id, LIMIT);
-		}
-		try {
-			// 睡一分钟
-			TimeUnit.MINUTES.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			try {
+				spider(id, LIMIT);
+				// 睡一分钟
+				TimeUnit.MINUTES.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
