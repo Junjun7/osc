@@ -3,9 +3,9 @@
 
     <diskStore path="java.io.tmpdir"/>
 
-    <!-- 图片缓存 1day有效 -->
+    <!-- 图片缓存 6Hour有效 -->
     <cache name="zhiHuImg"
-           timeToLiveSeconds="86400"
+           timeToLiveSeconds="23100"
            maxElementsInMemory="10000"
            eternal="false"
            memoryStoreEvictionPolicy="LRU"
