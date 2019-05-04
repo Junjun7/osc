@@ -5,6 +5,7 @@ import com.gdufe.osc.dao.mapper.ImgMapper;
 import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class ImgDaoImpl implements ImgDao {
 		}
 	}
 
+	@Cacheable(value = "zhiHuImg", key = "#offset+#limit")
 	@Override
 	public List<Img> listImgLink(Integer offset, Integer limit) {
 		ImgExample example = new ImgExample();

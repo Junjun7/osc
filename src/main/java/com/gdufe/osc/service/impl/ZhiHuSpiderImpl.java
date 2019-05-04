@@ -39,7 +39,6 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	private ImgDao imgDao;
 
 	@Override
-	@Cacheable(value = "zhiHuImg", key = "#offset+#limit")
 	public List<String> getImg(Integer offset, Integer limit) {
 		offset = convertOffset(limit);
 		List<Img> imgs = imgDao.listImgLink(offset, limit);
