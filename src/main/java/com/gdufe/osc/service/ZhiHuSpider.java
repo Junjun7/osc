@@ -16,7 +16,7 @@ public interface ZhiHuSpider {
 
 	List<String> ids = Lists.newArrayList(
 			// 身材好是一种怎样的体验？
-			"26037846",
+			"313825759",
 			// 你见过的有些人能漂亮到什么程度？
 			"266808424");
 }
