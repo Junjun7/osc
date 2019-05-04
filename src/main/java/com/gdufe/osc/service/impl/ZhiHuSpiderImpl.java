@@ -60,6 +60,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 		if (rd > limit) {
 			rd -= limit;
 		}
+		log.info("图片随机位置为：{}", rd);
 		return rd;
 	}
 
