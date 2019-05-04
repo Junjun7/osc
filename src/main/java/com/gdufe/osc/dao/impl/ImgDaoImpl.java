@@ -39,6 +39,12 @@ public class ImgDaoImpl implements ImgDao {
 		example.setOrderByClause("id DESC");
 		return imgMapper.selectByExample(example);
 	}
+
+	@Override
+	public Long countImg() {
+		ImgExample example = new ImgExample();
+		return imgMapper.countByExample(example);
+	}
 }
 
 

@@ -15,4 +15,6 @@ public interface ImgDao {
 	int insertImgLink(String link);
 
 	List<Img> listImgLink(Integer offset, Integer limit);
+
+	Long countImg();
 }

@@ -8,15 +8,16 @@ import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -40,6 +41,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	@Override
 	@Cacheable(value = "zhiHuImg", key = "#offset+#limit")
 	public List<String> getImg(Integer offset, Integer limit) {
+		offset = convertOffset(limit);
 		List<Img> imgs = imgDao.listImgLink(offset, limit);
 		if (CollectionUtils.isEmpty(imgs)) {
 			return null;
@@ -51,8 +53,20 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 		return res;
 	}
 
+	/** 随机选择图片 */
+	private Integer convertOffset(int limit) {
+		Random random = new Random();
+		int cnt = Integer.parseInt(imgDao.countImg().toString());
+		int rd = random.nextInt(cnt);
+		if (rd > limit) {
+			rd -= limit;
+		}
+		return rd;
+	}
+
 	/** 每天凌晨3点执行爬虫 */
 	@Scheduled(cron = "0 0 3 * * ?")
+	@CacheEvict(value = "zhiHuImg", allEntries = true)
 	@Override
 	public void imgSpider() {
 		for (String id : ids) {
