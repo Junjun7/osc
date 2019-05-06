@@ -42,6 +42,7 @@ public class ImgDaoImpl implements ImgDao {
 		return imgMapper.selectByExample(example);
 	}
 
+	@Cacheable(value = "zhiHuImgCount")
 	@Override
 	public Long countImg() {
 		ImgExample example = new ImgExample();

@@ -66,7 +66,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 
 	/** 每天凌晨3点执行爬虫 */
 	@Scheduled(cron = "0 0 3 * * ?")
-	@CacheEvict(value = "zhiHuImg", allEntries = true)
+	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
 	@Override
 	public void imgSpider() {
 		for (String id : ids) {
