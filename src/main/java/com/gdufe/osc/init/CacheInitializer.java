@@ -36,8 +36,5 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		String freshToken = redisService.getFreshToken();
 		CacheToken.putToken(token);
 		CacheToken.putFreshToken(freshToken);
-
-		// 爬虫
-		zhiHuSpider.imgSpider();
 	}
 }

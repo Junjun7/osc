@@ -100,7 +100,11 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 		Matcher matcher = pattern.matcher(data);
 		while (matcher.find()) {
 			String img = matcher.group();
-			img = img.substring(img.indexOf("http"));
+			int pos = img.indexOf("http");
+			if (pos == -1) {
+				continue;
+			}
+			img = img.substring(pos);
 			imgSet.add(img);
 		}
 	}
