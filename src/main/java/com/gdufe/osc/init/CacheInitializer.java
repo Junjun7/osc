@@ -21,8 +21,6 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 	private RedisService redisService;
 	@Autowired
 	private CronTask cronTask;
-	@Autowired
-	private ZhiHuSpider zhiHuSpider;
 
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
