@@ -14,7 +14,5 @@ public interface ZhiHuSpider {
 
 	void imgSpider();
 
-	List<String> ids = Lists.newArrayList(
-			"285321190",
-			"318927654");
+	List<String> ids = Lists.newArrayList();
 }
