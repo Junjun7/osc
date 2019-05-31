@@ -13,7 +13,7 @@
         </layout>
     </appender>
 
-    <!-- 输出到文件 文件大于1024KB 重新生成一个文件 生成五个文件后打包 -->
+    <!-- 输出到文件 文件大于10MB 重新生成一个文件 生成五个文件后打包 -->
     <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>osc.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -22,7 +22,7 @@
             <maxIndex>5</maxIndex>
         </rollingPolicy>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>1024KB</maxFileSize>
+            <maxFileSize>10MB</maxFileSize>
         </triggeringPolicy>
         <encoder>
             <pattern>

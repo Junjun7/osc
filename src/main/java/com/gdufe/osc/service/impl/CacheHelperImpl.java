@@ -16,11 +16,11 @@ public class CacheHelperImpl<V> implements CacheHelper<V> {
 
 	private static final int NUM = 1000;
 
-	private static final int TIME = 60;
+	private static final int TIME = 30;
 
-	/** 默认过期60s */
+	/** 默认过期30分钟 */
 	Cache<String, V> cache = CacheBuilder.newBuilder()
-			.expireAfterWrite(TIME, TimeUnit.SECONDS)
+			.expireAfterWrite(TIME, TimeUnit.MINUTES)
 			.maximumSize(NUM)
 			.build();
 

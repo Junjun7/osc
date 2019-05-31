@@ -11,11 +11,11 @@ import java.util.List;
  * @date: 2019/4/20 21:26
  */
 @Repository
-public interface ImgDao {
+public interface ImgBiZhiDao {
 
 	int insertImgLink(String link);
 
-	List<Img> listImgLink(Integer offset, Integer limit);
+	List<ImgBiZhi> listImgLink(Integer offset, Integer limit);
 
 	Long countImg();
 }

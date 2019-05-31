@@ -1,14 +1,17 @@
 package com.gdufe.osc.service.impl;
 
 import com.arronlong.httpclientutil.common.HttpHeader;
+import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.Img;
+import com.gdufe.osc.entity.ImgBiZhi;
 import com.gdufe.osc.service.ZhiHuSpider;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,11 +39,23 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 
 	@Autowired
 	private ImgDao imgDao;
+	@Autowired
+	private ImgBiZhiDao imgBiZhiDao;
 
 	@Override
-	public List<String> getImg(Integer offset, Integer limit) {
-		offset = convertOffset(limit);
-		List<Img> imgs = imgDao.listImgLink(offset, limit);
+	public List<String> getImg(Integer offset, Integer limit, String type) {
+		offset = convertOffset(limit, type);
+		List<Img> imgs = Lists.newArrayList();
+		if ("1".equals(type)) {
+			imgs = imgDao.listImgLink(offset, limit);
+		} else if ("2".equals(type)) {
+			List<ImgBiZhi> imgBiZhis = imgBiZhiDao.listImgLink(offset, limit);
+			for (ImgBiZhi imgBiZhi : imgBiZhis) {
+				Img img = new Img();
+				BeanUtils.copyProperties(imgBiZhi, img);
+				imgs.add(img);
+			}
+		}
 		if (CollectionUtils.isEmpty(imgs)) {
 			return null;
 		}
@@ -52,9 +67,14 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	}
 
 	/** 随机选择图片 */
-	private Integer convertOffset(int limit) {
+	private Integer convertOffset(int limit, String type) {
 		Random random = new Random();
-		int cnt = Integer.parseInt(imgDao.countImg().toString());
+		int cnt = 0;
+		if ("1".equals(type)) {
+			cnt = Integer.parseInt(imgDao.countImg().toString());
+		} else if ("2".equals(type)) {
+			cnt = Integer.parseInt(imgBiZhiDao.countImg().toString());
+		}
 		int rd = random.nextInt(cnt);
 		if (rd > limit) {
 			rd -= limit;
@@ -68,9 +88,18 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
 	@Override
 	public void imgSpider() {
-		for (String id : ids) {
+		for (String id : imgIds) {
 			try {
-				spider(id, LIMIT);
+				spider(id, LIMIT, "1");
+				// 睡一分钟
+				TimeUnit.MINUTES.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		for (String id : imgBiZhiIds) {
+			try {
+				spider(id, LIMIT, "2");
 				// 睡一分钟
 				TimeUnit.MINUTES.sleep(1);
 			} catch (InterruptedException e) {
@@ -79,7 +108,14 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 		}
 	}
 
-	public void spider(String id, String limit) {
+	/**
+	 * type == 1  等于知乎美女图片
+	 * type == 2  等于知乎壁纸
+	 * @param id
+	 * @param limit
+	 * @param type
+	 */
+	public void spider(String id, String limit, String type) {
 		// 统计更新了多少
 		int cnt = 0;
 		String url = getRealUrl(id, limit);
@@ -88,9 +124,13 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 		fillImg(data, imgSet);
 		List<String> imgList = Lists.newArrayList(imgSet);
 		for (String img : imgList) {
-			cnt += imgDao.insertImgLink(img);
+			if ("1".equals(type)) {
+				cnt += imgDao.insertImgLink(img);
+			} else if ("2".equals(type)) {
+				cnt += imgBiZhiDao.insertImgLink(img);
+			}
 		}
-		log.info("id = {}, 总共更新{}条数据", id, cnt);
+		log.info("type = {}, id = {}, 总共更新{}条数据", type, id, cnt);
 	}
 
 	private void fillImg(String data, Set<String> imgSet) {

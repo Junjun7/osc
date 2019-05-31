@@ -51,7 +51,7 @@
         </javaClientGenerator>
 
         <!--生成对应表及类名-->
-        <table tableName="img" domainObjectName="Img"></table>
+        <table tableName="imgBiZhi" domainObjectName="ImgBiZhi"></table>
 
     </context>
 </generatorConfiguration>
