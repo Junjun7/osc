@@ -69,7 +69,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	/** 随机选择图片 */
 	private Integer convertOffset(int limit, String type) {
 		Random random = new Random();
-		int cnt = 0;
+		int cnt = 1;
 		if ("1".equals(type)) {
 			cnt = Integer.parseInt(imgDao.countImg().toString());
 		} else if ("2".equals(type)) {

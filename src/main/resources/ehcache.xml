@@ -6,7 +6,7 @@
     <!-- 图片缓存 24Hour有效 -->
     <cache name="zhiHuImg"
            timeToLiveSeconds="86400"
-           maxElementsInMemory="10000"
+           maxElementsInMemory="1000"
            eternal="false"
            memoryStoreEvictionPolicy="LRU"
     />
@@ -14,7 +14,7 @@
     <!-- 数据库个数 24Hour有效 -->
     <cache name="zhiHuImgCount"
            timeToLiveSeconds="86400"
-           maxElementsInMemory="10000"
+           maxElementsInMemory="100"
            eternal="false"
            memoryStoreEvictionPolicy="LRU"
     />
@@ -22,7 +22,7 @@
     <!-- 图片缓存 24Hour有效 -->
     <cache name="zhiHuImgBiZhi"
            timeToLiveSeconds="86400"
-           maxElementsInMemory="10000"
+           maxElementsInMemory="1000"
            eternal="false"
            memoryStoreEvictionPolicy="LRU"
     />
@@ -30,7 +30,7 @@
     <!-- 数据库个数 24Hour有效 -->
     <cache name="zhiHuImgBiZhiCount"
            timeToLiveSeconds="86400"
-           maxElementsInMemory="10000"
+           maxElementsInMemory="100"
            eternal="false"
            memoryStoreEvictionPolicy="LRU"
     />

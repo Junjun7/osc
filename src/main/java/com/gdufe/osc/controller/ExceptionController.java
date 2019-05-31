@@ -30,7 +30,8 @@ public class ExceptionController {
 	@ExceptionHandler
 	public OscResult<String> exceptionError(Throwable throwable) {
 
-		String msg = throwable.getMessage();
+		// 将整个错误栈打印出来
+		String msg = throwable.toString();
 		if (StringUtils.isEmpty(msg)) {
 			msg = throwable.toString();
 		}

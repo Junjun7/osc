@@ -3,6 +3,7 @@ package com.gdufe.osc.controller;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.ZhiHuSpider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,9 @@ public class ZhuHuSpiderController {
 
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
 	public OscResult<List<String>> listSpiderImg(Integer offset, Integer limit, String type) {
+		if (StringUtils.isEmpty(type)) {
+			type = "1";
+		}
 		List<String> imgList = zhiHuSpider.getImg(offset, limit, type);
 		if (CollectionUtils.isEmpty(imgList)) {
 			new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
