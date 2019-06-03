@@ -5,6 +5,7 @@ import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgBiZhi;
+import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.service.ZhiHuSpider;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
@@ -36,11 +37,15 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	private static final String PREFIX = "https://www.zhihu.com/api/v4/questions/";
 	private static final String SUFFIX = "/answers?include=data%5B%2A%5D.is_normal%2Cadmin_closed_comment%2Creward_info%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Ccreated_time%2Cupdated_time%2Creview_info%2Crelevant_info%2Cquestion%2Cexcerpt%2Crelationship.is_authorized%2Cis_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cis_labeled%2Cis_recognized%2Cpaid_info%3Bdata%5B%2A%5D.mark_infos%5B%2A%5D.url%3Bdata%5B%2A%5D.author.follower_count%2Cbadge%5B%2A%5D.topics&platform=desktop&sort_by=default&offset=0&limit=";
 	private static final String LIMIT = "20";
+	private static final String IMGIDS = "imgIds";
+	private static final String IMGBIZHIIDS = "imgBiZhiIds";
 
 	@Autowired
 	private ImgDao imgDao;
 	@Autowired
 	private ImgBiZhiDao imgBiZhiDao;
+	@Autowired
+	private RedisHelper<String> redisHelper;
 
 	@Override
 	public List<String> getImg(Integer offset, Integer limit, String type) {
@@ -88,6 +93,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
 	@Override
 	public void imgSpider() {
+		initIds();
 		for (String id : imgIds) {
 			try {
 				spider(id, LIMIT, "1");
@@ -105,6 +111,20 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	/**
+	 * 初始化 imgIds 和 imgBiZhiIds
+	 */
+	private void initIds() {
+		String[] stringImgIds = redisHelper.get(IMGIDS, String.class).split(",");
+		String[] stringImgBiZhiIds = redisHelper.get(IMGBIZHIIDS, String.class).split(",");
+		for (int i = 0; i < stringImgIds.length; i++) {
+			imgIds.add(stringImgIds[i]);
+		}
+		for (int i = 0; i < stringImgBiZhiIds.length; i++) {
+			imgBiZhiIds.add(stringImgBiZhiIds[i]);
 		}
 	}
 

@@ -22,19 +22,7 @@ public interface ZhiHuSpider {
 
 	void imgSpider();
 
-	List<String> imgIds = Lists.newArrayList(
-			"28186325",
-			"36462611",
-			"292901966",
-			"307403214",
-			"263470102",
-			"26297181",
-			"297715922",
-			"58604214"
-	);
+	List<String> imgIds = Lists.newArrayList();
 
-	List<String> imgBiZhiIds = Lists.newArrayList(
-			"304706190",
-			"305114445"
-	);
+	List<String> imgBiZhiIds = Lists.newArrayList();
 }

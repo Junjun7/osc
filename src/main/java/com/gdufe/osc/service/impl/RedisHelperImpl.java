@@ -19,7 +19,6 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 
 	@Override
 	public V get(String key, Class<V> clazz) {
-
 		byte[] execute = redisTemplate.execute((RedisCallback<byte[]>)
 				conn -> conn.get(key.getBytes()));
 		if (execute == null) {
@@ -42,7 +41,6 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 
 	@Override
 	public Boolean set(String key, V value) {
-
 		String json = JSON.toJSONString(value);
 		Boolean execute = redisTemplate.execute((RedisCallback<Boolean>) conn ->
 				conn.set(key.getBytes(), json.getBytes()));
@@ -51,7 +49,6 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 
 	@Override
 	public Boolean setEx(String key, Long seconds, V value) {
-
 		String json = JSON.toJSONString(value);
 		Boolean execute = redisTemplate.execute((RedisCallback<Boolean>) conn ->
 				conn.setEx(key.getBytes(), seconds, json.getBytes()));
@@ -60,7 +57,6 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 
 	@Override
 	public Boolean isExist(String key) {
-
 		boolean flag = redisTemplate.execute((RedisCallback<Boolean>) conn ->
 				conn.exists(key.getBytes()));
 		return flag;
