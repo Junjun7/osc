@@ -1,5 +1,6 @@
 package com.gdufe.osc.service;
 
+import com.gdufe.osc.entity.DownloadImg;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface ZhiHuSpider {
 	List<String> imgIds = Lists.newArrayList();
 
 	List<String> imgBiZhiIds = Lists.newArrayList();
+
+	List<DownloadImg> listDownloadImg();
 }

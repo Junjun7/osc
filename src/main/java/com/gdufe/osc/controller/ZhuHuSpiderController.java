@@ -1,6 +1,7 @@
 package com.gdufe.osc.controller;
 
 import com.gdufe.osc.common.OscResult;
+import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.ZhiHuSpider;
 import org.apache.commons.lang3.StringUtils;
@@ -31,9 +32,18 @@ public class ZhuHuSpiderController {
 		}
 		List<String> imgList = zhiHuSpider.getImg(offset, limit, type);
 		if (CollectionUtils.isEmpty(imgList)) {
-			new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
+			return new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
 		}
 		return new OscResult<List<String>>().success(imgList);
+	}
+
+	@RequestMapping(value = "/download/img", method = RequestMethod.GET)
+	public OscResult<List<DownloadImg>> listDownloadImg() {
+		List<DownloadImg> downloadImgs = zhiHuSpider.listDownloadImg();
+		if (CollectionUtils.isEmpty(downloadImgs)) {
+			return new OscResult<List<DownloadImg>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
+		}
+		return new OscResult<List<DownloadImg>>().success(downloadImgs);
 	}
 }
 

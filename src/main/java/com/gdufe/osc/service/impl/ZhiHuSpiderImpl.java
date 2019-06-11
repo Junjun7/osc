@@ -1,8 +1,10 @@
 package com.gdufe.osc.service.impl;
 
 import com.arronlong.httpclientutil.common.HttpHeader;
+import com.gdufe.osc.dao.DownloadImgDao;
 import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
+import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgBiZhi;
 import com.gdufe.osc.service.RedisHelper;
@@ -46,6 +48,8 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	private ImgBiZhiDao imgBiZhiDao;
 	@Autowired
 	private RedisHelper<String> redisHelper;
+	@Autowired
+	private DownloadImgDao downloadImgDao;
 
 	@Override
 	public List<String> getImg(Integer offset, Integer limit, String type) {
@@ -112,6 +116,11 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public List<DownloadImg> listDownloadImg() {
+		return downloadImgDao.listAllDownloadImg();
 	}
 
 	/**
