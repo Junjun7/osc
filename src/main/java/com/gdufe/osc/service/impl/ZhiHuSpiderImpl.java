@@ -97,7 +97,8 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
 	@Override
 	public void imgSpider() {
-		initIds();
+		// 初始化id，删除
+//		initIds();
 		for (String id : imgIds) {
 			try {
 				spider(id, LIMIT, "1");
