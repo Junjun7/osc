@@ -5,6 +5,7 @@ import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.IPUtils;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	/** 根据浏览器头进行限制 */
 	private static final String USERAGENT = "User-Agent";
 	private static final String CRAWLER = "crawler";
+
+	private static final Long DAY = 60 * 60 * 24L;
 
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
@@ -72,7 +75,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 				response.getWriter().print(JSON.toJSONString(result));
 				log.error("ip = {}, 请求过快，被限制", ip);
 				// 设置ip不过期 加入黑名单
-				redisHelper.set(ip, --cnt);
+				redisHelper.setEx(ip, DAY, --cnt);
 				return false;
 			}
 			log.info("ip = {}, {}s之内第{}次请求{}，参数为{}，通过", ip, TIME, cnt, url, param);

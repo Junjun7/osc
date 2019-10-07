@@ -29,6 +29,8 @@ public class FakeController {
 
 	private static final String RES = "我日，竟然刷我接口，我靠！！！";
 
+	private static final Long DAY = 60 * 60 * 24L;
+
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
 
@@ -68,7 +70,7 @@ public class FakeController {
 	private void addBlockIP(HttpServletRequest request) {
 		// 加入黑名单
 		String ip = IPUtils.getClientIp(request);
-		redisHelper.set(ip, 50);
+		redisHelper.setEx(ip, DAY, 50);
 	}
 }
 
