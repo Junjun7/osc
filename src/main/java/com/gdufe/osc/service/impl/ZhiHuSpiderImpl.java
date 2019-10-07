@@ -53,8 +53,6 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 
 	@Override
 	public List<String> getImg(Integer offset, Integer limit, String type) {
-		// 为了通过检测
-		type = "2";
 		offset = convertOffset(limit, type);
 		List<Img> imgs = Lists.newArrayList();
 		if ("1".equals(type)) {
