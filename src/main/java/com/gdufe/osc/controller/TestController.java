@@ -29,7 +29,6 @@ public class TestController {
 
 	@RequestMapping("/img/url")
 	public String getImgUrl() {
-
 		return "https://pic4.zhimg.com/50/v2-469b1192443fa2aa7359e92b625bad42_r.jpg";
 	}
 

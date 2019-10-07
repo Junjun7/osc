@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,7 +77,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 
 	/** 随机选择图片 */
 	private Integer convertOffset(int limit, String type) {
-		Random random = new Random();
+		ThreadLocalRandom random = ThreadLocalRandom.current();
 		int cnt = 1;
 		if ("1".equals(type)) {
 			cnt = Integer.parseInt(imgDao.countImg().toString());
