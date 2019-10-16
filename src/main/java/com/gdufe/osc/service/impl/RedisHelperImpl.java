@@ -39,17 +39,12 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 		return Integer.parseInt(cnt.toString());
 	}
 
-//	@Override
-//	public Boolean set(String key, V value) {
-//		String json = JSON.toJSONString(value);
-//		Boolean execute = redisTemplate.execute((RedisCallback<Boolean>) conn ->
-//				conn.set(key.getBytes(), json.getBytes()));
-//		return execute;
-//	}
-
 	@Override
 	public Boolean set(String key, V value) {
-		return true;
+		String json = JSON.toJSONString(value);
+		Boolean execute = redisTemplate.execute((RedisCallback<Boolean>) conn ->
+				conn.set(key.getBytes(), json.getBytes()));
+		return execute;
 	}
 
 	@Override

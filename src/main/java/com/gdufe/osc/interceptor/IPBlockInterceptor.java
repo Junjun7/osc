@@ -67,6 +67,10 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 		if (isExist) {
 			// 如果存在,直接cnt++
 			int cnt = redisHelper.incr(ip);
+			// 修复 incr的时候  key正好失效
+			if (cnt == 1) {
+				redisHelper.setEx(ip, TIME, 2);
+			}
 			if (cnt > IPBlockInterceptor.CNT) {
 				OscResult<String> result = new OscResult<>();
 				response.setCharacterEncoding("UTF-8");
@@ -81,7 +85,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 			log.info("ip = {}, {}s之内第{}次请求{}，参数为{}，通过", ip, TIME, cnt, url, param);
 		} else {
 			// 第一次访问
-			redisHelper.setEx(ip, IPBlockInterceptor.TIME, 1);
+			redisHelper.setEx(ip, TIME, 1);
 			log.info("ip = {}, {}s之内第1次请求{}，参数为{}，通过", ip, TIME, url, param);
 		}
 		return true;
