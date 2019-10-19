@@ -5,7 +5,6 @@ import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.IPUtils;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	/** 根据浏览器头进行限制 */
 	private static final String USERAGENT = "User-Agent";
 	private static final String CRAWLER = "crawler";
+	private static final String wechatMessage = "MicroMessenger";
 
 	private static final Long DAY = 60 * 60 * 24L;
 
@@ -41,9 +41,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		synchronized (lock) {
-			boolean checkAgent = checkAgent(request);
-			boolean checkIP = checkIP(request, response);
-			return checkAgent && checkIP;
+			return checkAgent(request) && checkIP(request, response);
 		}
 	}
 
@@ -53,6 +51,10 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		if (header.contains(CRAWLER)) {
+			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
+			return false;
+		}
+		if (!header.contains(wechatMessage)) {
 			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
 			return false;
 		}

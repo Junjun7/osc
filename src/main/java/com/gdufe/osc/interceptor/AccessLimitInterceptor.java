@@ -26,10 +26,8 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		/**
-		 * 这个记得加上lock
-		 * 不加lock，在每个线程的工作内存都有一个limit，起不到限流的作用了
-		 */
+		// 这个记得加上lock
+		// 不加lock，在每个线程的工作内存都有一个limit，起不到限流的作用了
 		synchronized (lock) {
 			boolean isOk = accessLimitService.tryAcquire();
 			if (isOk) {
