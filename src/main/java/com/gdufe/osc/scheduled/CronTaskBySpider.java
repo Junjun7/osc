@@ -48,7 +48,7 @@ public class CronTaskBySpider {
 	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
 	public void imgSpider() {
 		ImmutablePair<List<String>, List<String>> pair = initIds();
-		if (pair == null || CollectionUtils.isEmpty(pair.getLeft()) || CollectionUtils.isEmpty(pair.getRight())) {
+		if (pair == null) {
 			return;
 		}
 		List<String> imgIds = pair.getLeft();
@@ -82,8 +82,8 @@ public class CronTaskBySpider {
 		if (imageIds == null) {
 			return null;
 		}
-		List<String> imgIds = Lists.newArrayList(imageIds.getLink().split(","));
-		List<String> imgBiZhiIds = Lists.newArrayList(imageIds.getLinkname().split(","));
+		List<String> imgIds = Lists.newArrayList(StringUtils.split(imageIds.getLink(), ","));
+		List<String> imgBiZhiIds = Lists.newArrayList(StringUtils.split(imageIds.getLinkname(), ","));
 		log.info("imgIds = {}", imgIds);
 		log.info("imgBiZhiIds = {}", imgBiZhiIds);
 		return ImmutablePair.of(imgIds, imgBiZhiIds);
