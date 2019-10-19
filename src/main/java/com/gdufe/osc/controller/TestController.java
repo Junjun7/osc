@@ -1,11 +1,10 @@
 package com.gdufe.osc.controller;
 
 import com.gdufe.osc.entity.AccessToken;
+import com.gdufe.osc.scheduled.CronTaskBySpider;
 import com.gdufe.osc.service.RedisHelper;
-import com.gdufe.osc.service.ZhiHuSpider;
 import com.gdufe.osc.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +19,7 @@ public class TestController {
 	@Autowired
 	private RedisHelper<AccessToken> redisHelper;
 	@Autowired
-	private ZhiHuSpider zhiHuSpider;
+	private CronTaskBySpider cronTaskBySpider;
 
 	@RequestMapping(value = "/")
 	public String index() {
@@ -34,7 +33,7 @@ public class TestController {
 
 	@RequestMapping("/zhihu")
 	public String zhiHu() {
-		zhiHuSpider.imgSpider();
+		cronTaskBySpider.imgSpider();
 		return "ok";
 	}
 

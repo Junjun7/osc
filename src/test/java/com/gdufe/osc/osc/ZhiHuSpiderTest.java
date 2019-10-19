@@ -1,12 +1,8 @@
 package com.gdufe.osc.osc;
 
-import com.gdufe.osc.entity.TweetListDetails;
-import com.gdufe.osc.service.TweetListService;
-import com.gdufe.osc.service.ZhiHuSpider;
+import com.gdufe.osc.scheduled.CronTaskBySpider;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * @author: yizhen
@@ -15,10 +11,10 @@ import java.util.List;
 public class ZhiHuSpiderTest extends OscApplicationTests {
 
 	@Autowired
-	private ZhiHuSpider zhiHuSpider;
+	private CronTaskBySpider cronTaskBySpider;
 
 	@Test
 	public void insertImgTest() {
-		zhiHuSpider.imgSpider();
+		cronTaskBySpider.imgSpider();
 	}
 }

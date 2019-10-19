@@ -9,4 +9,6 @@ import java.util.List;
 public interface DownloadImgDao {
 
 	List<DownloadImg> listAllDownloadImg();
+
+	DownloadImg getImageIds();
 }

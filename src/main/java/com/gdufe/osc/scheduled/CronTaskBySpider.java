@@ -1,8 +1,10 @@
 package com.gdufe.osc.scheduled;
 
 import com.arronlong.httpclientutil.common.HttpHeader;
+import com.gdufe.osc.dao.DownloadImgDao;
 import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
+import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -37,13 +40,15 @@ public class CronTaskBySpider {
 	private ImgDao imgDao;
 	@Autowired
 	private ImgBiZhiDao imgBiZhiDao;
+	@Autowired
+	private DownloadImgDao downloadImgDao;
 
 	/** 每天凌晨3点执行爬虫 */
 	@Scheduled(cron = "0 30 3 * * ?")
 	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
 	public void imgSpider() {
 		ImmutablePair<List<String>, List<String>> pair = initIds();
-		if (pair == null) {
+		if (pair == null || CollectionUtils.isEmpty(pair.getLeft()) || CollectionUtils.isEmpty(pair.getRight())) {
 			return;
 		}
 		List<String> imgIds = pair.getLeft();
@@ -73,7 +78,15 @@ public class CronTaskBySpider {
 	 * @return
 	 */
 	private ImmutablePair<List<String>, List<String>> initIds() {
-		return null;
+		DownloadImg imageIds = downloadImgDao.getImageIds();
+		if (imageIds == null) {
+			return null;
+		}
+		List<String> imgIds = Lists.newArrayList(imageIds.getLink().split(","));
+		List<String> imgBiZhiIds = Lists.newArrayList(imageIds.getLinkname().split(","));
+		log.info("imgIds = {}", imgIds);
+		log.info("imgBiZhiIds = {}", imgBiZhiIds);
+		return ImmutablePair.of(imgIds, imgBiZhiIds);
 	}
 
 	/**
@@ -83,7 +96,7 @@ public class CronTaskBySpider {
 	 * @param limit
 	 * @param type
 	 */
-	public void spider(String id, String limit, String type) {
+	private void spider(String id, String limit, String type) {
 		// 统计更新了多少
 		int cnt = 0;
 		String url = getRealUrl(id, limit);
