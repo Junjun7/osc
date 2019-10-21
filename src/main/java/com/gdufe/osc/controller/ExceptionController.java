@@ -2,7 +2,7 @@ package com.gdufe.osc.controller;
 
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
-import com.gdufe.osc.scheduled.CronTask;
+import com.gdufe.osc.scheduled.CronTaskByFreshToken;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,7 @@ import java.io.IOException;
 public class ExceptionController {
 
 	@Autowired
-	private CronTask cronTask;
+	private CronTaskByFreshToken cronTaskByFreshToken;
 	@Autowired
 	private WeChatNoticeUtils weChatNoticeUtils;
 
@@ -38,7 +38,7 @@ public class ExceptionController {
 		// token失效
 		if (throwable instanceof NullPointerException || throwable instanceof IOException) {
 			try {
-				cronTask.refreshCache();
+				cronTaskByFreshToken.refreshCache();
 			} catch (Exception e) {
 				log.error("osc接口出现问题 ==> " + e);
 			}

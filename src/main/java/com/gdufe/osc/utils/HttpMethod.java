@@ -6,6 +6,7 @@ import com.arronlong.httpclientutil.common.HttpHeader;
 import com.arronlong.httpclientutil.exception.HttpProcessException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
@@ -26,6 +27,7 @@ import java.util.Map;
  * @Date: 2018/10/3
  */
 @Component
+@Slf4j
 public class HttpMethod {
 
 	private HttpMethod() {}
@@ -36,7 +38,7 @@ public class HttpMethod {
 		try {
 			content = HttpClientUtil.get(config.url(url));
 		} catch (HttpProcessException e) {
-			//e.printStackTrace();
+			log.error("get请求失败，message: {}", e.getMessage());
 		}
 		return content;
 	}
@@ -46,7 +48,7 @@ public class HttpMethod {
 		try {
 			content = HttpClientUtil.get(null, url, headers, null, null);
 		} catch (HttpProcessException e) {
-			//e.printStackTrace();
+			log.error("get请求失败，message: {}", e.getMessage());
 		}
 		return content;
 	}
@@ -56,7 +58,7 @@ public class HttpMethod {
 		try {
 			content = HttpClientUtil.post(null, url, headers, map, null, null);
 		} catch (HttpProcessException e) {
-			e.printStackTrace();
+			log.error("post请求失败，message: {}", e.getMessage());
 		}
 		return content;
 	}
@@ -76,7 +78,7 @@ public class HttpMethod {
 		try {
 			content = HttpClientUtil.post(config);
 		} catch (HttpProcessException e) {
-			e.printStackTrace();
+			log.error("post请求失败，message: {}", e.getMessage());
 		}
 		return content;
 	}

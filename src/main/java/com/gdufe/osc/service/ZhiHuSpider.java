@@ -21,13 +21,5 @@ public interface ZhiHuSpider {
 	 */
 	List<String> getImg(Integer offset, Integer limit, String type);
 
-	void imgSpider();
-
-	List<String> imgIds = Lists.newArrayList(
-//			"313825759"
-	);
-
-	List<String> imgBiZhiIds = Lists.newArrayList();
-
 	List<DownloadImg> listDownloadImg();
 }
