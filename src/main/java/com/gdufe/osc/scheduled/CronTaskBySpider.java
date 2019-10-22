@@ -101,7 +101,8 @@ public class CronTaskBySpider {
 		int cnt = 0;
 		String url = getRealUrl(id, limit);
 		String data = HttpMethod.get(url, getHeader());
-		if (StringUtils.isEmpty(data)) {
+		if (StringUtils.isEmpty(data) || data.contains("AuthenticationInvalidRequest")) {
+			log.error("返回数据为空，或者cookie失效。返回数据data：{}", data);
 			return;
 		}
 		Set<String> imgSet = Sets.newHashSet();
@@ -138,7 +139,7 @@ public class CronTaskBySpider {
 
 	private static Header[] getHeader() {
 		String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36";
-		String cookie = "_zap=e0f1dba9-efe7-4330-a1c1-c9d45fe69fb5; _xsrf=cgXpvPe5gh97OizglawHAcMySweuy4W3; d_c0=\"AACk_X453g6PThxxsQ_7notxelvG_M7f7dE=|1548211408\"; capsion_ticket=\"2|1:0|10:1553225862|14:capsion_ticket|44:MzBkOTI0NmE4MmNhNDliMGE3YzZhOGI0ZjgwMDAyZWU=|143aeb4c683a826fdf4439e7cd6ae94f567f9ff207d18b2842e33ac251b1231f\"; r_cap_id=\"ZWU2ZjI5MmQ2MTkzNGFlOThjMTU3ZjdkNjYxZDFlMGM=|1553225866|a9329a78eaaf130be83232a87697caba90f3b262\"; cap_id=\"OTAwZTRjMjIwMWRjNDQ3NDkzOTg0NDg3MmRjY2M2NDU=|1553225866|60199f89d4d37f78a8e59ce814d8a060d3471097\"; l_cap_id=\"Mjk3MmU4ZTIyOWFjNDRmMzkwODZjNTkyZWQ2MWFhMTY=|1553225866|f169cd2af8ce075ce3031cb4747f2981950cfeb1\"; z_c0=Mi4xdlUzZUFRQUFBQUFBQUtUOWZqbmVEaGNBQUFCaEFsVk5qcWFCWFFEWVFNdVVnUjRYU2hEUjM1ci1BenljcjVrQTZB|1553225870|f073c6b36eb31853c093a56f35d863c4f7f67b35; q_c1=11c689f9e21a4b0ca282984ea13da8ba|1553520013000|1548211446000; tst=r; tgw_l7_route=116a747939468d99065d12a386ab1c5f";
+		String cookie = "tgw_l7_route=7bacb9af7224ed68945ce419f4dea76d; _zap=ec860ed6-c726-404a-b137-0448fe654614; _xsrf=E0aPOcqmW3ggTDhccHzy8BfvD6wQSQEf; d_c0=\"AEDtM5xiPBCPTjqd6pwQhvgC0X5A1Rm_uQM=|1571710288\"; capsion_ticket=\"2|1:0|10:1571710288|14:capsion_ticket|44:MTcyNjdiMjY4YTQwNDc3ZWI2NWJhMTcyYjM2ZTY5MDM=|a1eea0e44b1fe86b908f1b5d6b995fa5e33be4dd70d1ac2e35477aa69c9ce3dc\"; l_n_c=1; r_cap_id=\"MDI5MWIyYmZjZWUwNDYzM2FhNjIwZGE4ZWQ3MDlmNGE=|1571710289|20aa72ae35910ba1a90033d8c9a73ec4f62c5710\"; cap_id=\"Nzk1NTBmM2JjYmJmNDUwOWE3YTc4Y2JkYjNhMzFhMmY=|1571710289|3de2d13909e08baeec9134f2f9b659472b41259d\"; l_cap_id=\"N2RmNzA3Y2Y5ZDM0NGRjYjgyZDUzNzY0ZmUxZWU4MjQ=|1571710289|0773d44889ba974e807e598f6eb8587bc391d260\"; n_c=1; z_c0=Mi4xdlUzZUFRQUFBQUFBUU8wem5HSThFQmNBQUFCaEFsVk5ZN09iWGdBMDl1OXR0YTRRWlpvYmd2QlZ2LUNPelQ1a01n|1571710307|9195cd6155797864b6586b4f1752fb903e174a1a; tst=f";
 		Header[] headers = HttpHeader.custom()
 				.userAgent(userAgent)
 				.cookie(cookie)
@@ -146,4 +147,10 @@ public class CronTaskBySpider {
 		return headers;
 	}
 
+	public static void main(String[] args) {
+		String url = PREFIX + "328457531" + SUFFIX + "10";
+		System.out.println(url);
+		String data = HttpMethod.get(url, getHeader());
+		System.out.println(data);
+	}
 }
