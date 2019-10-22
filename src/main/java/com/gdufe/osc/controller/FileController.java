@@ -29,6 +29,7 @@ public class FileController {
 			}
 			response.getOutputStream().write(bytes);
 			response.flushBuffer();
+			log.info("成功读取到了图片，位置为：{}", id);
 		} catch (IOException e) {
 			e.printStackTrace();
 			log.error("读取图片出错，message={}", e.getMessage());
