@@ -1,11 +1,11 @@
 package com.gdufe.osc.scheduled;
 
-import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.AccessToken;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.utils.CacheToken;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.base.Stopwatch;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +35,10 @@ public class CronTaskByFreshToken {
 		AccessToken accessToken = getAccessToken();
 		String newToken = accessToken.getAccessToken();
 		String newFreshToken = accessToken.getRefreshToken();
+		log.info("token：{}  -----  freshToken：{}", newToken, newFreshToken);
 		freshGuavaCache(newToken, newFreshToken);
 		freshRedisCache(newToken, newFreshToken);
 		long duration = stopwatch.elapsed(TimeUnit.MILLISECONDS);
-		log.info("token：{}  -----  freshToken：{}", newToken, newFreshToken);
 		log.info("refreshCache 执行花费时长： {}", duration);
 	}
 
@@ -51,7 +51,8 @@ public class CronTaskByFreshToken {
 			e.printStackTrace();
 		}
 		String data = HttpMethod.get(urlToken);
-		return JSON.parseObject(data, AccessToken.class);
+//		return JSON.parseObject(data, AccessToken.class);
+		return new Gson().fromJson(data, AccessToken.class);
 	}
 
 	private void freshGuavaCache(String newToken, String newFreshToken) {

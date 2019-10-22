@@ -1,10 +1,10 @@
 package com.gdufe.osc.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.IPUtils;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,8 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 				response.setCharacterEncoding("UTF-8");
 				response.setHeader("content-type", "application/json;charset=UTF-8");
 				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
-				response.getWriter().print(JSON.toJSONString(result));
+//				response.getWriter().print(JSON.toJSONString(result));
+				response.getWriter().print(new Gson().toJson(result));
 				log.error("ip = {}, 请求过快，被限制", ip);
 				// 设置ip不过期 加入黑名单
 				redisHelper.setEx(ip, DAY, --cnt);
