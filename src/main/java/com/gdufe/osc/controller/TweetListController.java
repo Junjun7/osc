@@ -6,7 +6,7 @@ import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.enums.TweetCodeEnum;
 import com.gdufe.osc.service.TweetListService;
-import org.apache.commons.lang3.StringUtils;
+import com.gdufe.osc.utils.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +46,7 @@ public class TweetListController {
 	public OscResult<List<TweetListDetails>> listUsersTweetList(
 			Integer page, Integer pageSize,
 			@PathVariable(value = "userId", required = false) String userId) {
-		if (StringUtils.isEmpty(userId)) {
+		if (!NumberUtils.isNumber(userId)) {
 			return new OscResult<List<TweetListDetails>>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		List<TweetListDetails> details =
@@ -58,7 +58,7 @@ public class TweetListController {
 	@RequestMapping(value = "/single/{tweetId}", method = RequestMethod.GET)
 	public OscResult<TweetListDetails> getSingleTweetList(
 			@PathVariable(value = "tweetId", required = false) String tweetId) {
-		if (StringUtils.isEmpty(tweetId)) {
+		if (!NumberUtils.isNumber(tweetId)) {
 			return new OscResult<TweetListDetails>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		TweetListDetails tweetList = tweetListService.getTweetList(tweetId);
