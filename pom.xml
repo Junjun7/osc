@@ -72,6 +72,11 @@
         <!--</dependency>-->
 
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.arronlong</groupId>
             <artifactId>httpclientutil</artifactId>
             <version>1.0.4</version>
