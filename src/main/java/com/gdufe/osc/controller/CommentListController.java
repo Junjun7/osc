@@ -3,6 +3,7 @@ package com.gdufe.osc.controller;
 import com.gdufe.osc.annotation.TimeWatch;
 import com.gdufe.osc.entity.CommentList;
 import com.gdufe.osc.service.CommentListService;
+import com.gdufe.osc.utils.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +25,7 @@ public class CommentListController {
 	@TimeWatch
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<CommentList> getCommentList(Integer id, Integer page, Integer pageSize) {
-		if (id == null) {
+		if (!NumberUtils.isNumber(id + "")) {
 			return Collections.EMPTY_LIST;
 		}
 		return commentListService.getCommentList(id, page, pageSize);

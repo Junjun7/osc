@@ -32,15 +32,18 @@ public class InterceptorConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(accessLimitInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/spring/**");
+				.excludePathPatterns("/spring/**")
+				.excludePathPatterns("/task/**");
 
 		registry.addInterceptor(tokenInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/spring/**");
+				.excludePathPatterns("/spring/**")
+				.excludePathPatterns("/task/**");
 
 		registry.addInterceptor(ipBlockInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/spring/**");
+				.excludePathPatterns("/spring/**")
+				.excludePathPatterns("/task/**");
 	}
 }
 
