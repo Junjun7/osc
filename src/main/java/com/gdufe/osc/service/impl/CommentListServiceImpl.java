@@ -1,11 +1,11 @@
 package com.gdufe.osc.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.CommentList;
 import com.gdufe.osc.entity.CommentListMore;
 import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.CommentListService;
 import com.gdufe.osc.utils.HttpMethod;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,8 @@ public class CommentListServiceImpl implements CommentListService {
 		if (StringUtils.isEmpty(commentList)) {
 			return null;
 		}
-		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
+//		CommentListMore commentListMore = JSON.parseObject(commentList, CommentListMore.class);
+		CommentListMore commentListMore = new Gson().fromJson(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
 		if (CollectionUtils.isEmpty(commentLists)) {
 			return null;

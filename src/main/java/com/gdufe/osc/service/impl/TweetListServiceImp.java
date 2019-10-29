@@ -1,6 +1,5 @@
 package com.gdufe.osc.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.TweetList;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.entity.TweetListMore;
@@ -8,6 +7,7 @@ import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -73,7 +73,8 @@ public class TweetListServiceImp implements TweetListService {
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
-		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
+//		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
+		TweetListDetails details = new Gson().fromJson(data, TweetListDetails.class);
 		filterFormat(details);
 		if (!CollectionUtils.isEmpty(details.getImgSmall()) && !CollectionUtils.isEmpty(details.getImgBig())) {
 			details = filterImg(details);
@@ -153,7 +154,8 @@ public class TweetListServiceImp implements TweetListService {
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
-		TweetListMore tweetListMore = JSON.parseObject(data, TweetListMore.class);
+//		TweetListMore tweetListMore = JSON.parseObject(data, TweetListMore.class);
+		TweetListMore tweetListMore = new Gson().fromJson(data, TweetListMore.class);
 		List<TweetList> lists = tweetListMore.getTweetlist();
 		List<Integer> ids = Lists.newArrayList();
 		lists.forEach(x -> {

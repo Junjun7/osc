@@ -1,9 +1,9 @@
 package com.gdufe.osc.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.AccessLimitService;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -39,7 +39,8 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
 				response.setCharacterEncoding("UTF-8");
 				response.setHeader("content-type", "application/json;charset=UTF-8");
-				response.getWriter().print(JSON.toJSONString(result));
+//				response.getWriter().print(JSON.toJSONString(result));
+				response.getWriter().print(new Gson().toJson(result));
 				return false;
 			}
 		}
