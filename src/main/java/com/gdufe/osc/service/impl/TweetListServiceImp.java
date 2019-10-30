@@ -74,7 +74,7 @@ public class TweetListServiceImp implements TweetListService {
 			return null;
 		}
 //		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
-		TweetListDetails details = new Gson().fromJson(data, TweetListDetails.class);
+		TweetListDetails details = new Gson().fromJson(data, TweetListDetails.class); // 这个imgBig String转化List有异常 回去改改
 		filterFormat(details);
 		if (!CollectionUtils.isEmpty(details.getImgSmall()) && !CollectionUtils.isEmpty(details.getImgBig())) {
 			details = filterImg(details);
