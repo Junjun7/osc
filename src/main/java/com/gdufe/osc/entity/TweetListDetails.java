@@ -19,6 +19,10 @@ public class TweetListDetails extends TweetList {
 
 	private List<String> imgSmall;
 
+	private String imgBigStr;
+
+	private String imgSmallStr;
+
 }
 
 
