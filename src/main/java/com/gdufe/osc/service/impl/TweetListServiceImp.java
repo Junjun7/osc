@@ -1,5 +1,6 @@
 package com.gdufe.osc.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.TweetList;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.entity.TweetListMore;
@@ -73,8 +74,8 @@ public class TweetListServiceImp implements TweetListService {
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
-//		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
-		TweetListDetails details = new Gson().fromJson(data, TweetListDetails.class); // 这个imgBig String转化List有异常 回去改改
+		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
+//		TweetListDetails details = new Gson().fromJson(data, TweetListDetails.class); // 这个imgBig String转化List有异常 回去改改
 		filterFormat(details);
 		if (!CollectionUtils.isEmpty(details.getImgSmall()) && !CollectionUtils.isEmpty(details.getImgBig())) {
 			details = filterImg(details);
