@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
-import sun.rmi.runtime.Log;
 
 /**
  * @author: yizhen
