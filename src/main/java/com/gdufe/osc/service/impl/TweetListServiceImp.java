@@ -1,6 +1,5 @@
 package com.gdufe.osc.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.TweetList;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.entity.TweetListMore;
@@ -32,6 +31,8 @@ public class TweetListServiceImp implements TweetListService {
 
 	@Autowired
 	private CacheHelper<TweetListDetails> cacheHelper;
+
+	private Gson gson = new Gson();
 
 	@Override
 	public List<TweetListDetails> listTweetList(int page, int pageSize, String user) {
@@ -77,7 +78,7 @@ public class TweetListServiceImp implements TweetListService {
 		// 为兼容Gson，做一个过滤
 		data = transferData(data);
 //		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
-		TweetListDetails details = new Gson().fromJson(data, TweetListDetails.class);
+		TweetListDetails details = gson.fromJson(data, TweetListDetails.class);
 		filterFormat(details);
 		if (!StringUtils.isEmpty(details.getImgSmallStr()) && !StringUtils.isEmpty(details.getImgBigStr())) {
 			details = filterImg(details);
@@ -163,7 +164,7 @@ public class TweetListServiceImp implements TweetListService {
 			return null;
 		}
 //		TweetListMore tweetListMore = JSON.parseObject(data, TweetListMore.class);
-		TweetListMore tweetListMore = new Gson().fromJson(data, TweetListMore.class);
+		TweetListMore tweetListMore = gson.fromJson(data, TweetListMore.class);
 		List<TweetList> lists = tweetListMore.getTweetlist();
 		List<Integer> ids = Lists.newArrayList();
 		lists.forEach(x -> {

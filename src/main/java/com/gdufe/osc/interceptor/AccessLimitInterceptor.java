@@ -39,7 +39,6 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
 				response.setCharacterEncoding("UTF-8");
 				response.setHeader("content-type", "application/json;charset=UTF-8");
-//				response.getWriter().print(JSON.toJSONString(result));
 				response.getWriter().print(new Gson().toJson(result));
 				return false;
 			}

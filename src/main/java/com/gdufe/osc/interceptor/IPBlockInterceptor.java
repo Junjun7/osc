@@ -41,7 +41,16 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		synchronized (lock) {
-			return checkAgent(request) && checkIP(request, response);
+			if (checkAgent(request) && checkIP(request, response)) {
+				return true;
+			} else {
+				OscResult<String> result = new OscResult<>();
+				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("content-type", "application/json;charset=UTF-8");
+				response.getWriter().print(new Gson().toJson(result));
+				return false;
+			}
 		}
 	}
 
