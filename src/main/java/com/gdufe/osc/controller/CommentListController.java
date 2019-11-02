@@ -26,7 +26,7 @@ public class CommentListController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<CommentList> getCommentList(Integer id, Integer page, Integer pageSize) {
 		if (!NumberUtils.isNumber(id + "")) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		return commentListService.getCommentList(id, page, pageSize);
 	}

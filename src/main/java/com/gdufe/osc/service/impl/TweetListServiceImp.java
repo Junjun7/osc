@@ -1,6 +1,5 @@
 package com.gdufe.osc.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.gdufe.osc.entity.TweetList;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.entity.TweetListMore;
@@ -32,6 +31,8 @@ public class TweetListServiceImp implements TweetListService {
 
 	@Autowired
 	private CacheHelper<TweetListDetails> cacheHelper;
+
+	private Gson gson = new Gson();
 
 	@Override
 	public List<TweetListDetails> listTweetList(int page, int pageSize, String user) {
@@ -74,14 +75,20 @@ public class TweetListServiceImp implements TweetListService {
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
-		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
-//		TweetListDetails details = new Gson().fromJson(data, TweetListDetails.class); // 这个imgBig String转化List有异常 回去改改
+		// 为兼容Gson，做一个过滤
+		data = transferData(data);
+		TweetListDetails details = gson.fromJson(data, TweetListDetails.class);
 		filterFormat(details);
-		if (!CollectionUtils.isEmpty(details.getImgSmall()) && !CollectionUtils.isEmpty(details.getImgBig())) {
+		if (!StringUtils.isEmpty(details.getImgSmallStr()) && !StringUtils.isEmpty(details.getImgBigStr())) {
 			details = filterImg(details);
 		}
 		cacheHelper.put(url, details);
 		return details;
+	}
+
+	private String transferData(String data) {
+		data = data.replaceAll("imgBig", "imgBigStr");
+		return data.replaceAll("imgSmall", "imgSmallStr");
 	}
 
 	/**
@@ -132,7 +139,7 @@ public class TweetListServiceImp implements TweetListService {
 
 	private TweetListDetails filterImg(TweetListDetails details) {
 		List<String> imgList = Lists.newArrayList();
-		String[] smallImg = details.getImgSmall().get(0).split("https");
+		String[] smallImg = details.getImgSmallStr().split("https");
 		for (int i = 2; i < smallImg.length; i++) {
 			smallImg[i] = smallImg[i].replaceAll(",", "");
 			imgList.add("https" + smallImg[i]);
@@ -140,7 +147,7 @@ public class TweetListServiceImp implements TweetListService {
 		details.setImgSmall(imgList);
 
 		imgList = Lists.newArrayList();
-		String[] bigImg = details.getImgBig().get(0).split("https");
+		String[] bigImg = details.getImgBigStr().split("https");
 		for (int i = 2; i < bigImg.length; i++) {
 			bigImg[i] = bigImg[i].replaceAll(",", "");
 			imgList.add("https" + bigImg[i]);
@@ -155,8 +162,7 @@ public class TweetListServiceImp implements TweetListService {
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
-//		TweetListMore tweetListMore = JSON.parseObject(data, TweetListMore.class);
-		TweetListMore tweetListMore = new Gson().fromJson(data, TweetListMore.class);
+		TweetListMore tweetListMore = gson.fromJson(data, TweetListMore.class);
 		List<TweetList> lists = tweetListMore.getTweetlist();
 		List<Integer> ids = Lists.newArrayList();
 		lists.forEach(x -> {
