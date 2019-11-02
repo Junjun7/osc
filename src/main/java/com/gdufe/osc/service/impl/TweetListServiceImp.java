@@ -77,7 +77,6 @@ public class TweetListServiceImp implements TweetListService {
 		}
 		// 为兼容Gson，做一个过滤
 		data = transferData(data);
-//		TweetListDetails details = JSON.parseObject(data, TweetListDetails.class);
 		TweetListDetails details = gson.fromJson(data, TweetListDetails.class);
 		filterFormat(details);
 		if (!StringUtils.isEmpty(details.getImgSmallStr()) && !StringUtils.isEmpty(details.getImgBigStr())) {
@@ -163,7 +162,6 @@ public class TweetListServiceImp implements TweetListService {
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
-//		TweetListMore tweetListMore = JSON.parseObject(data, TweetListMore.class);
 		TweetListMore tweetListMore = gson.fromJson(data, TweetListMore.class);
 		List<TweetList> lists = tweetListMore.getTweetlist();
 		List<Integer> ids = Lists.newArrayList();

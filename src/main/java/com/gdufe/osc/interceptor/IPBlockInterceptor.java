@@ -87,7 +87,6 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 				response.setCharacterEncoding("UTF-8");
 				response.setHeader("content-type", "application/json;charset=UTF-8");
 				result = result.fail(OscResultEnum.LIMIT_EXCEPTION);
-//				response.getWriter().print(JSON.toJSONString(result));
 				response.getWriter().print(new Gson().toJson(result));
 				log.error("ip = {}, 请求过快，被限制", ip);
 				// 设置ip不过期 加入黑名单
