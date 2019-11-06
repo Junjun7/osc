@@ -1,15 +1,12 @@
 package com.gdufe.osc.zhihu;
 
 import com.gdufe.osc.OscApplicationTests;
-import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.controller.ZhuHuSpiderController;
 import com.gdufe.osc.scheduled.CronTaskBySpider;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * @author changwenbo
