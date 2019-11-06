@@ -2,7 +2,7 @@
 此项目最初为毕业设计。由于想法很好，并发到了论坛，使得此小程序的用户量十分的不错。
 每天的日活基本上千，因此想要把这个项目做的很好。所以我的毕生所学基本全部用到了这个项目中去了。
 
-<div align=center><img width="800" height="400" src="https://img2018.cnblogs.com/blog/1335795/201906/1335795-20190601160840599-2092493065.png"/></div>
+<div align=center><img width="800" height="400" src="https://pic3.zhimg.com/50/v2-da6da524058663df27cac25321d8a8a6_r.jpg"/></div>
 
 # 技术
 - Springboot启动初始化参数。可参考init包下面
