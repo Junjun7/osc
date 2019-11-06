@@ -24,7 +24,6 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 		if (execute == null) {
 			return null;
 		}
-//		return JSON.parseObject(execute, clazz);
 		return new Gson().fromJson(new String(execute), clazz);
 	}
 
@@ -42,7 +41,6 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 
 	@Override
 	public Boolean set(String key, V value) {
-//		String json = JSON.toJSONString(value);
 		String json = new Gson().toJson(value);
 		Boolean execute = redisTemplate.execute((RedisCallback<Boolean>) conn ->
 				conn.set(key.getBytes(), json.getBytes()));
@@ -51,7 +49,6 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 
 	@Override
 	public Boolean setEx(String key, Long seconds, V value) {
-//		String json = JSON.toJSONString(value);
 		String json = new Gson().toJson(value);
 		Boolean execute = redisTemplate.execute((RedisCallback<Boolean>) conn ->
 				conn.setEx(key.getBytes(), seconds, json.getBytes()));

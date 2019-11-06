@@ -1,5 +1,6 @@
 package com.gdufe.osc.osc;
 
+import com.gdufe.osc.OscApplicationTests;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.service.TweetListService;
 import org.junit.Test;
