@@ -47,7 +47,7 @@ public class ExceptionController {
 			return new OscResult<String>().fail(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		// 缺少字段
-		if (throwable instanceof IllegalStateException) {
+		if (throwable instanceof IllegalStateException || throwable instanceof NumberFormatException) {
 			weChatNoticeUtils.setMessage(msg);
 			log.error(throwable + "");
 			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
