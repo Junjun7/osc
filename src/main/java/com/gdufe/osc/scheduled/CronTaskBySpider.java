@@ -6,6 +6,7 @@ import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.utils.HttpMethod;
+import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
@@ -103,6 +104,7 @@ public class CronTaskBySpider {
 		String data = HttpMethod.get(url, getHeader());
 		if (StringUtils.isEmpty(data) || data.contains("AuthenticationInvalidRequest")) {
 			log.error("返回数据为空，或者cookie失效。返回数据data：{}", data);
+			WeChatNoticeUtils.setMessage("爬虫失败", "返回数据为空，或者cookie失效。返回数据data：" + data);
 			return;
 		}
 		Set<String> imgSet = Sets.newHashSet();
