@@ -2,7 +2,7 @@ package com.gdufe.osc.conf;
 
 import com.gdufe.osc.interceptor.AccessLimitInterceptor;
 import com.gdufe.osc.interceptor.IPBlockInterceptor;
-import com.gdufe.osc.interceptor.TokenInterceptor;
+import com.gdufe.osc.interceptor.LogInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,18 +24,19 @@ public class InterceptorConfig implements WebMvcConfigurer {
 		return new IPBlockInterceptor();
 	}
 	@Bean
-	public TokenInterceptor tokenInterceptor() {
-		return new TokenInterceptor();
+	public LogInterceptor logInterceptor() {
+		return new LogInterceptor();
 	}
 
 	// 配置拦截规则
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(accessLimitInterceptor())
+
+		registry.addInterceptor(logInterceptor())
 				.addPathPatterns("/**")
 				.excludePathPatterns("/spring/**")
 				.excludePathPatterns("/task/**");
 
-		registry.addInterceptor(tokenInterceptor())
+		registry.addInterceptor(accessLimitInterceptor())
 				.addPathPatterns("/**")
 				.excludePathPatterns("/spring/**")
 				.excludePathPatterns("/task/**");

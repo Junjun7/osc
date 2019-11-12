@@ -4,6 +4,7 @@ import com.gdufe.osc.entity.AccessToken;
 import com.gdufe.osc.scheduled.CronTaskBySpider;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.TokenUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author: yizhen
  * @Date: 2018/12/6 11:49
  */
+@Slf4j
 @RestController
 @RequestMapping("/prefix")
 public class TestController {
@@ -23,6 +25,7 @@ public class TestController {
 
 	@RequestMapping(value = "/")
 	public String index() {
+		log.info("Test");
 		return "我日，竟然刷我接口，我靠！！！";
 	}
 
