@@ -39,8 +39,7 @@ public class WeChatNoticeUtils {
 		Map<String, Object> data = Maps.newHashMap();
 		fillDataMap(data, title, content);
 		res.put("data", data);
-		HttpConfig config = getHttpConfig(URL, new Gson().toJson(res));
-		String post = HttpMethod.post(config);
+		String post = HttpHelper.post(URL, new Gson().toJson(res));
 		if (StringUtils.isNotEmpty(post) && post.contains("200")) {
 			return true;
 		}

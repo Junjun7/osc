@@ -3,7 +3,7 @@ package com.gdufe.osc.scheduled;
 import com.gdufe.osc.entity.AccessToken;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.utils.CacheToken;
-import com.gdufe.osc.utils.HttpMethod;
+import com.gdufe.osc.utils.HttpHelper;
 import com.google.common.base.Stopwatch;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,15 +42,10 @@ public class CronTaskByFreshToken {
 	}
 
 	private AccessToken getAccessToken() {
-		String urlToken = null;
-		try {
-			urlToken = URL + HttpMethod.getCode();
-			log.info("code = {}", StringUtils.substringAfter(urlToken, "code="));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String data = HttpMethod.get(urlToken);
-//		return JSON.parseObject(data, AccessToken.class);
+		String urlToken = "";
+		urlToken = URL + HttpHelper.getCode();
+		log.info("code = {}", StringUtils.substringAfter(urlToken, "code="));
+		String data = HttpHelper.get(urlToken);
 		return new Gson().fromJson(data, AccessToken.class);
 	}
 
