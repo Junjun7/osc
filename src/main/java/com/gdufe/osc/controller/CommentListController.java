@@ -24,11 +24,11 @@ public class CommentListController {
 
 	@TimeWatch
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public List<CommentList> getCommentList(Integer id, Integer page, Integer pageSize) {
-		if (!NumberUtils.isNumber(id + "")) {
+	public List<CommentList> getCommentList(String id, Integer page, Integer pageSize) {
+		if (!NumberUtils.isNumber(id)) {
 			return Collections.emptyList();
 		}
-		return commentListService.getCommentList(id, page, pageSize);
+		return commentListService.getCommentList(NumberUtils.toInt(id), page, pageSize);
 	}
 }
 

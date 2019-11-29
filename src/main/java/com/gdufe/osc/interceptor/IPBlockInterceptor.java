@@ -63,7 +63,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
 			return false;
 		}
-		if (!header.contains(wechatMessage)) {
+		if (!header.contains(wechatMessage) && !"0:0:0:0:0:0:0:1".equals(IPUtils.getClientIp(request))) {
 			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
 			return false;
 		}

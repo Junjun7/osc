@@ -39,3 +39,11 @@
 ## 《知乎爬虫》
 爬取知乎热门的提问的图片，放到小程序中。可参考**ZhuHuSpiderController**
 <div align=center><img width="200" height="200" src="https://pic2.zhimg.com/50/v2-4c1f2eff30128ff7ce009dfc7778a3e3_r.jpg"/></div>
+
+# 测试
+深知测试的重要性，因此尽量做到代码90%以上的全覆盖。(10%有一些测试不到，比如异常，依赖其他服务等等)
+
+## 业务层Serivice
+<div align=center><img width="1000" height="500" src="https://raw.githubusercontent.com/wenbochang888/osc/test/src/main/resources/img/ImplTest1.png"/></div>
+<br/>
+<div align=center><img width="1000" height="500" src="https://raw.githubusercontent.com/wenbochang888/osc/test/src/main/resources/img/ImplTest2.png"/></div>

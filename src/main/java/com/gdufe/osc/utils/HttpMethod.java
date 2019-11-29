@@ -43,6 +43,7 @@ public class HttpMethod {
 		return content;
 	}
 
+	@Deprecated
 	public static String get(String url, Header[] headers) {
 		String content = null;
 		try {
@@ -53,6 +54,7 @@ public class HttpMethod {
 		return content;
 	}
 
+	@Deprecated
 	public static String post(String url, Header[] headers, Map<String, Object> map) {
 		String content = null;
 		try {
@@ -63,6 +65,7 @@ public class HttpMethod {
 		return content;
 	}
 
+	@Deprecated
 	public static String post(String url, Map<String, Object> map) {
 		String content = null;
 		try {
@@ -73,6 +76,7 @@ public class HttpMethod {
 		return content;
 	}
 
+	@Deprecated
 	public static String post(HttpConfig config) {
 		String content = null;
 		try {
@@ -151,11 +155,6 @@ public class HttpMethod {
 	}
 
 	public static void main(String[] args) {
-		String url = "https://www.oschina.net/action/oauth2/authorize";
-		Header[] header = getHeader();
-		Map<String, Object> maps = getMaps();
-		String post = HttpMethod.post(url, header, maps);
-		System.out.println(post);
 	}
 }
 

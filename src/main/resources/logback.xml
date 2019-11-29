@@ -8,7 +8,7 @@
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
-                %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} - [%X{SPECIAL_INFO}] - %msg%n
+                 %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{sessionId}] %-5level - [%c java:%L] [%m]%n
             </pattern>
         </layout>
     </appender>
@@ -41,7 +41,7 @@
         <encoder>
             <charset>UTF-8</charset>
             <pattern>
-                %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{40} - [%X{SPECIAL_INFO}] - %msg%n
+                %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{sessionId}] %-5level - [%c java:%L] [%m]%n
             </pattern>
         </encoder>
     </appender>

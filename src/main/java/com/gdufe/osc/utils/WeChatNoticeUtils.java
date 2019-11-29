@@ -22,33 +22,31 @@ import java.util.Map;
 public class WeChatNoticeUtils {
 
 	@Value("${userIds}")
-	private String userIds;
+	private static String userIds;
 	@Value("${template_id}")
-	private String templateId;
+	private static String templateId;
 
 	private static final String URL = "http://wxmsg.dingliqc.com/send";
 
-	public Boolean setMessage(String content) {
+	public static Boolean setMessage(String content) {
 		return setMessage("", content);
 	}
 
-	public Boolean setMessage(String title, String content) {
+	public static Boolean setMessage(String title, String content) {
 		Map<String, Object> res = Maps.newHashMap();
 		res.put("userIds", Lists.newArrayList(userIds).toArray());
 		res.put("template_id", templateId);
 		Map<String, Object> data = Maps.newHashMap();
 		fillDataMap(data, title, content);
 		res.put("data", data);
-//		HttpConfig config = getHttpConfig(URL, JSON.toJSONString(res));
-		HttpConfig config = getHttpConfig(URL, new Gson().toJson(res));
-		String post = HttpMethod.post(config);
+		String post = HttpHelper.post(URL, new Gson().toJson(res));
 		if (StringUtils.isNotEmpty(post) && post.contains("200")) {
 			return true;
 		}
 		return false;
 	}
 
-	private HttpConfig getHttpConfig(String url, String data) {
+	private static HttpConfig getHttpConfig(String url, String data) {
 		Header[] headers = HttpHeader.custom()
 				.contentType("application/json")
 				.build();
@@ -59,7 +57,7 @@ public class WeChatNoticeUtils {
 		return config;
 	}
 
-	private void fillDataMap(Map<String, Object> data, String title, String content) {
+	private static void fillDataMap(Map<String, Object> data, String title, String content) {
 		// 标题
 		Map<String, String> titleMap = Maps.newHashMap();
 		titleMap.put("value", title);

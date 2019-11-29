@@ -1,4 +1,4 @@
-package com.gdufe.osc.osc;
+package com.gdufe.osc;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

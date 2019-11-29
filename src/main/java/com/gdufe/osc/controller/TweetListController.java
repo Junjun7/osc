@@ -28,14 +28,14 @@ public class TweetListController {
 	private TweetListService tweetListService;
 
 	@RequestMapping(value = "/newest", method = RequestMethod.GET)
-	public OscResult<List<TweetListDetails>> listNewestTweetList(Integer page, Integer pageSize) {
+	public OscResult<List<TweetListDetails>> listNewestTweetList(int page, int pageSize) {
 		List<TweetListDetails> details =
 				tweetListService.listTweetList(page, pageSize, TweetCodeEnum.NEWEST_TWEET_CODE.getCode());
 		return toRes(details);
 	}
 
 	@RequestMapping(value = "/hotest", method = RequestMethod.GET)
-	public OscResult<List<TweetListDetails>> listHotestTweetList(Integer page, Integer pageSize) {
+	public OscResult<List<TweetListDetails>> listHotestTweetList(int page, int pageSize) {
 		List<TweetListDetails> details =
 				tweetListService.listTweetList(page, pageSize, TweetCodeEnum.HOTEST_TWEET_CODE.getCode());
 		return toRes(details);
@@ -44,7 +44,7 @@ public class TweetListController {
 	@TimeWatch
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public OscResult<List<TweetListDetails>> listUsersTweetList(
-			Integer page, Integer pageSize,
+			int page, int pageSize,
 			@PathVariable(value = "userId", required = false) String userId) {
 		if (!NumberUtils.isNumber(userId)) {
 			return new OscResult<List<TweetListDetails>>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);

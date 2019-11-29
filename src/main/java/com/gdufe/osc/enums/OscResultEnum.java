@@ -12,7 +12,7 @@ import lombok.Getter;
 public enum OscResultEnum {
 
 	SUCCESS("200", "请求成功"),
-	MISSING_PARAM_EXCEPTION("400", "缺少参数"),
+	MISSING_PARAM_EXCEPTION("400", "缺少参数，恶意访问接口"),
 	MISSING_RES_EXCEPTION("401", "缺少返回结果"),
 	NETWORK_EXCEPTION("500", "网络出错"),
 	LIMIT_EXCEPTION("501", "请不要刷接口"),
