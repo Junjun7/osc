@@ -27,7 +27,6 @@ public class SlaveDatasourceConfig extends BaseDatasourceConfig {
 	@Bean("slaveDataSource")
 	public DataSource slaveDataSource() {
 		Properties prop = buildProperties(slaveDatasourceDO());
-		System.out.println("Properties = " + prop);
 		HikariConfig hikariConfig = new HikariConfig(prop);
 		HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
 		return hikariDataSource;
