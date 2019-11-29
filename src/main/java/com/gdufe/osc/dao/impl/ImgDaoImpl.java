@@ -1,7 +1,7 @@
 package com.gdufe.osc.dao.impl;
 
 import com.gdufe.osc.dao.ImgDao;
-import com.gdufe.osc.dao.mapper.ImgMapper;
+import com.gdufe.osc.dao.mapper.master.ImgMapper;
 import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgExample;
 import org.springframework.beans.factory.annotation.Autowired;

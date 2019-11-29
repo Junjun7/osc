@@ -9,10 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableCaching
-@MapperScan(value = OscApplication.PACKAGE)
 public class OscApplication {
-
-	public static final String PACKAGE = "com.gdufe.osc.dao.mapper";
 
 	public static void main(String[] args) {
 

@@ -1,13 +1,9 @@
 package com.gdufe.osc.dao.impl;
 
 import com.gdufe.osc.dao.ImgBiZhiDao;
-import com.gdufe.osc.dao.ImgDao;
-import com.gdufe.osc.dao.mapper.ImgBiZhiMapper;
-import com.gdufe.osc.dao.mapper.ImgMapper;
-import com.gdufe.osc.entity.Img;
+import com.gdufe.osc.dao.mapper.master.ImgBiZhiMapper;
 import com.gdufe.osc.entity.ImgBiZhi;
 import com.gdufe.osc.entity.ImgBiZhiExample;
-import com.gdufe.osc.entity.ImgExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;

@@ -8,7 +8,7 @@
     <properties resource="application.properties"/>
 
     <!--数据库驱动-->
-    <classPathEntry location="C:\Users\yizhen\.m2\repository\mysql\mysql-connector-java\8.0.15\mysql-connector-java-8.0.15.jar"/>
+    <classPathEntry location="C:\Users\changwenbo\.m2\repository\mysql\mysql-connector-java\8.0.15\mysql-connector-java-8.0.15.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
 
@@ -41,17 +41,17 @@
         </javaModelGenerator>
 
         <!--生成映射文件XML存放位置-->
-        <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="${mybatis.generate.resource.target}">
+        <sqlMapGenerator targetPackage="mybatis.mapper.slave" targetProject="${mybatis.generate.resource.target}">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!--生成Dao类存放位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.gdufe.osc.dao.mapper" targetProject="${mybatis.generate.java.target}">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.gdufe.osc.dao.mapper.slave" targetProject="${mybatis.generate.java.target}">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <!--生成对应表及类名-->
-        <table tableName="download_img" domainObjectName="DownloadImg"></table>
+        <table tableName="seckill" domainObjectName="Seckill"></table>
 
     </context>
 </generatorConfiguration>
