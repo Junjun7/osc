@@ -35,6 +35,7 @@ public class ImgDaoImpl implements ImgDao {
 	@Cacheable(value = "zhiHuImg", key = "#offset+#limit")
 	@Override
 	public List<Img> listImgLink(Integer offset, Integer limit) {
+		System.out.println("imgMapper = " + imgMapper);
 		ImgExample example = new ImgExample();
 		example.setOffset(offset);
 		example.setLimit(limit);

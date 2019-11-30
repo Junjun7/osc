@@ -1,7 +1,8 @@
 package com.gdufe.osc.dao.impl;
 
 import com.gdufe.osc.dao.ImgBiZhiDao;
-import com.gdufe.osc.dao.mapper.master.ImgBiZhiMapper;
+import com.gdufe.osc.dao.mapper.master.ImgBiZhiMapperMaster;
+import com.gdufe.osc.dao.mapper.slave.ImgBiZhiMapperSlave;
 import com.gdufe.osc.entity.ImgBiZhi;
 import com.gdufe.osc.entity.ImgBiZhiExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ import java.util.List;
 public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 
 	@Autowired
-	private ImgBiZhiMapper imgBiZhiMapper;
+	private ImgBiZhiMapperMaster imgBiZhiMapperMaster;
+
+	@Autowired
+	private ImgBiZhiMapperSlave imgBiZhiMapperSlave;
 
 	@Override
 	public int insertImgLink(String link) {
@@ -26,7 +30,7 @@ public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 		img.setLink(link);
 		int res = 0;
 		try {
-			res = imgBiZhiMapper.insertSelective(img);
+			res = imgBiZhiMapperMaster.insertSelective(img);
 		} finally {
 			return res > 0 ? 1 : 0;
 		}
@@ -35,18 +39,19 @@ public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 	@Cacheable(value = "zhiHuImgBiZhi", key = "#offset+#limit")
 	@Override
 	public List<ImgBiZhi> listImgLink(Integer offset, Integer limit) {
+		System.out.println("imgBiZhiMapperSlave = " + imgBiZhiMapperSlave);
 		ImgBiZhiExample example = new ImgBiZhiExample();
 		example.setOffset(offset);
 		example.setLimit(limit);
 		example.setOrderByClause("id DESC");
-		return imgBiZhiMapper.selectByExample(example);
+		return imgBiZhiMapperSlave.selectByExample(example);
 	}
 
 	@Cacheable(value = "zhiHuImgBiZhiCount")
 	@Override
 	public Long countImg() {
 		ImgBiZhiExample example = new ImgBiZhiExample();
-		return imgBiZhiMapper.countByExample(example);
+		return imgBiZhiMapperSlave.countByExample(example);
 	}
 }
 

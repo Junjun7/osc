@@ -1,6 +1,5 @@
 package com.gdufe.osc.dao;
 
-import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgBiZhi;
 import org.springframework.stereotype.Repository;
 
