@@ -32,10 +32,22 @@ public class ImgDaoImpl implements ImgDao {
 		}
 	}
 
+	@Override
+	public int insertImgLink(Long id, String link) {
+		Img img = new Img();
+		img.setLink(link);
+		img.setId(id);
+		int res = 0;
+		try {
+			res = imgMapper.insertSelective(img);
+		} finally {
+			return res > 0 ? 1 : 0;
+		}
+	}
+
 	@Cacheable(value = "zhiHuImg", key = "#offset+#limit")
 	@Override
 	public List<Img> listImgLink(Integer offset, Integer limit) {
-		System.out.println("imgMapper = " + imgMapper);
 		ImgExample example = new ImgExample();
 		example.setOffset(offset);
 		example.setLimit(limit);
