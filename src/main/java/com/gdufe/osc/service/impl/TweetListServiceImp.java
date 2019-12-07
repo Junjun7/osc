@@ -5,7 +5,7 @@ import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.entity.TweetListMore;
 import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.TweetListService;
-import com.gdufe.osc.utils.HttpMethod;
+import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.NumberUtils;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -71,7 +71,8 @@ public class TweetListServiceImp implements TweetListService {
 		if (Objects.nonNull(cacheDetails)) {
 			return cacheDetails;
 		}
-		String data = HttpMethod.get(url);
+//		String data = HttpMethod.get(url);
+		String data = HttpHelper.get(url);
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
@@ -158,7 +159,8 @@ public class TweetListServiceImp implements TweetListService {
 
 	private List<Integer> getTweetIds(int page, int pageSize, String user) {
 		String tweetUrl = getTweetUrl(page, pageSize, user);
-		String data = HttpMethod.get(tweetUrl);
+//		String data = HttpMethod.get(tweetUrl);
+		String data = HttpHelper.get(tweetUrl);
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}

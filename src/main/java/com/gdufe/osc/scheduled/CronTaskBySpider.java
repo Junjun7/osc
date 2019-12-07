@@ -1,6 +1,5 @@
 package com.gdufe.osc.scheduled;
 
-import com.arronlong.httpclientutil.common.HttpHeader;
 import com.gdufe.osc.dao.DownloadImgDao;
 import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
@@ -12,7 +11,6 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -137,16 +135,6 @@ public class CronTaskBySpider {
 
 	private String getRealUrl(String id, String offset) {
 		return PREFIX + id + SUFFIX + offset;
-	}
-
-	private static Header[] getHeader() {
-		String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36";
-		String cookie = "tgw_l7_route=7bacb9af7224ed68945ce419f4dea76d; _zap=ec860ed6-c726-404a-b137-0448fe654614; _xsrf=E0aPOcqmW3ggTDhccHzy8BfvD6wQSQEf; d_c0=\"AEDtM5xiPBCPTjqd6pwQhvgC0X5A1Rm_uQM=|1571710288\"; capsion_ticket=\"2|1:0|10:1571710288|14:capsion_ticket|44:MTcyNjdiMjY4YTQwNDc3ZWI2NWJhMTcyYjM2ZTY5MDM=|a1eea0e44b1fe86b908f1b5d6b995fa5e33be4dd70d1ac2e35477aa69c9ce3dc\"; l_n_c=1; r_cap_id=\"MDI5MWIyYmZjZWUwNDYzM2FhNjIwZGE4ZWQ3MDlmNGE=|1571710289|20aa72ae35910ba1a90033d8c9a73ec4f62c5710\"; cap_id=\"Nzk1NTBmM2JjYmJmNDUwOWE3YTc4Y2JkYjNhMzFhMmY=|1571710289|3de2d13909e08baeec9134f2f9b659472b41259d\"; l_cap_id=\"N2RmNzA3Y2Y5ZDM0NGRjYjgyZDUzNzY0ZmUxZWU4MjQ=|1571710289|0773d44889ba974e807e598f6eb8587bc391d260\"; n_c=1; z_c0=Mi4xdlUzZUFRQUFBQUFBUU8wem5HSThFQmNBQUFCaEFsVk5ZN09iWGdBMDl1OXR0YTRRWlpvYmd2QlZ2LUNPelQ1a01n|1571710307|9195cd6155797864b6586b4f1752fb903e174a1a; tst=f";
-		Header[] headers = HttpHeader.custom()
-				.userAgent(userAgent)
-				.cookie(cookie)
-				.build();
-		return headers;
 	}
 
 	public static void main(String[] args) {

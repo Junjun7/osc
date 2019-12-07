@@ -1,12 +1,9 @@
 package com.gdufe.osc.utils;
 
-import com.arronlong.httpclientutil.common.HttpConfig;
-import com.arronlong.httpclientutil.common.HttpHeader;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -44,17 +41,6 @@ public class WeChatNoticeUtils {
 			return true;
 		}
 		return false;
-	}
-
-	private static HttpConfig getHttpConfig(String url, String data) {
-		Header[] headers = HttpHeader.custom()
-				.contentType("application/json")
-				.build();
-		HttpConfig config = HttpConfig.custom()
-				.json(data)
-				.url(url)
-				.headers(headers);
-		return config;
 	}
 
 	private static void fillDataMap(Map<String, Object> data, String title, String content) {
