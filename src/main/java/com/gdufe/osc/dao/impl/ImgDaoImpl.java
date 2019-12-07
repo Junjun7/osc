@@ -1,7 +1,7 @@
 package com.gdufe.osc.dao.impl;
 
 import com.gdufe.osc.dao.ImgDao;
-import com.gdufe.osc.dao.mapper.ImgMapper;
+import com.gdufe.osc.dao.mapper.master.ImgMapper;
 import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,19 @@ public class ImgDaoImpl implements ImgDao {
 	public int insertImgLink(String link) {
 		Img img = new Img();
 		img.setLink(link);
+		int res = 0;
+		try {
+			res = imgMapper.insertSelective(img);
+		} finally {
+			return res > 0 ? 1 : 0;
+		}
+	}
+
+	@Override
+	public int insertImgLink(Long id, String link) {
+		Img img = new Img();
+		img.setLink(link);
+		img.setId(id);
 		int res = 0;
 		try {
 			res = imgMapper.insertSelective(img);

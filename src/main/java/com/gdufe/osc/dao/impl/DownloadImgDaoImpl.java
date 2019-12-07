@@ -1,7 +1,7 @@
 package com.gdufe.osc.dao.impl;
 
 import com.gdufe.osc.dao.DownloadImgDao;
-import com.gdufe.osc.dao.mapper.DownloadImgMapper;
+import com.gdufe.osc.dao.mapper.master.DownloadImgMapper;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.entity.DownloadImgExample;
 import org.springframework.beans.factory.annotation.Autowired;
