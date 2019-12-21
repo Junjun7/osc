@@ -1,32 +1,21 @@
 package com.gdufe.osc.service.impl;
 
-import com.arronlong.httpclientutil.common.HttpHeader;
 import com.gdufe.osc.dao.DownloadImgDao;
 import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgBiZhi;
-import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.service.ZhiHuSpider;
-import com.gdufe.osc.utils.HttpMethod;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.Header;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author: yizhen

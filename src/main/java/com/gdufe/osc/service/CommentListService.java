@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public interface CommentListService {
 
-	List<CommentList> getCommentList(int id, int page, int pageSize);
-
 	default String getCommentUrl(int id, int page, int pageSize) {
 
 		return "https://www.oschina.net/action/openapi/comment_list?catalog=3&page=" + page + "&pageSize=" + pageSize + "&dataType=json&id=" + id +"&access_token=" + CacheToken.getToken();
 	}
+
+	List<CommentList> getCommentList(int id, int page, int pageSize);
 
 }
