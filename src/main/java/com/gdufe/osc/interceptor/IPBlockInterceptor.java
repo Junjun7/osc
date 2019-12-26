@@ -56,15 +56,18 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 
 	private boolean checkAgent(HttpServletRequest request) {
 		String header = request.getHeader(USERAGENT);
+		String ip = IPUtils.getClientIp(request);
+		String url = request.getRequestURL().toString();
+		String param = getAllParam(request);
 		if (StringUtils.isEmpty(header)) {
 			return false;
 		}
 		if (header.contains(CRAWLER)) {
-			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
+			log.error("请求头有问题，拦截 ==> User-Agent = {}, ip = {}, url = {}, param = {}", header, ip, url, param);
 			return false;
 		}
-		if (!header.contains(wechatMessage) && !"0:0:0:0:0:0:0:1".equals(IPUtils.getClientIp(request))) {
-			log.error("请求头有问题，拦截 ==> User-Agent = {}", header);
+		if (!header.contains(wechatMessage) && !"0:0:0:0:0:0:0:1".equals(ip)) {
+			log.error("请求头有问题，拦截 ==> User-Agent = {}, ip = {}, url = {}, param = {}", header, ip, url, param);
 			return false;
 		}
 		return true;
