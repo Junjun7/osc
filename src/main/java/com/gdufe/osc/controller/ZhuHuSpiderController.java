@@ -1,5 +1,6 @@
 package com.gdufe.osc.controller;
 
+import com.gdufe.osc.annotation.TimeWatch;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.enums.OscResultEnum;
@@ -24,6 +25,7 @@ public class ZhuHuSpiderController {
 	@Autowired
 	private ZhiHuSpider zhiHuSpider;
 
+	@TimeWatch
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
 	public OscResult<List<String>> listSpiderImg(int offset, int limit, String type) {
 		if (StringUtils.isEmpty(type)) {
