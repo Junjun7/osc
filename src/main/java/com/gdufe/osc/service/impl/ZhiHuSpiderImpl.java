@@ -33,7 +33,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 	private DownloadImgDao downloadImgDao;
 
 	@Override
-	public List<String> getImg(Integer offset, Integer limit, String type) {
+	public List<String> getImg(int offset, int limit, String type) {
 		offset = convertOffset(limit, type);
 		List<Img> imgs = Lists.newArrayList();
 		if ("1".equals(type)) {
