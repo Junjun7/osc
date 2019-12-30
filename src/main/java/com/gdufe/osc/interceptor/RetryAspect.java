@@ -22,7 +22,7 @@ public class RetryAspect {
 
 	@Around(value = "pointcutRetry(retry)")
 	public Object methodAround(ProceedingJoinPoint joinPoint, Retry retry) {
-		int times = 1;
+		int times = 0;
 		int maxRetry = retry.maxRetry();
 		do {
 			String methodName = joinPoint.getSignature().getName();
