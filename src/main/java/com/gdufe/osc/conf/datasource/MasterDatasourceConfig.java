@@ -34,12 +34,20 @@ public class MasterDatasourceConfig extends BaseDatasourceConfig {
 		return hikariDataSource;
 	}
 
+	@Primary
 	@Bean
 	@ConfigurationProperties(prefix = "spring.datasource.master")
 	public DataSourceDO masterDatasourceDO() {
 		return new DataSourceDO();
 	}
 
+	/**
+	 * @Primary注解：当IOC容器中有多个相同的Bean注入时，使用Autowired可以优先注入此Bean
+	 * @Qualifier注解：当IOC容器有多个Bean注入时，可以指定明确的BeanName进行注入。此时可以忽略Primary注解
+	 *
+	 * 可以与SlaveDatasourceConfig这个类进行对照学习
+	 * 同时推荐视频：https://www.bilibili.com/video/av32102436?p=20  讲解的非常清楚
+	 */
 	@Primary
 	@Bean(name = "masterSqlSessionFactory")
 	public SqlSessionFactory sqlSessionFactory(@Qualifier("masterDataSource") DataSource dataSource) throws Exception {
