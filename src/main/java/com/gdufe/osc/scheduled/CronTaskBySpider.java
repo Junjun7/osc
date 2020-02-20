@@ -41,6 +41,8 @@ public class CronTaskBySpider {
 	private ImgBiZhiDao imgBiZhiDao;
 	@Autowired
 	private DownloadImgDao downloadImgDao;
+	@Autowired
+	private WeChatNoticeUtils weChatNoticeUtils;
 
 	/** 每天凌晨3点执行爬虫 */
 	@Scheduled(cron = "0 30 3 * * ?")
@@ -102,7 +104,7 @@ public class CronTaskBySpider {
 		String data = HttpHelper.get(url, CK, null);
 		if (StringUtils.isEmpty(data) || data.contains("AuthenticationInvalidRequest")) {
 			log.error("返回数据为空，或者cookie失效。返回数据data：{}", data);
-			WeChatNoticeUtils.setMessage("爬虫失败", "返回数据为空，或者cookie失效。返回数据data：" + data);
+			weChatNoticeUtils.setMessage("爬虫失败", "返回数据为空，或者cookie失效。返回数据data：" + data);
 			return;
 		}
 		Set<String> imgSet = Sets.newHashSet();

@@ -23,6 +23,8 @@ public class ExceptionController {
 
 	@Autowired
 	private CronTaskByFreshToken cronTaskByFreshToken;
+	@Autowired
+	private WeChatNoticeUtils weChatNoticeUtils;
 
 	@ResponseBody
 	@ExceptionHandler
@@ -40,18 +42,18 @@ public class ExceptionController {
 			} catch (Exception e) {
 				log.error("osc接口出现问题 ==> " + e);
 			}
-			WeChatNoticeUtils.setMessage(msg);
+			weChatNoticeUtils.setMessage(msg);
 			log.error(throwable + "");
 			return new OscResult<String>().fail(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		// 缺少字段
 		if (throwable instanceof IllegalStateException || throwable instanceof NumberFormatException) {
-			WeChatNoticeUtils.setMessage(msg);
+			weChatNoticeUtils.setMessage(msg);
 			log.error(throwable + "");
 			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		// 其他异常 未知
-		WeChatNoticeUtils.setMessage(msg);
+		weChatNoticeUtils.setMessage(msg);
 		log.error(throwable + "");
 		return new OscResult<String>().fail();
 	}

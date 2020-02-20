@@ -19,17 +19,17 @@ import java.util.Map;
 public class WeChatNoticeUtils {
 
 	@Value("${userIds}")
-	private static String userIds;
+	private String userIds;
 	@Value("${template_id}")
-	private static String templateId;
+	private String templateId;
 
 	private static final String URL = "http://wxmsg.dingliqc.com/send";
 
-	public static Boolean setMessage(String content) {
+	public Boolean setMessage(String content) {
 		return setMessage("", content);
 	}
 
-	public static Boolean setMessage(String title, String content) {
+	public Boolean setMessage(String title, String content) {
 		Map<String, Object> res = Maps.newHashMap();
 		res.put("userIds", Lists.newArrayList(userIds).toArray());
 		res.put("template_id", templateId);
@@ -43,7 +43,7 @@ public class WeChatNoticeUtils {
 		return false;
 	}
 
-	private static void fillDataMap(Map<String, Object> data, String title, String content) {
+	private void fillDataMap(Map<String, Object> data, String title, String content) {
 		// 标题
 		Map<String, String> titleMap = Maps.newHashMap();
 		titleMap.put("value", title);

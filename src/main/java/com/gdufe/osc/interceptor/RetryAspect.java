@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 public class RetryAspect {
+
+	@Autowired
+	private WeChatNoticeUtils weChatNoticeUtils;
 
 	@Pointcut("@annotation(retry)")
 	public void pointcutRetry(Retry retry) {}
@@ -31,7 +35,7 @@ public class RetryAspect {
 			} catch (Throwable throwable) {
 				log.error("调用方法name = {} 抛出异常，重试次数为 = {}", methodName, times);
 				if (times == maxRetry) {
-					WeChatNoticeUtils.setMessage(String.format("重试了第 %d 次，仍然报错。", times));
+					weChatNoticeUtils.setMessage(String.format("重试了第 %d 次，仍然报错。", times));
 				}
 			}
 		} while (++times <= maxRetry);
