@@ -31,7 +31,9 @@ public class TestController {
 
 	@RequestMapping("/img/url")
 	public String getImgUrl() {
-		return "https://pic4.zhimg.com/50/v2-469b1192443fa2aa7359e92b625bad42_r.jpg";
+		return "https://pic1.zhimg.com/80/v2-09716650530b30759143589279cccd44_hd.jpg";
+		// 二维码和大打赏
+//		return "https://pic4.zhimg.com/50/v2-469b1192443fa2aa7359e92b625bad42_r.jpg";
 	}
 
 	@RequestMapping("/zhihu")
