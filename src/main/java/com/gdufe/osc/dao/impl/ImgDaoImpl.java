@@ -45,10 +45,19 @@ public class ImgDaoImpl implements ImgDao {
 		}
 	}
 
+	/**
+	 * example.createCriteria().andLinkNotLike("http:%");
+	 * 这个先不请求到gdufe888的图片
+	 * 下面计算count类似
+	 * @param offset
+	 * @param limit
+	 * @return
+	 */
 	@Cacheable(value = "zhiHuImg", key = "#offset+#limit")
 	@Override
 	public List<Img> listImgLink(Integer offset, Integer limit) {
 		ImgExample example = new ImgExample();
+		example.createCriteria().andLinkNotLike("http:%");
 		example.setOffset(offset);
 		example.setLimit(limit);
 		example.setOrderByClause("id DESC");
@@ -59,6 +68,7 @@ public class ImgDaoImpl implements ImgDao {
 	@Override
 	public Long countImg() {
 		ImgExample example = new ImgExample();
+		example.createCriteria().andLinkNotLike("http:%");
 		return imgMapper.countByExample(example);
 	}
 }
