@@ -1,7 +1,6 @@
 package com.gdufe.osc.dao;
 
 import com.gdufe.osc.entity.Img;
-import com.gdufe.osc.entity.ImgBiZhi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,9 +14,9 @@ public interface ImgDao {
 
 	int insertImgLink(String link);
 
-	int insertImgLink(Long id, String link);
+	int insertImgLink(long id, String link);
 
-	List<Img> listImgLink(Integer offset, Integer limit);
+	List<Img> listImgLink(int offset, int limit);
 
 	Long countImg();
 }

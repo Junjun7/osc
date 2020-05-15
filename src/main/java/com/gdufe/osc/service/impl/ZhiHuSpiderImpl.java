@@ -9,6 +9,7 @@ import com.gdufe.osc.entity.ImgBiZhi;
 import com.gdufe.osc.service.ZhiHuSpider;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +64,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 		if ("1".equals(type)) {
 			cnt = Integer.parseInt(imgDao.countImg().toString());
 		} else if ("2".equals(type)) {
-			cnt = Integer.parseInt(imgBiZhiDao.countImg().toString());
+			cnt = NumberUtils.toInt(imgBiZhiDao.countImg() + "");
 		}
 		int rd = random.nextInt(cnt);
 		if (rd > limit) {

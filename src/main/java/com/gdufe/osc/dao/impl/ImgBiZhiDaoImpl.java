@@ -36,9 +36,9 @@ public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 		}
 	}
 
-	@Cacheable(value = "zhiHuImgBiZhi", key = "#offset+#limit")
+	@Cacheable(value = "zhiHuImgBiZhi", key = "#offset + '_' + #limit")
 	@Override
-	public List<ImgBiZhi> listImgLink(Integer offset, Integer limit) {
+	public List<ImgBiZhi> listImgLink(int offset, int limit) {
 		System.out.println("imgBiZhiMapperSlave = " + imgBiZhiMapperSlave);
 		ImgBiZhiExample example = new ImgBiZhiExample();
 		example.setOffset(offset);
@@ -49,7 +49,7 @@ public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 
 	@Cacheable(value = "zhiHuImgBiZhiCount")
 	@Override
-	public Long countImg() {
+	public long countImg() {
 		ImgBiZhiExample example = new ImgBiZhiExample();
 		return imgBiZhiMapperSlave.countByExample(example);
 	}

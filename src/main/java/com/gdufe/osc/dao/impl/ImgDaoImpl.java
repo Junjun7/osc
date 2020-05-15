@@ -33,7 +33,7 @@ public class ImgDaoImpl implements ImgDao {
 	}
 
 	@Override
-	public int insertImgLink(Long id, String link) {
+	public int insertImgLink(long id, String link) {
 		Img img = new Img();
 		img.setLink(link);
 		img.setId(id);
@@ -53,9 +53,9 @@ public class ImgDaoImpl implements ImgDao {
 	 * @param limit
 	 * @return
 	 */
-	@Cacheable(value = "zhiHuImg", key = "#offset+#limit")
+	@Cacheable(value = "zhiHuImg", key = "#offset + '_' + #limit")
 	@Override
-	public List<Img> listImgLink(Integer offset, Integer limit) {
+	public List<Img> listImgLink(int offset, int limit) {
 		ImgExample example = new ImgExample();
 		example.createCriteria().andLinkNotLike("http:%");
 		example.setOffset(offset);

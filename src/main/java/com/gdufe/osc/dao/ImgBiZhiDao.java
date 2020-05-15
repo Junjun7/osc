@@ -14,7 +14,7 @@ public interface ImgBiZhiDao {
 
 	int insertImgLink(String link);
 
-	List<ImgBiZhi> listImgLink(Integer offset, Integer limit);
+	List<ImgBiZhi> listImgLink(int offset, int limit);
 
-	Long countImg();
+	long countImg();
 }
