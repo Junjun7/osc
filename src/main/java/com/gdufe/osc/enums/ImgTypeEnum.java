@@ -16,4 +16,15 @@ public enum ImgTypeEnum {
 
 	private String type;
 	private String msg;
+
+	public static ImgTypeEnum findByValue(int type) {
+		switch (type) {
+			case 1:
+				return BEAUTIFUL_IMG;
+			case 2:
+				return PIC_IMG;
+			default:
+				return BEAUTIFUL_IMG;
+		}
+	}
 }

@@ -5,7 +5,8 @@ import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.ZhiHuSpider;
-import org.apache.commons.lang3.StringUtils;
+import com.gdufe.osc.service.strategy.ImgTypeStrategy;
+import com.gdufe.osc.utils.StrategyHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +25,14 @@ public class ZhuHuSpiderController {
 
 	@Autowired
 	private ZhiHuSpider zhiHuSpider;
+	@Autowired
+	private StrategyHelper strategyHelper;
 
 	@TimeWatch
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
 	public OscResult<List<String>> listSpiderImg(int offset, int limit, String type) {
-		if (StringUtils.isEmpty(type)) {
-			type = "1";
-		}
-		List<String> imgList = zhiHuSpider.getImg(offset, limit, type);
+		ImgTypeStrategy strategy = strategyHelper.getImgTypeStrategy(type);
+		List<String> imgList = strategy.getImg(offset, limit);
 		if (CollectionUtils.isEmpty(imgList)) {
 			return new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
 		}

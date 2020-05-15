@@ -10,15 +10,5 @@ import java.util.List;
  */
 public interface ZhiHuSpider {
 
-	/**
-	 * type == 1  等于知乎美女图片
-	 * type == 2  等于知乎壁纸
-	 * @param offset
-	 * @param limit
-	 * @param type
-	 * @return
-	 */
-	List<String> getImg(int offset, int limit, String type);
-
 	List<DownloadImg> listDownloadImg();
 }
