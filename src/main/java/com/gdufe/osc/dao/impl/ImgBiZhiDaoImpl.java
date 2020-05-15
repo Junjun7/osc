@@ -5,6 +5,7 @@ import com.gdufe.osc.dao.mapper.master.ImgBiZhiMapperMaster;
 import com.gdufe.osc.dao.mapper.slave.ImgBiZhiMapperSlave;
 import com.gdufe.osc.entity.ImgBiZhi;
 import com.gdufe.osc.entity.ImgBiZhiExample;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.util.List;
  * @date: 2019/4/20 21:27
  */
 @Repository
+@Slf4j
 public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 
 	@Autowired
@@ -26,6 +28,7 @@ public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 
 	@Override
 	public int insertImgLink(String link) {
+		log.info("insertImgLink link = {}", link);
 		ImgBiZhi img = new ImgBiZhi();
 		img.setLink(link);
 		int res = 0;
@@ -39,7 +42,7 @@ public class ImgBiZhiDaoImpl implements ImgBiZhiDao {
 	@Cacheable(value = "zhiHuImgBiZhi", key = "#offset + '_' + #limit")
 	@Override
 	public List<ImgBiZhi> listImgLink(int offset, int limit) {
-		System.out.println("imgBiZhiMapperSlave = " + imgBiZhiMapperSlave);
+		log.info("listImgLink offset = {}, limit = {}", offset, limit);
 		ImgBiZhiExample example = new ImgBiZhiExample();
 		example.setOffset(offset);
 		example.setLimit(limit);
