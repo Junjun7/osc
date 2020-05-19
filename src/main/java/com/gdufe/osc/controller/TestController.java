@@ -37,7 +37,7 @@ public class TestController {
 	}
 
 	@RequestMapping("/zhihu")
-	public String zhiHu() {
+	public String zhiHu() throws InterruptedException {
 		cronTaskBySpider.imgSpider();
 		return "ok";
 	}

@@ -4,6 +4,7 @@ import com.gdufe.osc.dao.DownloadImgDao;
 import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.DownloadImg;
+import com.gdufe.osc.enums.ImgTypeEnum;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.common.collect.Lists;
@@ -47,7 +48,7 @@ public class CronTaskBySpider {
 	/** 每天凌晨3点执行爬虫 */
 	@Scheduled(cron = "0 30 3 * * ?")
 	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
-	public void imgSpider() {
+	public void imgSpider() throws InterruptedException {
 		ImmutablePair<List<String>, List<String>> pair = initIds();
 		if (pair == null) {
 			return;
@@ -55,22 +56,14 @@ public class CronTaskBySpider {
 		List<String> imgIds = pair.getLeft();
 		List<String> imgBiZhiIds = pair.getRight();
 		for (String id : imgIds) {
-			try {
-				spider(id, LIMIT, "1");
-				// 睡一分钟
-				TimeUnit.MINUTES.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			spider(id, LIMIT, ImgTypeEnum.BEAUTIFUL_IMG);
+			// 睡一分钟
+			TimeUnit.MINUTES.sleep(1);
 		}
 		for (String id : imgBiZhiIds) {
-			try {
-				spider(id, LIMIT, "2");
-				// 睡一分钟
-				TimeUnit.MINUTES.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			spider(id, LIMIT, ImgTypeEnum.PIC_IMG);
+			// 睡一分钟
+			TimeUnit.MINUTES.sleep(1);
 		}
 	}
 
@@ -95,9 +88,9 @@ public class CronTaskBySpider {
 	 * type == 2  等于知乎壁纸
 	 * @param id
 	 * @param limit
-	 * @param type
+	 * @param imgType
 	 */
-	private void spider(String id, String limit, String type) {
+	private void spider(String id, String limit, ImgTypeEnum imgType) {
 		// 统计更新了多少
 		int cnt = 0;
 		String url = getRealUrl(id, limit);
@@ -111,13 +104,14 @@ public class CronTaskBySpider {
 		fillImg(data, imgSet);
 		List<String> imgList = Lists.newArrayList(imgSet);
 		for (String img : imgList) {
-			if ("1".equals(type)) {
+			if (ImgTypeEnum.BEAUTIFUL_IMG == imgType) {
 				cnt += imgDao.insertImgLink(img);
-			} else if ("2".equals(type)) {
+			}
+			if (ImgTypeEnum.PIC_IMG == imgType) {
 				cnt += imgBiZhiDao.insertImgLink(img);
 			}
 		}
-		log.info("type = {}, id = {}, 总共更新{}条数据", type, id, cnt);
+		log.info("type = {}, id = {}, 总共更新{}条数据", imgType, id, cnt);
 	}
 
 	private void fillImg(String data, Set<String> imgSet) {
