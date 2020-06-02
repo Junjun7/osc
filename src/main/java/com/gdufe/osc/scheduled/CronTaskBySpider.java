@@ -10,13 +10,18 @@ import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +36,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class CronTaskBySpider {
 
-	private static final String CK = "tgw_l7_route=7bacb9af7224ed68945ce419f4dea76d; _zap=ec860ed6-c726-404a-b137-0448fe654614; _xsrf=E0aPOcqmW3ggTDhccHzy8BfvD6wQSQEf; d_c0=\"AEDtM5xiPBCPTjqd6pwQhvgC0X5A1Rm_uQM=|1571710288\"; capsion_ticket=\"2|1:0|10:1571710288|14:capsion_ticket|44:MTcyNjdiMjY4YTQwNDc3ZWI2NWJhMTcyYjM2ZTY5MDM=|a1eea0e44b1fe86b908f1b5d6b995fa5e33be4dd70d1ac2e35477aa69c9ce3dc\"; l_n_c=1; r_cap_id=\"MDI5MWIyYmZjZWUwNDYzM2FhNjIwZGE4ZWQ3MDlmNGE=|1571710289|20aa72ae35910ba1a90033d8c9a73ec4f62c5710\"; cap_id=\"Nzk1NTBmM2JjYmJmNDUwOWE3YTc4Y2JkYjNhMzFhMmY=|1571710289|3de2d13909e08baeec9134f2f9b659472b41259d\"; l_cap_id=\"N2RmNzA3Y2Y5ZDM0NGRjYjgyZDUzNzY0ZmUxZWU4MjQ=|1571710289|0773d44889ba974e807e598f6eb8587bc391d260\"; n_c=1; z_c0=Mi4xdlUzZUFRQUFBQUFBUU8wem5HSThFQmNBQUFCaEFsVk5ZN09iWGdBMDl1OXR0YTRRWlpvYmd2QlZ2LUNPelQ1a01n|1571710307|9195cd6155797864b6586b4f1752fb903e174a1a; tst=f";
+	private static final String CK = "_zap=a4f17e87-d96f-4e1a-89c0-5e9ffe38459d; _xsrf=bjuVsr3iGkzSXuFN42C9xVk67GzL52Ex; d_c0=\"ALCb3JMkJxGPTtNRFcCtXRpT19-oRBSY8TA=|1587464610\"; z_c0=Mi4xdlUzZUFRQUFBQUFBc0p2Y2t5UW5FUmNBQUFCaEFsVk55eW1NWHdBWDE4MmxWX1F4REZ3VFM0UzhGWVdjeXF5Q1Rn|1587469259|c5b6c27b6bf0b41a3ba407102479d568567020df; _ga=GA1.2.1491470843.1591010738; _gid=GA1.2.184526573.1591010738; tst=r; q_c1=8c35dedb6bd3453c8d3c454e3737d89b|1591010746000|1587469281000; Hm_lvt_98beee57fd2ef70ccdd5ca52b9740c49=1591016861,1591071263,1591073013,1591073077; SESSIONID=d7v6FKvef5csNtnf60L9JhFOWcrtIaKNoRwGbncbfgD; JOID=W1oVB0pI1gmkbdqjKEUV3ZsB-_0wJ-N7lyOa10km6GjTJqbGTDPN3vdu06UpVwFAso3N8yAGkI7PzLvM1r8rTJg=; osd=WlsWCkpJ1wqpbduiK0gV3JoC9v0xJuB2lyKb1EQm6WnQK6bHTTDA3vZv0KgpVgBDv43M8iMLkI_Oz7bM174oQZg=; Hm_lpvt_98beee57fd2ef70ccdd5ca52b9740c49=1591090592; _gat_gtag_UA_149949619_1=1; KLBRSID=d1f07ca9b929274b65d830a00cbd719a|1591090641|1591090543";
 	private static final String PREFIX = "https://www.zhihu.com/api/v4/questions/";
 	private static final String SUFFIX = "/answers?include=data%5B%2A%5D.is_normal%2Cadmin_closed_comment%2Creward_info%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Ccreated_time%2Cupdated_time%2Creview_info%2Crelevant_info%2Cquestion%2Cexcerpt%2Crelationship.is_authorized%2Cis_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cis_labeled%2Cis_recognized%2Cpaid_info%3Bdata%5B%2A%5D.mark_infos%5B%2A%5D.url%3Bdata%5B%2A%5D.author.follower_count%2Cbadge%5B%2A%5D.topics&platform=desktop&sort_by=default&offset=0&limit=";
 	private static final String LIMIT = "20";
@@ -44,6 +49,8 @@ public class CronTaskBySpider {
 	private DownloadImgDao downloadImgDao;
 	@Autowired
 	private WeChatNoticeUtils weChatNoticeUtils;
+	@Autowired
+	private Environment environment;
 
 	/** 每天凌晨3点执行爬虫 */
 	@Scheduled(cron = "0 30 3 * * ?")
@@ -90,7 +97,8 @@ public class CronTaskBySpider {
 	 * @param limit
 	 * @param imgType
 	 */
-	private void spider(String id, String limit, ImgTypeEnum imgType) {
+	public void spider(String id, String limit, ImgTypeEnum imgType) {
+		log.info("id = {}, limit = {}, imgType = {}", id, limit, imgType);
 		// 统计更新了多少
 		int cnt = 0;
 		String url = getRealUrl(id, limit);
@@ -103,6 +111,7 @@ public class CronTaskBySpider {
 		Set<String> imgSet = Sets.newHashSet();
 		fillImg(data, imgSet);
 		List<String> imgList = Lists.newArrayList(imgSet);
+		int index = 0;
 		for (String img : imgList) {
 			if (ImgTypeEnum.BEAUTIFUL_IMG == imgType) {
 				cnt += imgDao.insertImgLink(img);
@@ -110,8 +119,40 @@ public class CronTaskBySpider {
 			if (ImgTypeEnum.PIC_IMG == imgType) {
 				cnt += imgBiZhiDao.insertImgLink(img);
 			}
+			if (ImgTypeEnum.DOWNLOAD_IMG == imgType) {
+				saveToDisk(id, img, index++);
+				cnt = imgList.size();
+			}
 		}
 		log.info("type = {}, id = {}, 总共更新{}条数据", imgType, id, cnt);
+	}
+
+	private void saveToDisk(String id, String img, int index) {
+		log.info("id = {}, img = {}, index = {}", id, img, index);
+		String osName = environment.getProperty("os.name");
+		log.info("osName = {}", osName);
+		String fileName = "F:/img/" + id;
+		if (StringUtils.isEmpty(osName)) {
+		} else {
+			if (osName.toLowerCase().contains("linux")) {
+				fileName = "/home/tomcat/apache-tomcat-8.5.23/workspace/osc/img/" + id;
+			}
+		}
+		log.info("fileName = {}", fileName);
+		try {
+			FileUtils.forceMkdir(new File(fileName));
+		} catch (IOException e) {
+			log.error("创建文件失败,不再继续爬虫 e = {}", e);
+			return;
+		}
+		fileName += "/" + index + ".jpg";
+		log.info("fileName = {}", fileName);
+		try {
+			FileUtils.copyURLToFile(new URL(img), new File(fileName));
+		} catch (IOException e) {
+			log.error("读取图片出错,该图片可能不存在 e = {}", e);
+			return;
+		}
 	}
 
 	private void fillImg(String data, Set<String> imgSet) {

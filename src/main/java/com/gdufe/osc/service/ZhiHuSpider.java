@@ -11,4 +11,6 @@ import java.util.List;
 public interface ZhiHuSpider {
 
 	List<DownloadImg> listDownloadImg();
+
+	void spider(String id);
 }

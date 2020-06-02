@@ -12,7 +12,8 @@ import lombok.Getter;
 public enum ImgTypeEnum {
 
 	BEAUTIFUL_IMG("1", "美女图片"),
-	PIC_IMG("2", "壁纸图片");
+	PIC_IMG("2", "壁纸图片"),
+	DOWNLOAD_IMG("3", "下载图片");
 
 	private String type;
 	private String msg;
@@ -23,6 +24,8 @@ public enum ImgTypeEnum {
 				return BEAUTIFUL_IMG;
 			case 2:
 				return PIC_IMG;
+			case 3:
+				return DOWNLOAD_IMG;
 			default:
 				return BEAUTIFUL_IMG;
 		}

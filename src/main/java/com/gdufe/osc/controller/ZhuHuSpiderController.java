@@ -7,8 +7,10 @@ import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.ZhiHuSpider;
 import com.gdufe.osc.service.strategy.ImgTypeStrategy;
 import com.gdufe.osc.utils.StrategyHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import java.util.List;
  * @author: yizhen
  * @date: 2019/4/20 14:44
  */
+@Slf4j
 @RestController
 @RequestMapping("/zhihu")
 public class ZhuHuSpiderController {
@@ -46,6 +49,17 @@ public class ZhuHuSpiderController {
 			return new OscResult<List<DownloadImg>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
 		}
 		return new OscResult<List<DownloadImg>>().success(downloadImgs);
+	}
+
+	@TimeWatch
+	@RequestMapping(value = "/download/spider", method = RequestMethod.GET)
+	public OscResult<String> executeSpider(String id) {
+		if (StringUtils.isEmpty(id)) {
+			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
+		}
+		log.info("id = {}", id);
+		zhiHuSpider.spider(id);
+		return new OscResult<String>().success(OscResultEnum.RUNNING_SPIDER.getMsg());
 	}
 }
 

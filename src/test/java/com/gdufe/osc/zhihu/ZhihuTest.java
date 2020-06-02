@@ -42,7 +42,7 @@ public class ZhihuTest extends OscApplicationTests {
 	}
 
 	@Test
-	public void spider() {
+	public void spider() throws InterruptedException {
 		cronTaskBySpider.imgSpider();
 	}
 
