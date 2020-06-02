@@ -66,7 +66,7 @@ public class ImgDaoImpl implements ImgDao {
 
 	@Cacheable(value = "zhiHuImgCount")
 	@Override
-	public Long countImg() {
+	public long countImg() {
 		ImgExample example = new ImgExample();
 		example.createCriteria().andLinkNotLike("http:%");
 		return imgMapper.countByExample(example);

@@ -18,5 +18,5 @@ public interface ImgDao {
 
 	List<Img> listImgLink(int offset, int limit);
 
-	Long countImg();
+	long countImg();
 }
