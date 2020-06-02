@@ -38,8 +38,8 @@ public class CronTaskBySpider {
 
 	private static final String CK = "_zap=a4f17e87-d96f-4e1a-89c0-5e9ffe38459d; _xsrf=bjuVsr3iGkzSXuFN42C9xVk67GzL52Ex; d_c0=\"ALCb3JMkJxGPTtNRFcCtXRpT19-oRBSY8TA=|1587464610\"; z_c0=Mi4xdlUzZUFRQUFBQUFBc0p2Y2t5UW5FUmNBQUFCaEFsVk55eW1NWHdBWDE4MmxWX1F4REZ3VFM0UzhGWVdjeXF5Q1Rn|1587469259|c5b6c27b6bf0b41a3ba407102479d568567020df; _ga=GA1.2.1491470843.1591010738; _gid=GA1.2.184526573.1591010738; tst=r; q_c1=8c35dedb6bd3453c8d3c454e3737d89b|1591010746000|1587469281000; Hm_lvt_98beee57fd2ef70ccdd5ca52b9740c49=1591016861,1591071263,1591073013,1591073077; SESSIONID=d7v6FKvef5csNtnf60L9JhFOWcrtIaKNoRwGbncbfgD; JOID=W1oVB0pI1gmkbdqjKEUV3ZsB-_0wJ-N7lyOa10km6GjTJqbGTDPN3vdu06UpVwFAso3N8yAGkI7PzLvM1r8rTJg=; osd=WlsWCkpJ1wqpbduiK0gV3JoC9v0xJuB2lyKb1EQm6WnQK6bHTTDA3vZv0KgpVgBDv43M8iMLkI_Oz7bM174oQZg=; Hm_lpvt_98beee57fd2ef70ccdd5ca52b9740c49=1591090592; _gat_gtag_UA_149949619_1=1; KLBRSID=d1f07ca9b929274b65d830a00cbd719a|1591090641|1591090543";
 	private static final String PREFIX = "https://www.zhihu.com/api/v4/questions/";
-	private static final String SUFFIX = "/answers?include=data%5B%2A%5D.is_normal%2Cadmin_closed_comment%2Creward_info%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Ccreated_time%2Cupdated_time%2Creview_info%2Crelevant_info%2Cquestion%2Cexcerpt%2Crelationship.is_authorized%2Cis_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cis_labeled%2Cis_recognized%2Cpaid_info%3Bdata%5B%2A%5D.mark_infos%5B%2A%5D.url%3Bdata%5B%2A%5D.author.follower_count%2Cbadge%5B%2A%5D.topics&platform=desktop&sort_by=default&offset=0&limit=";
-	private static final String LIMIT = "20";
+	private static final String SUFFIX = "/answers?include=data%5B%2A%5D.is_normal%2Cadmin_closed_comment%2Creward_info%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Ccreated_time%2Cupdated_time%2Creview_info%2Crelevant_info%2Cquestion%2Cexcerpt%2Crelationship.is_authorized%2Cis_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cis_labeled%2Cis_recognized%2Cpaid_info%3Bdata%5B%2A%5D.mark_infos%5B%2A%5D.url%3Bdata%5B%2A%5D.author.follower_count%2Cbadge%5B%2A%5D.topics&platform=desktop&sort_by=default&limit=5&offset=";
+	private static final int LIMIT = 10;
 
 	@Autowired
 	private ImgDao imgDao;
@@ -91,6 +91,24 @@ public class CronTaskBySpider {
 	}
 
 	/**
+	 * 默认循环10次
+	 * @param id
+	 * @param limit
+	 * @param imgType
+	 */
+	private static int index = 1;
+	public void spider(String id, int limit, ImgTypeEnum imgType) {
+		this.index = 1;
+		for (int i = 1; i <= limit; i++) {
+			int x = 5 * i;
+			spider(id, x + "", imgType);
+			try {
+				TimeUnit.SECONDS.sleep(10);
+			} catch (InterruptedException e) {}
+		}
+	}
+
+	/**
 	 * type == 1  等于知乎美女图片
 	 * type == 2  等于知乎壁纸
 	 * @param id
@@ -111,7 +129,6 @@ public class CronTaskBySpider {
 		Set<String> imgSet = Sets.newHashSet();
 		fillImg(data, imgSet);
 		List<String> imgList = Lists.newArrayList(imgSet);
-		int index = 0;
 		for (String img : imgList) {
 			if (ImgTypeEnum.BEAUTIFUL_IMG == imgType) {
 				cnt += imgDao.insertImgLink(img);
@@ -120,14 +137,14 @@ public class CronTaskBySpider {
 				cnt += imgBiZhiDao.insertImgLink(img);
 			}
 			if (ImgTypeEnum.DOWNLOAD_IMG == imgType) {
-				saveToDisk(id, img, index++);
+				saveToDisk(id, img);
 				cnt = imgList.size();
 			}
 		}
 		log.info("type = {}, id = {}, 总共更新{}条数据", imgType, id, cnt);
 	}
 
-	private void saveToDisk(String id, String img, int index) {
+	private void saveToDisk(String id, String img) {
 		log.info("id = {}, img = {}, index = {}", id, img, index);
 		String osName = environment.getProperty("os.name");
 		log.info("osName = {}", osName);
@@ -146,6 +163,7 @@ public class CronTaskBySpider {
 			return;
 		}
 		fileName += "/" + index + ".jpg";
+		index++;
 		log.info("fileName = {}", fileName);
 		try {
 			FileUtils.copyURLToFile(new URL(img), new File(fileName));

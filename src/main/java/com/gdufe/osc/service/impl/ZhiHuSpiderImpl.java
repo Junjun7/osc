@@ -33,7 +33,7 @@ public class ZhiHuSpiderImpl implements ZhiHuSpider {
 
 	@Override
 	public void spider(String id) {
-		es.submit(() -> cronTaskBySpider.spider(id, "20", ImgTypeEnum.DOWNLOAD_IMG));
+		es.submit(() -> cronTaskBySpider.spider(id, 10, ImgTypeEnum.DOWNLOAD_IMG));
 	}
 }
 
