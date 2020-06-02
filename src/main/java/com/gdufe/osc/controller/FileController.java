@@ -23,16 +23,16 @@ public class FileController {
 	public void readImgUrl(HttpServletResponse response,
 	                       @PathVariable(value = "id", required = false) String id, String index) {
 		try {
-			byte[] bytes = FileUtils.readFileToByteArray(new File("/home/tomcat/apache-tomcat-8.5.23/workspace/osc/img/" + id + "/" + index + ".jpg"));
+			String fileName = "/home/tomcat/apache-tomcat-8.5.23/workspace/osc/img/" + id + "/" + index + ".jpg";
+			byte[] bytes = FileUtils.readFileToByteArray(new File(fileName));
 			if (bytes == null) {
 				log.error("读取图片出错,该图片可能不存在");
 			}
 			response.getOutputStream().write(bytes);
 			response.flushBuffer();
-			log.info("成功读取到了图片，位置为：{}", id);
+			log.info("成功读取到了图片，位置为：{}", fileName);
 		} catch (IOException e) {
-			e.printStackTrace();
-			log.error("读取图片出错，message={}", e.getMessage());
+			log.error("读取图片出错，e = {}", e);
 		}
 	}
 }
