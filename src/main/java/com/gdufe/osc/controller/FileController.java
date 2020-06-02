@@ -21,9 +21,9 @@ public class FileController {
 
 	@RequestMapping("/img/url/{id}")
 	public void readImgUrl(HttpServletResponse response,
-	                       @PathVariable(value = "id", required = false) String id) {
+	                       @PathVariable(value = "id", required = false) String id, String index) {
 		try {
-			byte[] bytes = FileUtils.readFileToByteArray(new File("/home/tomcat/apache-tomcat-8.5.23/workspace/osc/img/" + id + ".jpg"));
+			byte[] bytes = FileUtils.readFileToByteArray(new File("/home/tomcat/apache-tomcat-8.5.23/workspace/osc/img/" + id + "/" + index + ".jpg"));
 			if (bytes == null) {
 				log.error("读取图片出错,该图片可能不存在");
 			}
