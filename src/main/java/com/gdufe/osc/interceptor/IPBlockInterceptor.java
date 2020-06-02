@@ -4,6 +4,7 @@ import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.IPUtils;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author: yizhen
@@ -54,6 +56,9 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 		}
 	}
 
+	private static final Set<String> WHITE_URL = Sets.newHashSet("zhihu//download/spider",
+			"task/img/url");
+
 	private boolean checkAgent(HttpServletRequest request) {
 		String header = request.getHeader(USERAGENT);
 		String ip = IPUtils.getClientIp(request);
@@ -66,7 +71,15 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 			log.error("请求头有问题，拦截 ==> User-Agent = {}, ip = {}, url = {}, param = {}", header, ip, url, param);
 			return false;
 		}
-		if (!header.contains(wechatMessage) && !"0:0:0:0:0:0:0:1".equals(ip)) {
+		if (!header.contains(wechatMessage)) {
+			if ("0:0:0:0:0:0:0:1".equals(ip)) {
+				return true;
+			}
+			for (String whiteUrl : WHITE_URL) {
+				if (url.contains(whiteUrl)) {
+					return true;
+				}
+			}
 			log.error("请求头有问题，拦截 ==> User-Agent = {}, ip = {}, url = {}, param = {}", header, ip, url, param);
 			return false;
 		}
