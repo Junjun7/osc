@@ -56,7 +56,7 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 		}
 	}
 
-	private static final Set<String> WHITE_URL = Sets.newHashSet("zhihu//download/spider",
+	private static final Set<String> WHITE_URL = Sets.newHashSet("zhihu/download/spider",
 			"task/img/url");
 
 	private boolean checkAgent(HttpServletRequest request) {
