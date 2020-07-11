@@ -2,6 +2,7 @@ package com.gdufe.osc.service.strategy;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -13,6 +14,6 @@ import java.util.List;
 @Slf4j
 public abstract class ImgTypeStrategy {
 
-	public abstract List<String> getImg(int offset, int limit);
+	public abstract Mono<List<String>> getImg(int offset, int limit);
 
 }

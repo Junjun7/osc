@@ -36,6 +36,10 @@ public class SecretUtils {
 	private static String buildKey(String timestamp) {
 		return SALT + "_" + timestamp + "_" + SALT;
 	}
+
+	public static void main(String[] args) {
+
+	}
 }
 
 

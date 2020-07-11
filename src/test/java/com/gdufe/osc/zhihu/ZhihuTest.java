@@ -33,12 +33,12 @@ public class ZhihuTest extends OscApplicationTests {
 
 	@Test
 	public void testZhihu() {
-		String res = gson.toJson(zhuHuSpiderController.listSpiderImg(1, 10, "1"));
-		log.info("res = {}", res);
-		res = gson.toJson(zhuHuSpiderController.listSpiderImg(1, 10, "2"));
-		log.info("res = {}", res);
-		res = gson.toJson(zhuHuSpiderController.listDownloadImg());
-		log.info("res = {}", res);
+//		String res = gson.toJson(zhuHuSpiderController.listSpiderImg(1, 10, "1"));
+//		log.info("res = {}", res);
+//		res = gson.toJson(zhuHuSpiderController.listSpiderImg(1, 10, "2"));
+//		log.info("res = {}", res);
+//		res = gson.toJson(zhuHuSpiderController.listDownloadImg());
+//		log.info("res = {}", res);
 	}
 
 	@Test

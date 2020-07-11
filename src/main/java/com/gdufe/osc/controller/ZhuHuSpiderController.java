@@ -14,8 +14,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: yizhen
@@ -31,15 +34,34 @@ public class ZhuHuSpiderController {
 	@Autowired
 	private StrategyHelper strategyHelper;
 
-	@TimeWatch
+//	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
+//	public OscResult<List<String>> listSpiderImg(int offset, int limit, String type) {
+//		ImgTypeStrategy strategy = strategyHelper.getImgTypeStrategy(type);
+//		List<String> imgList = strategy.getImg(offset, limit);
+//		if (CollectionUtils.isEmpty(imgList)) {
+//			return new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
+//		}
+//		return new OscResult<List<String>>().success(imgList);
+//	}
+
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
-	public OscResult<List<String>> listSpiderImg(int offset, int limit, String type) {
+	public Mono<List<String>> listSpiderImgFlux(int offset, int limit, String type) {
 		ImgTypeStrategy strategy = strategyHelper.getImgTypeStrategy(type);
-		List<String> imgList = strategy.getImg(offset, limit);
-		if (CollectionUtils.isEmpty(imgList)) {
-			return new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
+		Mono<List<String>> mono = strategy.getImg(offset, limit);
+		if (mono == null) {
+			return mono.justOrEmpty(Optional.empty());
 		}
-		return new OscResult<List<String>>().success(imgList);
+		mono.doOnNext((imgList) -> {
+			imgList.forEach((img) -> {
+				List<String> res = new ArrayList<>();
+				if (img.indexOf("http") != -1) {
+					// 业务逻辑
+					res.add(img);
+					log.info("x = {}", img);
+				}
+			});
+		}).subscribe();
+		return mono;
 	}
 
 	@RequestMapping(value = "/download/img", method = RequestMethod.GET)

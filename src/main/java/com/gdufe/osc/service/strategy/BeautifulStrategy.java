@@ -8,6 +8,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,7 +25,7 @@ public class BeautifulStrategy extends ImgTypeStrategy {
 	private ImgDao imgDao;
 
 	@Override
-	public List<String> getImg(int offset, int limit) {
+	public Mono<List<String>> getImg(int offset, int limit) {
 		offset = convertOffset(limit);
 		List<Img> imgs = imgDao.listImgLink(offset, limit);
 		if (CollectionUtils.isEmpty(imgs)) {
@@ -34,7 +35,7 @@ public class BeautifulStrategy extends ImgTypeStrategy {
 		for (Img img : imgs) {
 			res.add(img.getLink());
 		}
-		return res;
+		return Mono.justOrEmpty(res);
 	}
 
 	/** 随机选择图片 */
