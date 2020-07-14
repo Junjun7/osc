@@ -2,6 +2,7 @@ package com.gdufe.osc.service;
 
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.utils.CacheToken;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -17,11 +18,19 @@ public interface TweetListService {
 	/** 根据tweetId获取tweet的信息 */
 	TweetListDetails getTweetList(String tweetId);
 
-	default String getIdsUrl() {
-		return "https://www.oschina.net/action/openapi/tweet_list?dataType=json&access_token=" + CacheToken.getToken();
+	default String getIdsUrl(RedisService redisService) {
+		String token = CacheToken.getToken();
+		if (StringUtils.isEmpty(token)) {
+			token = redisService.getToken();
+		}
+		return "https://www.oschina.net/action/openapi/tweet_list?dataType=json&access_token=" + token;
 	}
 
-	default String getDetailsUrl() {
-		return "https://www.oschina.net/action/openapi/tweet_detail?dataType=json&access_token=" + CacheToken.getToken();
+	default String getDetailsUrl(RedisService redisService) {
+		String token = CacheToken.getToken();
+		if (StringUtils.isEmpty(token)) {
+			token = redisService.getToken();
+		}
+		return "https://www.oschina.net/action/openapi/tweet_detail?dataType=json&access_token=" + token;
 	}
 }

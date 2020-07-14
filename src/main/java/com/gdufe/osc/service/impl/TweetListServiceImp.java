@@ -4,6 +4,7 @@ import com.gdufe.osc.entity.TweetList;
 import com.gdufe.osc.entity.TweetListDetails;
 import com.gdufe.osc.entity.TweetListMore;
 import com.gdufe.osc.service.CacheHelper;
+import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.service.TweetListService;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.NumberUtils;
@@ -32,6 +33,9 @@ public class TweetListServiceImp implements TweetListService {
 	@Autowired
 	private CacheHelper<TweetListDetails> cacheHelper;
 
+	@Autowired
+	private RedisService redisService;
+
 	private Gson gson = new Gson();
 
 	@Override
@@ -53,7 +57,7 @@ public class TweetListServiceImp implements TweetListService {
 	}
 
 	private List<TweetListDetails> getTweetListDetails(List<Integer> ids) {
-		String tweetUrl = getDetailsUrl();
+		String tweetUrl = getDetailsUrl(redisService);
 		List<TweetListDetails> res = Lists.newArrayList();
 		for (int id : ids) {
 			String url = tweetUrl + "&id=" + id;
@@ -174,7 +178,7 @@ public class TweetListServiceImp implements TweetListService {
 	}
 
 	private String getTweetUrl(int page, int pageSize, String user) {
-		String tweetUrl = getIdsUrl();
+		String tweetUrl = getIdsUrl(redisService);
 		tweetUrl += "&user=" + user + "&pageSize=" + pageSize + "&page=" + page;
 		return tweetUrl;
 	}
