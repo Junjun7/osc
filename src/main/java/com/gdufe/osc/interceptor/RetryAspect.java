@@ -25,7 +25,7 @@ public class RetryAspect {
 	public void pointcutRetry(Retry retry) {}
 
 	@Around(value = "pointcutRetry(retry)")
-	public Object methodAround(ProceedingJoinPoint joinPoint, Retry retry) {
+	public Object methodAround(ProceedingJoinPoint joinPoint, Retry retry) throws Exception {
 		int times = 0;
 		int maxRetry = retry.maxRetry();
 		do {
@@ -39,7 +39,7 @@ public class RetryAspect {
 				}
 			}
 		} while (++times <= maxRetry);
-		return null;
+		throw new Exception("重试[" + maxRetry + "]次失败");
 	}
 }
 
