@@ -1,6 +1,7 @@
 package com.gdufe.osc.scheduled;
 
 import com.gdufe.osc.entity.AccessToken;
+import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.utils.CacheToken;
 import com.gdufe.osc.utils.HttpHelper;
@@ -29,7 +30,7 @@ public class CronTaskByFreshToken {
 
 	/** 每天凌晨3.30更新token */
 	@Scheduled(cron = "0 30 3 * * ?")
-	public void refreshCache() {
+	public void refreshCache() throws NetworkException {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		AccessToken accessToken = getAccessToken();
 		String newToken = accessToken.getAccessToken();
@@ -41,7 +42,7 @@ public class CronTaskByFreshToken {
 		log.info("refreshCache 执行花费时长： {}", duration);
 	}
 
-	private AccessToken getAccessToken() {
+	private AccessToken getAccessToken() throws NetworkException {
 		String urlToken = "";
 		urlToken = URL + HttpHelper.getCode();
 		log.info("code = {}", StringUtils.substringAfter(urlToken, "code="));

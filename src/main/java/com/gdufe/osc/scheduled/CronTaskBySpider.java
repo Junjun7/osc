@@ -5,6 +5,7 @@ import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.enums.ImgTypeEnum;
+import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.common.collect.Lists;
@@ -55,7 +56,7 @@ public class CronTaskBySpider {
 	/** 每天凌晨3点执行爬虫 */
 	@Scheduled(cron = "0 30 3 * * ?")
 	@CacheEvict(value = {"zhiHuImg", "zhiHuImgCount"}, allEntries = true)
-	public void imgSpider() throws InterruptedException {
+	public void imgSpider() throws InterruptedException, NetworkException {
 		ImmutablePair<List<String>, List<String>> pair = initIds();
 		if (pair == null) {
 			return;
@@ -97,7 +98,7 @@ public class CronTaskBySpider {
 	 * @param imgType
 	 */
 	private static int index = 1;
-	public void spider(String id, int limit, ImgTypeEnum imgType) {
+	public void spider(String id, int limit, ImgTypeEnum imgType) throws NetworkException {
 		this.index = 1;
 		for (int i = 1; i <= limit; i++) {
 			int x = 5 * i;
@@ -115,7 +116,7 @@ public class CronTaskBySpider {
 	 * @param limit
 	 * @param imgType
 	 */
-	public void spider(String id, String limit, ImgTypeEnum imgType) {
+	public void spider(String id, String limit, ImgTypeEnum imgType) throws NetworkException {
 		log.info("id = {}, limit = {}, imgType = {}", id, limit, imgType);
 		// 统计更新了多少
 		int cnt = 0;
@@ -192,7 +193,7 @@ public class CronTaskBySpider {
 		return PREFIX + id + SUFFIX + offset;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NetworkException {
 		String url = PREFIX + "328457531" + SUFFIX + "10";
 		System.out.println(url);
 		String data = HttpHelper.get(url, CK, null);

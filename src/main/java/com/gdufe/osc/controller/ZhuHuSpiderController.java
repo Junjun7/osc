@@ -53,12 +53,12 @@ public class ZhuHuSpiderController {
 
 	@TimeWatch
 	@RequestMapping(value = "/download/spider", method = RequestMethod.GET)
-	public OscResult<String> executeSpider(String id) {
+	public OscResult<String> executeSpider(String id, int limit) {
 		if (StringUtils.isEmpty(id)) {
 			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
-		log.info("id = {}", id);
-		zhiHuSpider.spider(id);
+		log.info("id = {}, limit = {}", id, limit);
+		zhiHuSpider.spider(id, limit);
 		return new OscResult<String>().success(OscResultEnum.RUNNING_SPIDER.getMsg());
 	}
 }

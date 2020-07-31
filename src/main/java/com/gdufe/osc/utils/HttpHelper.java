@@ -3,6 +3,9 @@ package com.gdufe.osc.utils;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.gdufe.osc.annotation.Retry;
+import com.gdufe.osc.enums.OscResultEnum;
+import com.gdufe.osc.exception.NetworkException;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +24,7 @@ public class HttpHelper {
 
 	public static final String UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36";
 
-	private HttpHelper() {}
+	public HttpHelper() {}
 
 	public static String get(String url) {
 		HttpRequest request = HttpRequest.get(url)
@@ -35,7 +38,8 @@ public class HttpHelper {
 		return body;
 	}
 
-	public static String get(String url, String cookie, Map<String, Object> map) {
+	@Retry(maxRetry = 3)
+	public static String get(String url, String cookie, Map<String, Object> map) throws NetworkException {
 		HttpRequest request = HttpRequest.get(url)
 				.header(Header.USER_AGENT, UA);
 		if (!CollectionUtils.isEmpty(map)) {
@@ -49,6 +53,7 @@ public class HttpHelper {
 			body = request.execute().body();
 		} catch (Exception e) {
 			log.error("get请求失败，message: {}", e.getMessage());
+			throw new NetworkException(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		return body;
 	}
@@ -67,7 +72,8 @@ public class HttpHelper {
 		return body;
 	}
 
-	public static String getCode() {
+	@Retry(maxRetry = 3)
+	public static String getCode() throws NetworkException {
 		String cookies = "_user_behavior_=e630430d-2736-4008-869d-e186330c487c; oscid=nM1CUeLEvOAfEgaKtB2C%2F6f7l2MdmwbMS4YhOZ%2FLJE3fjc5xFZi7nn4%2FDoeh9ZcJE6UMC%2FWo8tQPQgK1CTjg8uV2nVpeTtuzMlgYUQw6a3bZ2te1xz4t8Pmhw%2FYc1mC89nSv%2BTeXDjxQhhFRn2KDpochuiHXbnO80ZZEWRnEvpU%3D; aliyungf_tc=AQAAACstpXnRCQkAcvQ+t/+3DnL1HcUl; gitee-session-n=BAh7CEkiD3Nlc3Npb25faWQGOgZFVEkiJTNlZDEwYjNlNzA3OTk2NjVkYWYwNTIzODg3OTM4YjUzBjsAVEkiF21vYnlsZXR0ZV9vdmVycmlkZQY7AEY6CG5pbEkiEF9jc3JmX3Rva2VuBjsARkkiMS9scU5JUjJubjlSRDJPN1NzbElwZWQxa2YyWTd0bUwyZzJIclYwWkx5YXM9BjsARg%3D%3D--857244952ff89e85de5932e0cb1b82430729b2c0";
 		String url = "https://www.oschina.net/action/oauth2/authorize";
 		Map<String, Object> map = Maps.newHashMap();
@@ -87,6 +93,7 @@ public class HttpHelper {
 			code = StringUtils.substringBetween(location, "=", "&");
 		} catch (Exception e) {
 			log.error("获取code失败...", e.getMessage());
+			throw new NetworkException(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		return code;
 	}

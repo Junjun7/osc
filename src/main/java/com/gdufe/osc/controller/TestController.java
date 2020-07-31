@@ -1,6 +1,7 @@
 package com.gdufe.osc.controller;
 
 import com.gdufe.osc.entity.AccessToken;
+import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.scheduled.CronTaskBySpider;
 import com.gdufe.osc.service.RedisHelper;
 import com.gdufe.osc.utils.TokenUtils;
@@ -37,7 +38,7 @@ public class TestController {
 	}
 
 	@RequestMapping("/zhihu")
-	public String zhiHu() throws InterruptedException {
+	public String zhiHu() throws InterruptedException, NetworkException {
 		cronTaskBySpider.imgSpider();
 		return "ok";
 	}

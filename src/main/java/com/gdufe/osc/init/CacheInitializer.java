@@ -1,5 +1,6 @@
 package com.gdufe.osc.init;
 
+import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.scheduled.CronTaskByFreshToken;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.utils.CacheToken;
@@ -31,7 +32,7 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		}
 	}
 
-	private void init() {
+	private void init() throws NetworkException {
 		// fresh token by code
 		cronTaskByFreshToken.refreshCache();
 		String token = redisService.getToken();
