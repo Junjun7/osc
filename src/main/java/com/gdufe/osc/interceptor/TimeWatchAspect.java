@@ -7,10 +7,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,7 +37,7 @@ public class TimeWatchAspect {
 			res = joinPoint.proceed();
 			// 后置通知
 			long duration = stopwatch.elapsed(TimeUnit.MILLISECONDS);
-			log.info("{} 执行时长: {}ms", methodName, duration);
+			log.info("{} 执行时长: {} ms", methodName, duration);
 		} catch (Throwable throwable) {
 			throwable.printStackTrace();
 		}

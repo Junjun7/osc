@@ -4,9 +4,11 @@ import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.dao.mapper.master.ImgMapper;
 import com.gdufe.osc.entity.Img;
 import com.gdufe.osc.entity.ImgExample;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  * @author: yizhen
  * @date: 2019/4/20 21:27
  */
+@Slf4j
 @Repository
 public class ImgDaoImpl implements ImgDao {
 
@@ -56,12 +59,15 @@ public class ImgDaoImpl implements ImgDao {
 	@Cacheable(value = "zhiHuImg", key = "#offset + '_' + #limit")
 	@Override
 	public List<Img> listImgLink(int offset, int limit) {
+		log.info("offset = {}, limit = {}", offset, limit);
 		ImgExample example = new ImgExample();
 		example.createCriteria().andLinkNotLike("http:%");
 		example.setOffset(offset);
 		example.setLimit(limit);
 		example.setOrderByClause("id DESC");
-		return imgMapper.selectByExample(example);
+		List<Img> res = imgMapper.selectByExample(example);
+		log.info("res = {}", CollectionUtils.isEmpty(res));
+		return res;
 	}
 
 	@Cacheable(value = "zhiHuImgCount")
