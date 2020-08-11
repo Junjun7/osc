@@ -35,16 +35,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
 				.addPathPatterns("/**")
 				.excludePathPatterns("/spring/**")
 				.excludePathPatterns("/task/**");
-
-		registry.addInterceptor(accessLimitInterceptor())
-				.addPathPatterns("/**")
-				.excludePathPatterns("/spring/**")
-				.excludePathPatterns("/task/**");
-
-		registry.addInterceptor(ipBlockInterceptor())
-				.addPathPatterns("/**")
-				.excludePathPatterns("/spring/**")
-				.excludePathPatterns("/task/**");
 	}
 }
 
