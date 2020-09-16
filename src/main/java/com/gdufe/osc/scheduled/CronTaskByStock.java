@@ -53,8 +53,8 @@ public class CronTaskByStock {
 				String stockName = json.get("SECURITY_NAME").getAsString();
 				if (dt.equals(date)) {
 					send = true;
-					name.append(stockName);
-					name.append("--");
+					name.append(dt + "  " + stockName);
+					name.append("\n");
 					log.info("date = {}, stockName = {}", date, stockName);
 				}
 			}
