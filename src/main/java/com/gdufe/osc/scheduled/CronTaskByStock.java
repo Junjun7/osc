@@ -31,7 +31,6 @@ public class CronTaskByStock {
 	public void notifyStockTime() {
 		try {
 			String content = HttpHelper.get(url);
-			log.info("content = {}", content);
 			if (StringUtils.isEmpty(content) || !content.startsWith("jsonpCallback")) {
 				log.error("e = {}", content);
 				weChatNoticeUtils.setMessage("股票爬取失败，请您及时排查问题..", content);
