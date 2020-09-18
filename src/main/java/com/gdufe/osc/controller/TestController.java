@@ -1,6 +1,7 @@
 package com.gdufe.osc.controller;
 
 import com.gdufe.osc.entity.AccessToken;
+import com.gdufe.osc.entity.Person;
 import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.scheduled.CronTaskBySpider;
 import com.gdufe.osc.service.RedisHelper;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @Author: yizhen
@@ -70,6 +73,11 @@ public class TestController {
 
 		AccessToken accessToken = new AccessToken();
 		return redisHelper.setEx(key, 30L, accessToken);
+	}
+
+	@RequestMapping("/person")
+	public void testValidate(@Valid Person person) {
+		log.info("person = " + person);
 	}
 }
 

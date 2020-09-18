@@ -15,4 +15,5 @@ public abstract class ImgTypeStrategy {
 
 	public abstract List<String> getImg(int offset, int limit);
 
+	public abstract String getServiceName();
 }

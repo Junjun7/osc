@@ -37,6 +37,11 @@ public class BeautifulStrategy extends ImgTypeStrategy {
 		return res;
 	}
 
+	@Override
+	public String getServiceName() {
+		return "beautifulImg";
+	}
+
 	/** 随机选择图片 */
 	private Integer convertOffset(int limit) {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
