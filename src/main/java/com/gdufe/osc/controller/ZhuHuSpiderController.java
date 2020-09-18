@@ -34,11 +34,15 @@ public class ZhuHuSpiderController {
 	@TimeWatch
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
 	public OscResult<List<String>> listSpiderImg(int offset, int limit, String type) {
+		log.info("offset = {}, limit = {}, type = {}", offset, limit, type);
 		ImgTypeStrategy strategy = strategyHelper.getImgTypeStrategy(type);
+		log.info("strategy = {}", strategy);
 		List<String> imgList = strategy.getImg(offset, limit);
 		if (CollectionUtils.isEmpty(imgList)) {
+			log.info("list is empty");
 			return new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
 		}
+		log.info("list success");
 		return new OscResult<List<String>>().success(imgList);
 	}
 

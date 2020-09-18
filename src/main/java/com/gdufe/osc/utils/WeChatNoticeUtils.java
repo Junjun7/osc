@@ -7,8 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -49,22 +47,6 @@ public class WeChatNoticeUtils {
 		titleMap.put("value", title);
 		titleMap.put("color", "#333333");
 		data.put("first", titleMap);
-		// 紧急程度
-		Map<String, String> levelMap = Maps.newHashMap();
-		levelMap.put("value", "紧急");
-		levelMap.put("color", "#ff0000");
-		data.put("keyword1", levelMap);
-		// 无意义
-		Map<String, String> mapNoMeaning = Maps.newHashMap();
-		mapNoMeaning.put("value", "");
-		mapNoMeaning.put("color", "#ff0000");
-		data.put("keyword2", mapNoMeaning);
-		// 时间
-		Map<String, String> dateMap = Maps.newHashMap();
-		dateMap.put("value", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
-		dateMap.put("color", "#333333");
-		data.put("keyword3", dateMap);
-		// 具体内容
 		Map<String, String> contentMap = Maps.newHashMap();
 		contentMap.put("value", content);
 		contentMap.put("color", "#333333");
