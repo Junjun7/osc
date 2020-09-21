@@ -3,9 +3,14 @@ package com.gdufe.osc.controller;
 import com.gdufe.osc.annotation.TimeWatch;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.entity.DownloadImg;
+import com.gdufe.osc.entity.request.ListSpiderImgRequest;
+import com.gdufe.osc.enums.ImgTypeEnum;
 import com.gdufe.osc.enums.OscResultEnum;
+import com.gdufe.osc.factory.ImgFactory;
 import com.gdufe.osc.service.ZhiHuSpider;
+import com.gdufe.osc.service.processor.ProcessExecutor;
 import com.gdufe.osc.service.strategy.ImgTypeStrategy;
+import com.gdufe.osc.utils.NumberUtils;
 import com.gdufe.osc.utils.StrategyHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -30,6 +36,8 @@ public class ZhuHuSpiderController {
 	private ZhiHuSpider zhiHuSpider;
 	@Autowired
 	private StrategyHelper strategyHelper;
+	@Autowired
+	private ImgFactory imgFactory;
 
 	@TimeWatch
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
@@ -44,6 +52,23 @@ public class ZhuHuSpiderController {
 		}
 		log.info("list success");
 		return new OscResult<List<String>>().success(imgList);
+	}
+
+	@TimeWatch
+	@RequestMapping(value = "/process/spider/get", method = RequestMethod.GET)
+	public OscResult<List<String>> listSpiderImgV2(@Valid ListSpiderImgRequest listSpiderImgRequest) throws Exception {
+		log.info("listSpiderImgRequest = " + listSpiderImgRequest);
+		ImgTypeEnum imgTypeEnum = ImgTypeEnum.findByValue(NumberUtils.toInt(listSpiderImgRequest.getType()));
+		return process(() -> imgFactory.getService(imgTypeEnum.name())
+				.getImg(listSpiderImgRequest.getOffset(), listSpiderImgRequest.getLimit()));
+	}
+
+	public <T> OscResult<T> process(ProcessExecutor<T> executor) throws Exception {
+		T execute = executor.execute();
+		if (execute == null) {
+			throw new Exception("数据为空");
+		}
+		return new OscResult<T>().success(execute);
 	}
 
 	@RequestMapping(value = "/download/img", method = RequestMethod.GET)

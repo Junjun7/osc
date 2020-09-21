@@ -6,6 +6,7 @@ import com.gdufe.osc.scheduled.CronTaskByFreshToken;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,6 +50,13 @@ public class ExceptionController {
 		}
 		// 其他异常 未知
 		log.error(throwable + "");
+		return new OscResult<String>().fail();
+	}
+
+	@ResponseBody
+	@ExceptionHandler(value = BindException.class)
+	public OscResult<String> exceptionError(BindException bindException) {
+		log.error("bindException = {}", bindException.getMessage());
 		return new OscResult<String>().fail();
 	}
 }
