@@ -40,9 +40,8 @@ public class ZhuHuSpiderController {
 	private ImgFactory imgFactory;
 
 	@TimeWatch
-	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/process/spider/get", method = RequestMethod.GET)
 	public OscResult<List<String>> listSpiderImg(int offset, int limit, String type) {
-		log.info("offset = {}, limit = {}, type = {}", offset, limit, type);
 		ImgTypeStrategy strategy = strategyHelper.getImgTypeStrategy(type);
 		log.info("strategy = {}", strategy);
 		List<String> imgList = strategy.getImg(offset, limit);
@@ -54,11 +53,21 @@ public class ZhuHuSpiderController {
 		return new OscResult<List<String>>().success(imgList);
 	}
 
+	/**
+	 * 此方法是上面的V2, 可以学习下下面的技术
+	 * 1: 校验参数  @Valid
+	 * 2: TimeWatch 打印如参出参 + 执行时间
+	 * 3: process是一个通用的方法
+	 *
+	 * @param listSpiderImgRequest
+	 * @return
+	 * @throws Exception
+	 */
 	@TimeWatch
-	@RequestMapping(value = "/process/spider/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
 	public OscResult<List<String>> listSpiderImgV2(@Valid ListSpiderImgRequest listSpiderImgRequest) throws Exception {
-		log.info("listSpiderImgRequest = " + listSpiderImgRequest);
 		ImgTypeEnum imgTypeEnum = ImgTypeEnum.findByValue(NumberUtils.toInt(listSpiderImgRequest.getType()));
+		log.info("imgTypeEnum = {}", imgTypeEnum);
 		return process(() -> imgFactory.getService(imgTypeEnum.name())
 				.getImg(listSpiderImgRequest.getOffset(), listSpiderImgRequest.getLimit()));
 	}
