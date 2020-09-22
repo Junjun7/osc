@@ -22,6 +22,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Slf4j
 public class PicStrategy extends ImgTypeStrategy {
 
+	private static final String SERVICE_NAME = "PIC_IMG";
+
 	@Autowired
 	private ImgBiZhiDao imgBiZhiDao;
 
@@ -47,7 +49,7 @@ public class PicStrategy extends ImgTypeStrategy {
 
 	@Override
 	public String getServiceName() {
-		return "picImg";
+		return SERVICE_NAME;
 	}
 
 	/** 随机选择图片 */

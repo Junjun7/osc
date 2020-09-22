@@ -20,6 +20,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Slf4j
 public class BeautifulStrategy extends ImgTypeStrategy {
 
+	private static final String SERVICE_NAME = "BEAUTIFUL_IMG";
+
 	@Autowired
 	private ImgDao imgDao;
 
@@ -39,7 +41,7 @@ public class BeautifulStrategy extends ImgTypeStrategy {
 
 	@Override
 	public String getServiceName() {
-		return "beautifulImg";
+		return SERVICE_NAME;
 	}
 
 	/** 随机选择图片 */
