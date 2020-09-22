@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 /**
  * @author changwenbo
  * @date 2020/9/21 15:51
@@ -19,12 +16,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class ListSpiderImgRequest extends CommonRequest {
 
-	@Min(1)
-	@NotNull(message = "offset不能为空")
 	private int offset;
 
-	@Min(1)
-	@NotNull(message = "limit不能为空")
 	private int limit;
 
 	// 会继承父类的toString
