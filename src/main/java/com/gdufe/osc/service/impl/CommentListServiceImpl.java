@@ -4,8 +4,8 @@ import com.gdufe.osc.entity.CommentList;
 import com.gdufe.osc.entity.CommentListMore;
 import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.CommentListService;
+import com.gdufe.osc.utils.GsonUtils;
 import com.gdufe.osc.utils.HttpHelper;
-import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,12 +33,11 @@ public class CommentListServiceImpl implements CommentListService {
 			return cl;
 		}
 		String url = getCommentUrl(id, page, pageSize);
-//		String commentList = HttpMethod.get(url);
 		String commentList = HttpHelper.get(url);
 		if (StringUtils.isEmpty(commentList)) {
 			return null;
 		}
-		CommentListMore commentListMore = new Gson().fromJson(commentList, CommentListMore.class);
+		CommentListMore commentListMore = GsonUtils.fromJson(commentList, CommentListMore.class);
 		List<CommentList> commentLists = commentListMore.getCommentList();
 		if (CollectionUtils.isEmpty(commentLists)) {
 			return null;

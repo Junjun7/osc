@@ -9,7 +9,6 @@ import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -127,7 +127,7 @@ public class CronTaskBySpider {
 			weChatNoticeUtils.setMessage("爬虫失败", "返回数据为空，或者cookie失效。返回数据data：" + data);
 			return;
 		}
-		Set<String> imgSet = Sets.newHashSet();
+		Set<String> imgSet = new HashSet<>();
 		fillImg(data, imgSet);
 		List<String> imgList = Lists.newArrayList(imgSet);
 		for (String img : imgList) {
