@@ -91,7 +91,7 @@ public class TweetListServiceImp implements TweetListService {
 	}
 
 	private String transferData(String data) {
-		JsonObject parse = GsonUtils.parse(data);
+		JsonObject parse = GsonUtils.toJsonObjectWithNullable(data);
 		if (parse.has("imgBig")) {
 			String imgBig = parse.get("imgBig").getAsString();
 			parse.addProperty("imgBigStr", imgBig);

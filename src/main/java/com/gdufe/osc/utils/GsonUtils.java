@@ -66,6 +66,9 @@ public class GsonUtils {
     }
 
     public static JsonObject toJsonObject(Object src) {
+        if (src instanceof String) {
+            return parse((String)src);
+        }
         try {
             return gson.toJsonTree(src).getAsJsonObject();
         }catch (Exception e) {
@@ -74,27 +77,40 @@ public class GsonUtils {
         }
     }
 
-    public static JsonObject parse(String json) {
-        if (StringUtils.isBlank(json)) {
-           return null;
+    public static JsonObject toJsonObjectWithNullable(Object src) {
+        if (src instanceof String) {
+            return parseWithNullable((String)src);
         }
         try {
-            return (JsonObject) JsonParser.parseString(json);
-        }catch (Exception e){
-            log.error("parse json fail e ", e);
+            return gson.toJsonTree(src).getAsJsonObject();
+        }catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
-        return null;
+        return new JsonObject();
     }
 
-    public static JsonObject parseWithNullable(String json) {
+
+    private static JsonObject parseWithNullable(String json) {
         if (StringUtils.isBlank(json)) {
             return new JsonObject();
         }
         try {
-            return (JsonObject) JsonParser.parseString(json);
+            return JsonParser.parseString(json).getAsJsonObject();
         }catch (Exception e){
             log.warn("parse json fail e ", e);
         }
         return new JsonObject();
+    }
+
+    private static JsonObject parse(String json) {
+        if (StringUtils.isBlank(json)) {
+            return null;
+        }
+        try {
+            return JsonParser.parseString(json).getAsJsonObject();
+        }catch (Exception e){
+            log.error("parse json fail e ", e);
+        }
+        return null;
     }
 }

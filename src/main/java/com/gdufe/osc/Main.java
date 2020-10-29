@@ -14,7 +14,7 @@ public class Main {
 		String s = GsonUtils.toJson(str);
 		System.out.println(s);
 
-		JsonObject parse = GsonUtils.parse(str);
+		JsonObject parse = GsonUtils.toJsonObjectWithNullable(s);
 		System.out.println(parse.get("imgBig").getAsString());
 
 	}
