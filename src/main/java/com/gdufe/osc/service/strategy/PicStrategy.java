@@ -18,11 +18,11 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author changwenbo
  * @date 2020/5/15 16:04
  */
-@Service
+@Service(PicStrategy.SERVICE_NAME)
 @Slf4j
 public class PicStrategy extends ImgTypeStrategy {
 
-	private static final String SERVICE_NAME = "PIC_IMG";
+	public static final String SERVICE_NAME = "PIC_IMG";
 
 	@Autowired
 	private ImgBiZhiDao imgBiZhiDao;

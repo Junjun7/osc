@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author changwenbo
@@ -23,17 +24,17 @@ public class ImgFactory {
 	@Autowired
 	private List<ImgTypeStrategy> imgTypeStrategyList;
 
+	@Autowired
+	private Map<String, ImgTypeStrategy> imgTypeStrategyMap;
+
 	@PostConstruct
 	public void init() {
 		log.info("imgTypeStrategyList = {}", imgTypeStrategyList);
+		log.info("imgTypeStrategyMap = {}", imgTypeStrategyMap);
 	}
 
 	public ImgTypeStrategy getService(String serviceName) {
-
-		return imgTypeStrategyList.stream()
-				.filter(service -> serviceName.equalsIgnoreCase(service.getServiceName()))
-				.findFirst()
-				.orElse(beautifulStrategy);
+		return imgTypeStrategyMap.getOrDefault(serviceName, beautifulStrategy);
 	}
 }
 

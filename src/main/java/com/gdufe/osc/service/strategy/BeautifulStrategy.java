@@ -16,11 +16,11 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author changwenbo
  * @date 2020/5/15 16:04
  */
-@Service
 @Slf4j
+@Service(BeautifulStrategy.SERVICE_NAME)
 public class BeautifulStrategy extends ImgTypeStrategy {
 
-	private static final String SERVICE_NAME = "BEAUTIFUL_IMG";
+	public static final String SERVICE_NAME = "BEAUTIFUL_IMG";
 
 	@Autowired
 	private ImgDao imgDao;
