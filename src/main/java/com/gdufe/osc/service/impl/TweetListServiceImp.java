@@ -19,10 +19,10 @@ import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @Author: yizhen
@@ -58,15 +58,10 @@ public class TweetListServiceImp implements TweetListService {
 
 	private List<TweetListDetails> getTweetListDetails(List<Integer> ids) {
 		String tweetUrl = getDetailsUrl(redisService);
-		List<TweetListDetails> res = Lists.newArrayList();
-		for (int id : ids) {
+		List<TweetListDetails> res = ids.stream().map(id -> {
 			String url = tweetUrl + "&id=" + id;
-			TweetListDetails tweetDetails = getTweetDetails(url);
-			if (Objects.isNull(tweetDetails)) {
-				continue;
-			}
-			res.add(tweetDetails);
-		}
+			return getTweetDetails(url);
+		}).filter(tweet -> tweet != null).collect(Collectors.toList());
 		return res;
 	}
 
@@ -178,10 +173,8 @@ public class TweetListServiceImp implements TweetListService {
 		}
 		TweetListMore tweetListMore = GsonUtils.fromJson(data, TweetListMore.class);
 		List<TweetList> lists = tweetListMore.getTweetlist();
-		List<Integer> ids = new ArrayList<>();
-		lists.forEach(x -> {
-			ids.add(x.getId());
-		});
+		List<Integer> ids = lists.stream().map((TweetList::getId))
+				.collect(Collectors.toList());
 		return ids;
 	}
 
