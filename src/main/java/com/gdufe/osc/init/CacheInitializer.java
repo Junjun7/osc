@@ -22,6 +22,26 @@ public class CacheInitializer implements InitializingBean {
 	@Autowired
 	private CronTaskByFreshToken cronTaskByFreshToken;
 
+	static {
+		hook();
+	}
+
+	private static void hook() {
+		log.info("start....");
+
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				log.info("hook...");
+			}
+		}));
+
+		log.info("end....");
+
+
+	}
+
+
 	@Override
 	public void afterPropertiesSet() {
 		try {
