@@ -34,6 +34,14 @@ public class MasterDatasourceConfig extends BaseDatasourceConfig {
 		return hikariDataSource;
 	}
 
+	@Bean(name = "jade.dataSource.ABCD.AbcDAO")
+	public DataSource jadeDataSource() {
+		Properties prop = buildProperties(masterDatasourceDO());
+		HikariConfig hikariConfig = new HikariConfig(prop);
+		HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+		return hikariDataSource;
+	}
+
 	@Primary
 	@Bean
 	@ConfigurationProperties(prefix = "spring.datasource.master")
