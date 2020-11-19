@@ -2,6 +2,7 @@ package com.gdufe.osc.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -89,6 +90,30 @@ public class GsonUtils {
         return new JsonObject();
     }
 
+    public static JsonArray toJsonArrayWithNullable(Object src) {
+        if (src instanceof String) {
+            return parseArrayWithNullable((String) src);
+        }
+        try {
+            return gson.toJsonTree(src).getAsJsonArray();
+        }catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return new JsonArray();
+    }
+
+    private static JsonArray parseArrayWithNullable(String src) {
+        if (StringUtils.isEmpty(src)) {
+            return new JsonArray();
+        }
+        try {
+            return JsonParser.parseString(src).getAsJsonArray();
+        } catch (Exception e) {
+            log.warn("parse json fail e = {}", e);
+        }
+        return new JsonArray();
+    }
+
 
     private static JsonObject parseWithNullable(String json) {
         if (StringUtils.isBlank(json)) {
@@ -97,7 +122,7 @@ public class GsonUtils {
         try {
             return JsonParser.parseString(json).getAsJsonObject();
         }catch (Exception e){
-            log.warn("parse json fail e ", e);
+            log.warn("parse json fail e = {}", e);
         }
         return new JsonObject();
     }
