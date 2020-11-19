@@ -1,10 +1,10 @@
 package com.gdufe.osc.scheduled;
 
+import com.gdufe.osc.utils.GsonUtils;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -39,16 +39,16 @@ public class CronTaskByStock {
 			int start = content.indexOf("{");
 			int end = content.lastIndexOf("}");
 			String jsonStr = StringUtils.substring(content.substring(start, end + 1), 0, -1) + "}";
-			log.info("jsonStr = {}", jsonStr);
-			JsonObject jsonObject = JsonParser.parseString(jsonStr).getAsJsonObject();
+			JsonObject jsonObject = GsonUtils.toJsonObjectWithNullable(jsonStr);
 			JsonArray jsonArray = jsonObject.get("result").getAsJsonArray();
+			log.info("jsonStr = {}", jsonArray);
 			StringBuilder name = new StringBuilder();
 			DateTime dateTime = DateTime.now();
 			String dt = dateTime.toString(format);
 			boolean send = false;
 			for (int i = 0; i < jsonArray.size(); i++) {
 				JsonObject json = jsonArray.get(i).getAsJsonObject();
-				String date = json.get("OFFLINE_ISSUANCE_START_DATE").getAsString();
+				String date = json.get("ONLINE_ISSUANCE_DATE").getAsString();
 				String stockName = json.get("SECURITY_NAME").getAsString();
 				if (dt.equals(date)) {
 					send = true;
