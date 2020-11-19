@@ -143,7 +143,28 @@
             <version>4.3.0</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>net.paoding</groupId>
+            <artifactId>paoding-rose</artifactId>
+            <version>1.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.paoding</groupId>
+            <artifactId>paoding-rose-jade</artifactId>
+            <version>1.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 
     </dependencies>

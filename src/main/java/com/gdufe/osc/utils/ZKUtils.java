@@ -30,7 +30,7 @@ public class ZKUtils {
 
 	public static boolean connectToZkServer() {
 		client = CuratorFrameworkFactory.builder()
-				.connectString("xxxxxx")
+				.connectString("120.78.159.149")
 				.retryPolicy(new ExponentialBackoffRetry(1000,3))
 				.sessionTimeoutMs(50000)
 				.connectionTimeoutMs(50000)

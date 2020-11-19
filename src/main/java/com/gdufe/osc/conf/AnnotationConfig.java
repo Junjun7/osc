@@ -1,6 +1,8 @@
 package com.gdufe.osc.conf;
 
+import net.paoding.rose.jade.context.spring.JadeBeanFactoryPostProcessor;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -12,4 +14,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableCaching
 public class AnnotationConfig {
+
+	@Bean
+	public JadeBeanFactoryPostProcessor jadeBeanFactoryPostProcessor() {
+		return new JadeBeanFactoryPostProcessor();
+	}
+
 }
