@@ -25,9 +25,6 @@ public class ZKUtils {
 		log.info("init success = {}", client);
 	}
 
-	public static void t() {
-	}
-
 	public static boolean connectToZkServer() {
 		client = CuratorFrameworkFactory.builder()
 				.connectString("120.78.159.149")
@@ -38,8 +35,9 @@ public class ZKUtils {
 		client.start();
 		if (!client.getZookeeperClient().isConnected()) {
 			log.info("zookeeper连接中......");
+		} else {
+			log.info("zookeeper连接成功......");
 		}
-		log.info("zookeeper连接成功......");
 		return true;
 	}
 
@@ -53,6 +51,7 @@ public class ZKUtils {
 				@Override
 				public void nodeChanged() throws Exception {
 					log.info("当前节点 = {}", new String(nodeCache.getCurrentData().getData()));
+
 				}
 			});
 		} catch (Exception e) {
