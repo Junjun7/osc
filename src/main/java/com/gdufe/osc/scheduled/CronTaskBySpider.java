@@ -44,12 +44,16 @@ public class CronTaskBySpider {
 
 	@Autowired
 	private ImgDao imgDao;
+
 	@Autowired
 	private ImgBiZhiDao imgBiZhiDao;
+
 	@Autowired
 	private DownloadImgDao downloadImgDao;
+
 	@Autowired
 	private WeChatNoticeUtils weChatNoticeUtils;
+
 	@Autowired
 	private Environment environment;
 

@@ -27,8 +27,8 @@ public class CronTaskByStock {
 	@Autowired
 	private WeChatNoticeUtils weChatNoticeUtils;
 
-	/** 每天早上九点 */
-	@Scheduled(cron = "0 0 9 * * ?")
+	/** 每天14:20执行 */
+	@Scheduled(cron = "0 20 14 * * ?")
 	public void notifyStockTime() {
 		executeStock();
 		executeBond();

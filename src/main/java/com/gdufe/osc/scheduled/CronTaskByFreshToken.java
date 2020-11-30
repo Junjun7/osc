@@ -39,7 +39,7 @@ public class CronTaskByFreshToken {
 		freshGuavaCache(newToken, newFreshToken);
 		freshRedisCache(newToken, newFreshToken);
 		long duration = stopwatch.elapsed(TimeUnit.MILLISECONDS);
-		log.info("refreshCache 执行花费时长： {}", duration);
+		log.info("refreshCache 执行花费时长： {}ms", duration);
 	}
 
 	private AccessToken getAccessToken() throws NetworkException {
