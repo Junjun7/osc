@@ -5,7 +5,7 @@
 
 - 相信我，如果你能把此项目搞懂，在JAVA领域可以超过90%以上的人。
 
-<div align=center><img width="800" height="400" src="https://raw.githubusercontent.com/wenbochang888/osc/test/src/main/resources/img/liuliang.png"/></div>
+<div align=center><img width="800" height="400" src="https://raw.githubusercontent.com/wenbochang888/osc/test/src/main/resources/img/liuliang.jpg"/></div>
 
 # 包结构讲解
 - annotation注解
