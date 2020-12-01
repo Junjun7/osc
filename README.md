@@ -25,9 +25,6 @@
     - TweetListController。开源中国动弹获取接口
     - **ZhiHuSpiderController。爬虫接口，此接口为小程序的入口，重要！！！**
 
-- dao
-    - mybatis的DAO
-
 - init
     - 项目启动时，需要加载的配置。
     - CacheInitializer。每次项目启动都会重新刷新token，freshToken。可以参考OAuth2
@@ -44,7 +41,7 @@
 - scheduled定时任务
     - CronTaskByFreshToken每天刷新token
     - **CronTaskBySpider，注意此爬虫。每天会定时的爬去知乎的图片**
-    - CronTaskByStock，爬去股票，私人的需要
+    - CronTaskByStock，爬取债券股票交易信息，私人的需要
 
 - service
     - 可以重点看下RedisHelper,ZhihuSpiderImpl,strategy等等。
