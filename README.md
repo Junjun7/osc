@@ -52,11 +52,15 @@
 
 # 小程序
 ## 《开源中国》动弹俱乐部
-~~旧的项目已经不在维护。可参考controller下面的Tweet开头的内容~~
+~~旧的项目已经不在维护。可参考controller下面的Tweet开头的内容。但仍能爬取成功~~
 
 ## 《知乎爬虫》
 爬取知乎热门的提问的图片，放到小程序中。可参考**ZhuHuSpiderController**
 <div align=center><img width="200" height="200" src="https://pic2.zhimg.com/50/v2-4c1f2eff30128ff7ce009dfc7778a3e3_r.jpg"/></div>
+
+### 注意
+- 如果想自己启动本项目，修改application.properties里面的mysql，redis地址即可。
+- 本项目仅仅依赖mysql和redis
 
 # 测试
 深知测试的重要性，因此尽量做到代码90%以上的全覆盖。(10%有一些测试不到，比如异常，依赖其他服务等等)
