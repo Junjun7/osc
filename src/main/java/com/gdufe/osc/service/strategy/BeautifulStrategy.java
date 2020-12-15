@@ -1,16 +1,12 @@
 package com.gdufe.osc.service.strategy;
 
-import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.Img;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author changwenbo
@@ -21,9 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class BeautifulStrategy extends ImgTypeStrategy {
 
 	public static final String SERVICE_NAME = "BEAUTIFUL_IMG";
-
-	@Autowired
-	private ImgDao imgDao;
 
 	@Override
 	public List<String> getImg(int offset, int limit) {
@@ -42,17 +35,5 @@ public class BeautifulStrategy extends ImgTypeStrategy {
 	@Override
 	public String getServiceName() {
 		return SERVICE_NAME;
-	}
-
-	/** 随机选择图片 */
-	private Integer convertOffset(int limit) {
-		ThreadLocalRandom random = ThreadLocalRandom.current();
-		int cnt = NumberUtils.toInt(imgDao.countImg() + "");
-		int rd = random.nextInt(cnt);
-		if (rd > limit) {
-			rd -= limit;
-		}
-		log.info("图片随机位置为：{}", rd);
-		return rd;
 	}
 }
