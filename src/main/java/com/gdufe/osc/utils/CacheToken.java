@@ -41,6 +41,14 @@ public class CacheToken {
 
 		return cache.getIfPresent(TokenConsts.FRESH_TOKEN);
 	}
+
+	public static void putCK(String ck) {
+		cache.put("ck", ck);
+	}
+
+	public static String getCK() {
+		return cache.getIfPresent("ck");
+	}
 }
 
 

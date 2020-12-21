@@ -6,6 +6,7 @@ import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.enums.ImgTypeEnum;
 import com.gdufe.osc.exception.NetworkException;
+import com.gdufe.osc.utils.CacheToken;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.common.collect.Lists;
@@ -128,7 +129,7 @@ public class CronTaskBySpider {
 		// 统计更新了多少
 		int cnt = 0;
 		String url = getRealUrl(id, limit);
-		String data = HttpHelper.get(url, CK, null);
+		String data = HttpHelper.get(url, CacheToken.getCK(), null);
 		if (StringUtils.isEmpty(data) || data.contains("AuthenticationInvalidRequest")) {
 			log.error("返回数据为空，或者cookie失效。返回数据data：{}", data);
 			weChatNoticeUtils.setMessage("爬虫失败", "返回数据为空，或者cookie失效。返回数据data：" + data);
@@ -203,7 +204,7 @@ public class CronTaskBySpider {
 	public static void main(String[] args) throws NetworkException {
 		String url = PREFIX + "328457531" + SUFFIX + "10";
 		System.out.println(url);
-		String data = HttpHelper.get(url, CK, null);
+		String data = HttpHelper.get(url, "_zap=0f1d5301-390e-40fd-9487-274602a54fef; d_c0=\"AIDYPxWLrhGPTirG1Y3oNaDSsuIeIvDmVlo=|1596551178\"; _ga=GA1.2.1469994816.1596551179; _xsrf=76d4v4yyGpyewAw3TWcikayUgDg4yl1X; z_c0=Mi4xdlUzZUFRQUFBQUFBZ05nX0ZZdXVFUmNBQUFCaEFsVk5JdXNjWUFDQUhhWHJZMVZKWmx3X2xBM0pXUlg4RDkzZGZB|1596955938|605a43af6e542c75e25ca5f1fcb4a39537c8518e; tst=r; q_c1=e0445df378724864a0000c6f232685bd|1605268376000|1596721277000; Hm_lvt_98beee57fd2ef70ccdd5ca52b9740c49=1606744611,1607609986,1607842154,1607861483; SESSIONID=A71wJaRTqRAipsF4FJNGue03DjsEqD2qkMIvsTsEPUU; JOID=Wl0XAkKkckl3hPNxdK2e2N_tQNJv6EJ7CM-fJCPULQ8d_IE6R6vBnyGI-XV_vJtZtOMKFrtXueawzpf65JD_Sjs=; osd=V18XBEqpcElxjP5zdKuW1d3tRtpi6kJ9AMKdJCXcIA0d-ok3RavHlyyK-XN3sZlZsusHFLtRseuyzpHy6ZL_TDM=; Hm_lpvt_98beee57fd2ef70ccdd5ca52b9740c49=1608365860; KLBRSID=9d75f80756f65c61b0a50d80b4ca9b13|1608365860|1608365826", null);
 		System.out.println(data);
 	}
 }
