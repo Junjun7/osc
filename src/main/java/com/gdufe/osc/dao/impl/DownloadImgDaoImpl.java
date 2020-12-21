@@ -32,4 +32,14 @@ public class DownloadImgDaoImpl implements DownloadImgDao {
 		List<DownloadImg> imgIds = downloadImgMapper.selectByExample(example);
 		return CollectionUtils.isEmpty(imgIds) ? null : imgIds.get(0);
 	}
+
+	@Override
+	public int update(long id) {
+		DownloadImg img = new DownloadImg();
+		img.setLink("");
+		img.setLinkname("");
+		DownloadImgExample example = new DownloadImgExample();
+		example.createCriteria().andIdEqualTo(id);
+		return downloadImgMapper.updateByExampleSelective(null, example);
+	}
 }

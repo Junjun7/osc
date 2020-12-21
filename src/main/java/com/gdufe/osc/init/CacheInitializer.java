@@ -1,12 +1,12 @@
 package com.gdufe.osc.init;
 
+import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.scheduled.CronTaskByFreshToken;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.utils.CacheToken;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class CacheInitializer implements ApplicationListener<ApplicationReadyEvent> {
+public class CacheInitializer implements InitializingBean {
 
 	@Autowired
 	private RedisService redisService;
@@ -23,7 +23,7 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 	private CronTaskByFreshToken cronTaskByFreshToken;
 
 	@Override
-	public void onApplicationEvent(ApplicationReadyEvent event) {
+	public void afterPropertiesSet() {
 		try {
 			init();
 		} catch (Exception e) {
@@ -31,7 +31,7 @@ public class CacheInitializer implements ApplicationListener<ApplicationReadyEve
 		}
 	}
 
-	private void init() {
+	private void init() throws NetworkException {
 		// fresh token by code
 		cronTaskByFreshToken.refreshCache();
 		String token = redisService.getToken();

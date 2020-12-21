@@ -6,10 +6,11 @@ import com.gdufe.osc.entity.TweetListMore;
 import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.service.TweetListService;
+import com.gdufe.osc.utils.GsonUtils;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.NumberUtils;
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @Author: yizhen
@@ -35,8 +37,6 @@ public class TweetListServiceImp implements TweetListService {
 
 	@Autowired
 	private RedisService redisService;
-
-	private Gson gson = new Gson();
 
 	@Override
 	public List<TweetListDetails> listTweetList(int page, int pageSize, String user) {
@@ -58,15 +58,10 @@ public class TweetListServiceImp implements TweetListService {
 
 	private List<TweetListDetails> getTweetListDetails(List<Integer> ids) {
 		String tweetUrl = getDetailsUrl(redisService);
-		List<TweetListDetails> res = Lists.newArrayList();
-		for (int id : ids) {
+		List<TweetListDetails> res = ids.stream().map(id -> {
 			String url = tweetUrl + "&id=" + id;
-			TweetListDetails tweetDetails = getTweetDetails(url);
-			if (Objects.isNull(tweetDetails)) {
-				continue;
-			}
-			res.add(tweetDetails);
-		}
+			return getTweetDetails(url);
+		}).filter(tweet -> tweet != null).collect(Collectors.toList());
 		return res;
 	}
 
@@ -75,14 +70,13 @@ public class TweetListServiceImp implements TweetListService {
 		if (Objects.nonNull(cacheDetails)) {
 			return cacheDetails;
 		}
-//		String data = HttpMethod.get(url);
 		String data = HttpHelper.get(url);
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
 		// 为兼容Gson，做一个过滤
 		data = transferData(data);
-		TweetListDetails details = gson.fromJson(data, TweetListDetails.class);
+		TweetListDetails details = GsonUtils.fromJson(data, TweetListDetails.class);
 		filterFormat(details);
 		if (!StringUtils.isEmpty(details.getImgSmallStr()) && !StringUtils.isEmpty(details.getImgBigStr())) {
 			details = filterImg(details);
@@ -92,8 +86,18 @@ public class TweetListServiceImp implements TweetListService {
 	}
 
 	private String transferData(String data) {
-		data = data.replaceAll("imgBig", "imgBigStr");
-		return data.replaceAll("imgSmall", "imgSmallStr");
+		JsonObject parse = GsonUtils.toJsonObjectWithNullable(data);
+		if (parse.has("imgBig")) {
+			String imgBig = parse.get("imgBig").getAsString();
+			parse.addProperty("imgBigStr", imgBig);
+			parse.remove("imgBig");
+		}
+		if (parse.has("imgSmall")) {
+			String imgSmall = parse.get("imgSmall").getAsString();
+			parse.addProperty("imgSmallStr", imgSmall);
+			parse.remove("imgSmall");
+		}
+		return parse.toString();
 	}
 
 	/**
@@ -163,17 +167,14 @@ public class TweetListServiceImp implements TweetListService {
 
 	private List<Integer> getTweetIds(int page, int pageSize, String user) {
 		String tweetUrl = getTweetUrl(page, pageSize, user);
-//		String data = HttpMethod.get(tweetUrl);
 		String data = HttpHelper.get(tweetUrl);
 		if (StringUtils.isEmpty(data)) {
 			return null;
 		}
-		TweetListMore tweetListMore = gson.fromJson(data, TweetListMore.class);
+		TweetListMore tweetListMore = GsonUtils.fromJson(data, TweetListMore.class);
 		List<TweetList> lists = tweetListMore.getTweetlist();
-		List<Integer> ids = Lists.newArrayList();
-		lists.forEach(x -> {
-			ids.add(x.getId());
-		});
+		List<Integer> ids = lists.stream().map((TweetList::getId))
+				.collect(Collectors.toList());
 		return ids;
 	}
 

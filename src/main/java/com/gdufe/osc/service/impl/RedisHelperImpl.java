@@ -1,6 +1,7 @@
 package com.gdufe.osc.service.impl;
 
 import com.gdufe.osc.service.RedisHelper;
+import com.gdufe.osc.utils.GsonUtils;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
@@ -24,7 +25,7 @@ public class RedisHelperImpl<V> implements RedisHelper<V> {
 		if (execute == null) {
 			return null;
 		}
-		return new Gson().fromJson(new String(execute), clazz);
+		return GsonUtils.fromJson(new String(execute), clazz);
 	}
 
 	/**

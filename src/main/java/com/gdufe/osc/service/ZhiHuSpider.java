@@ -12,5 +12,5 @@ public interface ZhiHuSpider {
 
 	List<DownloadImg> listDownloadImg();
 
-	void spider(String id);
+	void spider(String id, int limit);
 }

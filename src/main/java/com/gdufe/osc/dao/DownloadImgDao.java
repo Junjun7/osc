@@ -11,4 +11,6 @@ public interface DownloadImgDao {
 	List<DownloadImg> listAllDownloadImg();
 
 	DownloadImg getImageIds();
+
+	int update(long id);
 }

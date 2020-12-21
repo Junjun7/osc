@@ -4,6 +4,7 @@ import com.gdufe.osc.OscApplicationTests;
 import com.gdufe.osc.controller.ZhuHuSpiderController;
 import com.gdufe.osc.dao.ImgDao;
 import com.gdufe.osc.entity.Img;
+import com.gdufe.osc.exception.NetworkException;
 import com.gdufe.osc.scheduled.CronTaskBySpider;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class ZhihuTest extends OscApplicationTests {
 	}
 
 	@Test
-	public void spider() throws InterruptedException {
+	public void spider() throws InterruptedException, NetworkException {
 		cronTaskBySpider.imgSpider();
 	}
 

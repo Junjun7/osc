@@ -25,21 +25,24 @@ public class RetryAspect {
 	public void pointcutRetry(Retry retry) {}
 
 	@Around(value = "pointcutRetry(retry)")
-	public Object methodAround(ProceedingJoinPoint joinPoint, Retry retry) {
+	public Object methodAround(ProceedingJoinPoint joinPoint, Retry retry) throws Exception {
 		int times = 0;
 		int maxRetry = retry.maxRetry();
+		Throwable ex = null;
 		do {
 			String methodName = joinPoint.getSignature().getName();
 			try {
+				log.info("methodName = {}", methodName);
 				return joinPoint.proceed();
 			} catch (Throwable throwable) {
 				log.error("调用方法name = {} 抛出异常，重试次数为 = {}", methodName, times);
 				if (times == maxRetry) {
 					weChatNoticeUtils.setMessage(String.format("重试了第 %d 次，仍然报错。", times));
 				}
+				ex = throwable;
 			}
 		} while (++times <= maxRetry);
-		return null;
+		throw new Exception(ex);
 	}
 }
 
