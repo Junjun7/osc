@@ -92,6 +92,9 @@ public class CronTaskBySpider {
 		List<String> imgBiZhiIds = Lists.newArrayList(StringUtils.split(imageIds.getLinkname(), ","));
 		log.info("imgIds = {}", imgIds);
 		log.info("imgBiZhiIds = {}", imgBiZhiIds);
+		// 防止第二天再次爬取，删除数据库中的id号
+		int update = downloadImgDao.update(imageIds.getId());
+		log.info("update id = {}", update);
 		return ImmutablePair.of(imgIds, imgBiZhiIds);
 	}
 
