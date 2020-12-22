@@ -40,6 +40,6 @@ public class DownloadImgDaoImpl implements DownloadImgDao {
 		img.setLinkname("");
 		DownloadImgExample example = new DownloadImgExample();
 		example.createCriteria().andIdEqualTo(id);
-		return downloadImgMapper.updateByExampleSelective(null, example);
+		return downloadImgMapper.updateByExampleSelective(img, example);
 	}
 }
