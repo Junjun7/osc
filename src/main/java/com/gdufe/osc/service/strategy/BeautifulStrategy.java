@@ -1,11 +1,12 @@
 package com.gdufe.osc.service.strategy;
 
 import com.gdufe.osc.entity.Img;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,21 +20,21 @@ public class BeautifulStrategy extends ImgTypeStrategy {
 	public static final String SERVICE_NAME = "BEAUTIFUL_IMG";
 
 	@Override
-	public List<String> getImg(int offset, int limit) {
-		offset = convertOffset(limit);
-		List<Img> imgs = imgDao.listImgLink(offset, limit);
-		if (CollectionUtils.isEmpty(imgs)) {
-			return null;
-		}
-		List<String> res = Lists.newArrayList();
-		for (Img img : imgs) {
-			res.add(img.getLink());
-		}
-		return res;
+	protected String getServiceName() {
+		return SERVICE_NAME;
 	}
 
 	@Override
-	public String getServiceName() {
-		return SERVICE_NAME;
+	protected List<Img> queryImg(int offset, int limit) {
+		List<Img> imgs = imgDao.listImgLink(offset, limit);
+		if (CollectionUtils.isEmpty(imgs)) {
+			return Collections.EMPTY_LIST;
+		}
+		return imgs;
+	}
+
+	@Override
+	protected int getCount() {
+		return NumberUtils.toInt(imgDao.countImg() + "");
 	}
 }
