@@ -1,4 +1,4 @@
-package com.gdufe.osc.utils;
+package com.gdufe.osc.utils.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +24,7 @@ public class GsonUtils {
     private static Gson gson = new GsonBuilder().enableComplexMapKeySerialization()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .disableHtmlEscaping()
+            .registerTypeHierarchyAdapter(SensitiveInfoMask.class, new MaskSerializer())
             .setVersion(1.0)
             .create();
 

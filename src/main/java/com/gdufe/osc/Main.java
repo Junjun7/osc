@@ -1,7 +1,8 @@
 package com.gdufe.osc;
 
-import com.gdufe.osc.utils.GsonUtils;
-import com.google.gson.JsonObject;
+import com.gdufe.osc.entity.AccessToken;
+import com.gdufe.osc.entity.Person;
+import com.gdufe.osc.utils.gson.GsonUtils;
 
 /**
  * @author changwenbo
@@ -9,13 +10,15 @@ import com.google.gson.JsonObject;
  */
 public class Main {
 	public static void main(String[] args) {
-		String str = "{\"imgBig\":\"https://static.oschina.net/uploads/space/https://oscimg.oschina.net/oscnet/up-62a2f83cd10044693313f23a0df052cf4c5.png\",\"author\":\"Andy市民\",\"id\":22119730,\"portrait\":\"https://oscimg.oschina.net/oscnet/up-c433d2b39ed5624fd813783da456026b.jpg!/both/50x50?t=1444975720000\",\"authorid\":1252840,\"body\":\"我比较懒！\",\"pubDate\":\"2020-09-22 11:16:23\",\"imgSmall\":\"https://static.oschina.net/uploads/space/https://oscimg.oschina.net/oscnet/up-62a2f83cd10044693313f23a0df052cf4c5.png!/sq/200\",\"commentCount\":3}";
+		Person person = new Person();
+		person.setAge(18);
+		person.setName("zhangsan");
 
-		String s = GsonUtils.toJson(str);
-		System.out.println(s);
+		System.out.println(GsonUtils.toJson(person));
 
-		JsonObject parse = GsonUtils.toJsonObjectWithNullable(s);
-		System.out.println(parse.get("imgBig").getAsString());
-
+		AccessToken accessToken = new AccessToken();
+		accessToken.setAccessToken("11111111122222333333333");
+		accessToken.setRefreshToken("222222333333444444444");
+		System.out.println(GsonUtils.toJson(accessToken));
 	}
 }

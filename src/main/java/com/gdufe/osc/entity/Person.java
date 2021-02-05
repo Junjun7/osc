@@ -1,5 +1,6 @@
 package com.gdufe.osc.entity;
 
+import com.gdufe.osc.utils.gson.SensitiveInfoMask;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import javax.validation.constraints.Max;
@@ -8,7 +9,7 @@ import javax.validation.constraints.Max;
  * @author changwenbo
  * @date 2020/9/18 17:52
  */
-public class Person {
+public class Person implements SensitiveInfoMask {
 
 	private String name;
 

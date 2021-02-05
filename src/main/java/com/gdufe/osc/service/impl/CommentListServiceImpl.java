@@ -4,7 +4,7 @@ import com.gdufe.osc.entity.CommentList;
 import com.gdufe.osc.entity.CommentListMore;
 import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.CommentListService;
-import com.gdufe.osc.utils.GsonUtils;
+import com.gdufe.osc.utils.gson.GsonUtils;
 import com.gdufe.osc.utils.HttpHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
