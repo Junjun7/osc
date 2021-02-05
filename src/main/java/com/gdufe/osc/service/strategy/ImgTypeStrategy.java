@@ -2,12 +2,12 @@ package com.gdufe.osc.service.strategy;
 
 import com.gdufe.osc.dao.ImgBiZhiDao;
 import com.gdufe.osc.dao.ImgDao;
-import com.gdufe.osc.enums.ImgTypeEnum;
+import com.gdufe.osc.entity.Img;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,12 +25,25 @@ public abstract class ImgTypeStrategy {
 	@Autowired
 	protected ImgBiZhiDao imgBiZhiDao;
 
-	public abstract List<String> getImg(int offset, int limit);
+	protected abstract String getServiceName();
 
-	public abstract String getServiceName();
+	protected abstract List<Img> queryImg(int offset, int limit);
+
+	protected abstract int getCount();
+
+	public final List<String> getImg(int offset, int limit) {
+
+		offset = convertOffset(limit);
+		List<Img> imgs = queryImg(offset, limit);
+		List<String> res = new ArrayList<>();
+		for (Img img : imgs) {
+			res.add(img.getLink());
+		}
+		return res;
+	}
 
 	/** 随机选择图片 */
-	protected int convertOffset(int limit) {
+	private int convertOffset(int limit) {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 		int cnt = getCount();
 		int rd = random.nextInt(cnt);
@@ -39,16 +52,5 @@ public abstract class ImgTypeStrategy {
 		}
 		log.info("图片随机位置为：{}", rd);
 		return rd;
-	}
-
-	private int getCount() {
-		String serviceName = getServiceName();
-		if (ImgTypeEnum.BEAUTIFUL_IMG.name().equalsIgnoreCase(serviceName)) {
-			return NumberUtils.toInt(imgDao.countImg() + "");
-		}
-		if (ImgTypeEnum.PIC_IMG.name().equalsIgnoreCase(serviceName)) {
-			return NumberUtils.toInt(imgBiZhiDao.countImg() + "");
-		}
-		return NumberUtils.toInt(imgDao.countImg() + "");
 	}
 }
