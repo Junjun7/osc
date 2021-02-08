@@ -66,7 +66,7 @@ public class ImgDaoImpl implements ImgDao {
 		example.setLimit(limit);
 		example.setOrderByClause("id DESC");
 		List<Img> res = imgMapper.selectByExample(example);
-		log.info("res = {}", CollectionUtils.isEmpty(res));
+		log.info("res = {}", !CollectionUtils.isEmpty(res));
 		return res;
 	}
 

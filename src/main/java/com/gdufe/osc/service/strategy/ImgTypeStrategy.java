@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 /**
  * @author changwenbo
@@ -31,15 +31,12 @@ public abstract class ImgTypeStrategy {
 
 	protected abstract int getCount();
 
-	public final List<String> getImg(int offset, int limit) {
+	public final List<String> getImg(int limit) {
 
-		offset = convertOffset(limit);
-		List<Img> imgs = queryImg(offset, limit);
-		List<String> res = new ArrayList<>();
-		for (Img img : imgs) {
-			res.add(img.getLink());
-		}
-		return res;
+		List<Img> imgEntity = queryImg(convertOffset(limit), limit);
+		return imgEntity.stream().map(img -> img.getLink())
+				.collect(Collectors.toList());
+
 	}
 
 	/** 随机选择图片 */
