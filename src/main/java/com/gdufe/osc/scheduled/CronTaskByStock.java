@@ -1,6 +1,6 @@
 package com.gdufe.osc.scheduled;
 
-import com.gdufe.osc.utils.GsonUtils;
+import com.gdufe.osc.utils.gson.GsonUtils;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.google.gson.JsonArray;

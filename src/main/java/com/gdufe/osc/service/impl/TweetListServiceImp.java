@@ -6,7 +6,7 @@ import com.gdufe.osc.entity.TweetListMore;
 import com.gdufe.osc.service.CacheHelper;
 import com.gdufe.osc.service.RedisService;
 import com.gdufe.osc.service.TweetListService;
-import com.gdufe.osc.utils.GsonUtils;
+import com.gdufe.osc.utils.gson.GsonUtils;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.NumberUtils;
 import com.google.common.collect.Lists;

@@ -1,5 +1,6 @@
 package com.gdufe.osc.entity;
 
+import com.gdufe.osc.utils.gson.SensitiveInfoMask;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccessToken {
+public class AccessToken implements SensitiveInfoMask {
 
 	@SerializedName("access_token")
 	private String accessToken;

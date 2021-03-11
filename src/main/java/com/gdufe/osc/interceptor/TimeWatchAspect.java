@@ -1,7 +1,7 @@
 package com.gdufe.osc.interceptor;
 
 import com.gdufe.osc.annotation.TimeWatch;
-import com.gdufe.osc.utils.GsonUtils;
+import com.gdufe.osc.utils.gson.GsonUtils;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

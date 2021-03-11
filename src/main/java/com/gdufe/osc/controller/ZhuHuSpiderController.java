@@ -8,7 +8,7 @@ import com.gdufe.osc.enums.ImgTypeEnum;
 import com.gdufe.osc.enums.OscResultEnum;
 import com.gdufe.osc.factory.ImgFactory;
 import com.gdufe.osc.service.ZhiHuSpider;
-import com.gdufe.osc.service.processor.ProcessExecutor;
+import com.gdufe.osc.service.processor.IntraProcessor;
 import com.gdufe.osc.service.strategy.ImgTypeStrategy;
 import com.gdufe.osc.utils.NumberUtils;
 import com.gdufe.osc.utils.StrategyHelper;
@@ -44,7 +44,7 @@ public class ZhuHuSpiderController {
 	public OscResult<List<String>> listSpiderImg(int offset, int limit, String type) {
 		ImgTypeStrategy strategy = strategyHelper.getImgTypeStrategy(type);
 		log.info("strategy = {}", strategy);
-		List<String> imgList = strategy.getImg(offset, limit);
+		List<String> imgList = strategy.getImg(limit);
 		if (CollectionUtils.isEmpty(imgList)) {
 			log.info("list is empty");
 			return new OscResult<List<String>>().fail(OscResultEnum.MISSING_RES_EXCEPTION);
@@ -59,25 +59,20 @@ public class ZhuHuSpiderController {
 	 * 2: TimeWatch 打印如参出参 + 执行时间
 	 * 3: process是一个通用的方法
 	 *
-	 * @param listSpiderImgRequest
+	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
 	@TimeWatch
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
-	public OscResult<List<String>> listSpiderImgV2(@Valid ListSpiderImgRequest listSpiderImgRequest) throws Exception {
-		ImgTypeEnum imgTypeEnum = ImgTypeEnum.findByValue(NumberUtils.toInt(listSpiderImgRequest.getType()));
+	public OscResult<List<String>> listSpiderImgV2(@Valid ListSpiderImgRequest request) throws Exception {
+		ImgTypeEnum imgTypeEnum = ImgTypeEnum.findByValue(NumberUtils.toInt(request.getType()));
 		log.info("imgTypeEnum = {}", imgTypeEnum);
-		return process(() -> imgFactory.getService(imgTypeEnum.name())
-				.getImg(listSpiderImgRequest.getOffset(), listSpiderImgRequest.getLimit()));
-	}
 
-	public <T> OscResult<T> process(ProcessExecutor<T> executor) throws Exception {
-		T execute = executor.execute();
-		if (execute == null) {
-			throw new Exception("数据为空");
-		}
-		return new OscResult<T>().success(execute);
+		ImgTypeStrategy strategy = imgFactory.getService(imgTypeEnum.name());
+		int limit = request.getLimit();
+
+		return IntraProcessor.process(() -> strategy.getImg(limit));
 	}
 
 	@RequestMapping(value = "/download/img", method = RequestMethod.GET)
