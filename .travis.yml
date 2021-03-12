@@ -4,4 +4,5 @@ before_install:
   - chmod 777 mvnw
 jdk:
   - openjdk8
-script: mvn clean compile -U
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
