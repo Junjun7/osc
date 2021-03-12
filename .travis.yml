@@ -1,2 +1,6 @@
 language: java
+sudo: required
+jdk:
+  - oraclejdk8
+  - openjdk8
 script: mvn clean compile -U
