@@ -1,2 +1,2 @@
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+language: java
+script: mvn clean compile -U
