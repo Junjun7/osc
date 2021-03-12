@@ -1,6 +1,7 @@
 language: java
-sudo: required
+os: linux
+before_install:
+  - chmod 777 mvnw
 jdk:
-  - oraclejdk8
   - openjdk8
 script: mvn clean compile -U
