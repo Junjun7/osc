@@ -1,5 +1,6 @@
 # OSC
 
+[![codecov](https://img.shields.io/badge/wechat-QR-green)](https://pic2.zhimg.com/50/v2-4c1f2eff30128ff7ce009dfc7778a3e3_r.jpg)
 [![codecov](https://codecov.io/gh/wenbochang888/osc/branch/changwenbo-dev/graph/badge.svg?token=9FOTXHUFFL)](https://codecov.io/gh/wenbochang888/osc)
 [![codecov](https://tokei.rs/b1/github/wenbochang888/osc)](https://github.com/XAMPPRocky/tokei)
 
