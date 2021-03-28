@@ -1,8 +1,10 @@
 package com.gdufe.osc.scheduled;
 
-import com.gdufe.osc.utils.gson.GsonUtils;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.gdufe.osc.exception.sentinel.ExceptionUtil;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
+import com.gdufe.osc.utils.gson.GsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +29,14 @@ public class CronTaskByStock {
 	@Autowired
 	private WeChatNoticeUtils weChatNoticeUtils;
 
-	/** 每天9点执行 */
+	@SentinelResource(value = "notifyStockTime",
+			blockHandler = "handleException",
+			blockHandlerClass = {ExceptionUtil.class})
 	@Scheduled(cron = "0 0 9 * * ?")
 	public void notifyStockTime() {
-		executeStock();
-		executeBond();
+		throw new RuntimeException();
+//		executeStock();
+//		executeBond();
 	}
 
 	private void executeBond() {
@@ -63,9 +68,9 @@ public class CronTaskByStock {
 				weChatNoticeUtils.setMessage("今天有如下债券申购，请及时申购：", name.toString());
 			}
 		} catch (Exception e) {
-			log.error("e = {}", e);
+			log.error("e = {}", e.getMessage(), e);
 			weChatNoticeUtils.setMessage("债券爬取失败，请您及时排查问题..", e.toString());
-			return;
+			throw e;
 		}
 	}
 
@@ -102,9 +107,9 @@ public class CronTaskByStock {
 				weChatNoticeUtils.setMessage("今天有如下股票申购，请及时申购：", name.toString());
 			}
 		} catch (Exception e) {
-			log.error("e = {}", e);
+			log.error("e = {}", e.getMessage(), e);
 			weChatNoticeUtils.setMessage("股票爬取失败，请您及时排查问题..", e.toString());
-			return;
+			throw e;
 		}
 	}
 }
