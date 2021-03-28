@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CronTaskByStock {
 
-	private static final String stockUrl = "http://ipo.sseinfo.com/info/commonQuery.do?jsonCallBack=jsonpCallback79425&isPagination=true&sqlId=COMMON_SSE_IPO_ISSUE_L&stockType=0&pageHelp.pageSize=15&_=1600048639851";
+	private static final String stockUrl = "http://ipo.sseinfo.com/info/commonQuery.do?jsonCallBack=jsonpCallback79425&isPagination=true&sqlId=COMMON_SSE_IPO_ISSUE_L&stockType=0&pageHelp.pageSize=15&_=1616911664823";
 	private static final String bondUrl = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?type=KZZ_LB2.0&token=70f12f2f4f091e459a279469fe49eca5&st=STARTDATE&sr=-1&p=1&ps=10";
 	private static final String format = "yyyy-MM-dd";
 
@@ -43,7 +43,7 @@ public class CronTaskByStock {
 				return;
 			}
 			JsonArray jsonArray = GsonUtils.toJsonArrayWithNullable(content);
-			log.info("jsonStr = {}", jsonArray);
+			log.info("jsonStr = {}", jsonArray.size());
 			StringBuilder name = new StringBuilder();
 			DateTime dateTime = DateTime.now();
 			String dt = dateTime.toString(format) + "T00:00:00";
@@ -82,7 +82,7 @@ public class CronTaskByStock {
 			String jsonStr = StringUtils.substring(content.substring(start, end + 1), 0, -1) + "}";
 			JsonObject jsonObject = GsonUtils.toJsonObjectWithNullable(jsonStr);
 			JsonArray jsonArray = jsonObject.get("result").getAsJsonArray();
-			log.info("jsonStr = {}", jsonArray);
+			log.info("jsonStr = {}", jsonArray.size());
 			StringBuilder name = new StringBuilder();
 			DateTime dateTime = DateTime.now();
 			String dt = dateTime.toString(format);
