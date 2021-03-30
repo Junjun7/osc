@@ -1,11 +1,13 @@
 package com.gdufe.osc.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.gdufe.osc.annotation.TimeWatch;
 import com.gdufe.osc.common.OscResult;
 import com.gdufe.osc.entity.DownloadImg;
 import com.gdufe.osc.entity.request.ListSpiderImgRequest;
 import com.gdufe.osc.enums.ImgTypeEnum;
 import com.gdufe.osc.enums.OscResultEnum;
+import com.gdufe.osc.exception.sentinel.ExceptionUtil;
 import com.gdufe.osc.factory.ImgFactory;
 import com.gdufe.osc.service.ZhiHuSpider;
 import com.gdufe.osc.service.processor.IntraProcessor;
@@ -63,6 +65,8 @@ public class ZhuHuSpiderController {
 	 * @return
 	 * @throws Exception
 	 */
+	@SentinelResource(value = "listSpiderImgV2", blockHandler = "handleException",
+			blockHandlerClass = {ExceptionUtil.class})
 	@TimeWatch
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
 	public OscResult<List<String>> listSpiderImgV2(@Valid ListSpiderImgRequest request) throws Exception {
