@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <com.alibaba.csp.version>1.8.1</com.alibaba.csp.version>
     </properties>
 
     <dependencies>
@@ -167,12 +168,17 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-core</artifactId>
-            <version>1.8.1</version>
+            <version>${com.alibaba.csp.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-annotation-aspectj</artifactId>
-            <version>1.8.1</version>
+            <version>${com.alibaba.csp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+            <version>${com.alibaba.csp.version}</version>
         </dependency>
 
 

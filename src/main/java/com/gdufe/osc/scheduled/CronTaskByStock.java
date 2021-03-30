@@ -29,8 +29,7 @@ public class CronTaskByStock {
 	@Autowired
 	private WeChatNoticeUtils weChatNoticeUtils;
 
-	@SentinelResource(value = "notifyStockTime",
-			blockHandler = "handleException",
+	@SentinelResource(value = "notifyStockTime", blockHandler = "handleException",
 			blockHandlerClass = {ExceptionUtil.class})
 	@Scheduled(cron = "0 0 9 * * ?")
 	public void notifyStockTime() {

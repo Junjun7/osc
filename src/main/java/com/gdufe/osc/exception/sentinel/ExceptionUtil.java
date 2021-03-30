@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ExceptionUtil {
 
 	public static void handleException(BlockException e) {
-
-		System.out.println("e = " + e.getMessage());
-
+		log.info("e = {}", e.getMessage(), e);
 	}
 }
