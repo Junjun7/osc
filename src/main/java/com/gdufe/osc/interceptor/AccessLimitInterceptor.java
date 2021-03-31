@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date: 2018/12/24 15:42
  */
 @Slf4j
-public class AccessLimitInterceptor implements HandlerInterceptor {
+public class AccessLimitInterceptor extends AbstractInterceptor {
 
 	@Autowired
 	private AccessLimitService accessLimitService;
