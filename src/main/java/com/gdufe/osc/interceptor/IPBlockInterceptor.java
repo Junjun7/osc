@@ -9,13 +9,9 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -23,7 +19,7 @@ import java.util.Set;
  * @Date: 2018/12/28 12:11
  */
 @Slf4j
-public class IPBlockInterceptor implements HandlerInterceptor {
+public class IPBlockInterceptor extends AbstractInterceptor {
 
 	/** 10s内访问50次，认为是刷接口，就要进行一个限制 */
 	private static final long TIME = 10;
@@ -37,13 +33,16 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 
 	private static final Long DAY = 60 * 60 * 24L;
 
+	private static final Set<String> WHITE_URL = Sets.newHashSet("zhihu/download/spider",
+			"task/img/url");
+
 	@Autowired
 	private RedisHelper<Integer> redisHelper;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		synchronized (lock) {
-			if (checkAgent(request) && checkIP(request, response)) {
+			if (checkAgent(request) && checkIP(request, response, false)) {
 				return true;
 			} else {
 				OscResult<String> result = new OscResult<>();
@@ -56,14 +55,11 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 		}
 	}
 
-	private static final Set<String> WHITE_URL = Sets.newHashSet("zhihu/download/spider",
-			"task/img/url");
-
 	private boolean checkAgent(HttpServletRequest request) {
 		String header = request.getHeader(USERAGENT);
 		String ip = IPUtils.getClientIp(request);
 		String url = request.getRequestURL().toString();
-		String param = getAllParam(request);
+		String param = getRequestParam(request);
 		if (StringUtils.isNotEmpty(param) && param.contains("wenbo")) {
 			return true;
 		}
@@ -89,10 +85,17 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
+	private boolean checkIP(HttpServletRequest request, HttpServletResponse response, boolean check) throws Exception {
+		if (!check) {
+			return true;
+		}
+		return checkIP(request, response);
+	}
+
 	private boolean checkIP(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String ip = IPUtils.getClientIp(request);
 		String url = request.getRequestURL().toString();
-		String param = getAllParam(request);
+		String param = getRequestParam(request);
 		if (StringUtils.isNotEmpty(param) && param.contains("wenbo")) {
 			return true;
 		}
@@ -122,24 +125,5 @@ public class IPBlockInterceptor implements HandlerInterceptor {
 			log.info("ip = {}, {}s之内第1次请求{}，参数为{}，通过", ip, TIME, url, param);
 		}
 		return true;
-	}
-
-	private String getAllParam(HttpServletRequest request) {
-		Map<String, String[]> map = request.getParameterMap();
-		StringBuilder sb = new StringBuilder("[");
-		map.forEach((x, y) -> {
-			String s = StringUtils.join(y, ",");
-			sb.append(x + " = " + s + ";");
-		});
-		sb.append("]");
-		return sb.toString();
-	}
-
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
-	}
-
-	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
 	}
 }

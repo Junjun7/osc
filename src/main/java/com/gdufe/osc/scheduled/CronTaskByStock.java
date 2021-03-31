@@ -33,9 +33,8 @@ public class CronTaskByStock {
 			blockHandlerClass = {ExceptionUtil.class})
 	@Scheduled(cron = "0 0 9 * * ?")
 	public void notifyStockTime() {
-		throw new RuntimeException();
-//		executeStock();
-//		executeBond();
+		executeStock();
+		executeBond();
 	}
 
 	private void executeBond() {

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccessLimitServiceImpl implements AccessLimitService {
 
-	private static final  int LIMIT_COUNT = 1000;
+	private static final  int LIMIT_COUNT = 100;
 	/** 创建令牌 */
 	private RateLimiter rateLimiter = RateLimiter.create(LIMIT_COUNT);
 
