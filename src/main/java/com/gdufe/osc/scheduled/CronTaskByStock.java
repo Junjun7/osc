@@ -1,7 +1,5 @@
 package com.gdufe.osc.scheduled;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.gdufe.osc.exception.sentinel.ExceptionUtil;
 import com.gdufe.osc.utils.HttpHelper;
 import com.gdufe.osc.utils.WeChatNoticeUtils;
 import com.gdufe.osc.utils.gson.GsonUtils;
@@ -29,8 +27,6 @@ public class CronTaskByStock {
 	@Autowired
 	private WeChatNoticeUtils weChatNoticeUtils;
 
-	@SentinelResource(value = "notifyStockTime", blockHandler = "handleException",
-			blockHandlerClass = {ExceptionUtil.class})
 	@Scheduled(cron = "0 0 9 * * ?")
 	public void notifyStockTime() {
 		executeStock();

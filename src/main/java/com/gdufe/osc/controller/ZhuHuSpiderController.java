@@ -65,7 +65,7 @@ public class ZhuHuSpiderController {
 	 * @return
 	 * @throws Exception
 	 */
-	@SentinelResource(value = "listSpiderImgV2", blockHandler = "handleException",
+	@SentinelResource(value = "listSpiderImgV2", blockHandler = "listSpiderImgV2Exception",
 			blockHandlerClass = {ExceptionUtil.class})
 	@TimeWatch
 	@RequestMapping(value = "/spider/get", method = RequestMethod.GET)
