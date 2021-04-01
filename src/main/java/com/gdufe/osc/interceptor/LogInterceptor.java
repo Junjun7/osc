@@ -18,7 +18,8 @@ public class LogInterceptor extends AbstractInterceptor {
 
 	private static final String SESSION_KEY = "sessionId";
 
-	private static final int MIN = 9999;
+	/** 四位数 */
+	private static final int MIN = 1000;
 	private static final int MAX = 10000;
 
 	@Override

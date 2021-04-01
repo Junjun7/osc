@@ -40,16 +40,16 @@ public class ExceptionController {
 			} catch (Exception e) {
 				log.error("osc接口出现问题 ==> " + e);
 			}
-			log.error(throwable + "");
+			log.error("e = {}", throwable.getMessage(), throwable);
 			return new OscResult<String>().fail(OscResultEnum.NETWORK_EXCEPTION);
 		}
 		// 缺少字段
 		if (throwable instanceof IllegalStateException || throwable instanceof NumberFormatException) {
-			log.error(throwable + "");
+			log.error("e = {}", throwable.getMessage(), throwable);
 			return new OscResult<String>().fail(OscResultEnum.MISSING_PARAM_EXCEPTION);
 		}
 		// 其他异常 未知
-		log.error(throwable + "");
+		log.error("e = {}", throwable.getMessage(), throwable);
 		return new OscResult<String>().fail();
 	}
 
