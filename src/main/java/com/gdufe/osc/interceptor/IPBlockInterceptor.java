@@ -42,7 +42,7 @@ public class IPBlockInterceptor extends AbstractInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		synchronized (lock) {
-			if (checkAgent(request) && checkIP(request, response, false)) {
+			if (checkAgent(request) && checkIP(request, response, true)) {
 				return true;
 			} else {
 				OscResult<String> result = new OscResult<>();
