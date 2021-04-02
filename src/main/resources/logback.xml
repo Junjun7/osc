@@ -31,12 +31,13 @@
         <!--</encoder>-->
     <!--</appender>-->
 
+    <!-- 保留90天的日志，每个日志文件大小为100MB -->
     <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${APP_NAME}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>log/osc.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>90</maxHistory>
+            <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <charset>UTF-8</charset>

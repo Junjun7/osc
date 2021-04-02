@@ -20,7 +20,8 @@ public class ExceptionUtil {
 	 * @param e
 	 */
 	public static OscResult<List<String>> listSpiderImgV2Exception(ListSpiderImgRequest request, BlockException e) {
-		log.info("e = {}", e.getMessage(), e);
+		Throwable t = e.fillInStackTrace();
+		log.info("e = {}", t.getMessage(), t);
 		return new OscResult<List<String>>().fail(OscResultEnum.LIMIT_EXCEPTION);
 	}
 }
