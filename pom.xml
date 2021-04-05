@@ -159,6 +159,11 @@
             <artifactId>sentinel-transport-simple-http</artifactId>
             <version>${com.alibaba.csp.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-zookeeper</artifactId>
+            <version>${com.alibaba.csp.version}</version>
+        </dependency>
 
 
 
