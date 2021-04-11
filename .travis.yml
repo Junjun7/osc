@@ -3,7 +3,14 @@ os: linux
 before_install:
   - chmod 777 mvnw
 jdk:
+  - oraclejdk8
   - openjdk8
-script: mvn clean install -U -DskipTests=false -Dmaven.javadoc.skip=false
+branches:
+  only:
+    - master
+    - changwenbo-dev
+    - changwenbo-sentinel
+
+script: mvn clean install -U -Dmaven.test.skip=false -Dmaven.javadoc.skip=false
 after_success:
   - bash <(curl -s https://codecov.io/bash)
