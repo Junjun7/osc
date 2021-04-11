@@ -1,0 +1,14 @@
+language: java
+os: linux
+before_install:
+  - chmod 777 mvnw
+jdk:
+  - openjdk8
+branches:
+  only:
+    - master
+    - changwenbo-dev
+
+script: mvn clean install -U -Dmaven.test.skip=false -Dmaven.javadoc.skip=false
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

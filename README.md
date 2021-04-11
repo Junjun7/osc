@@ -1,4 +1,11 @@
-# 求求大哥们，别攻击我服务器了，谢谢大哥
+# OSC
+
+[![codecov](https://img.shields.io/badge/wechat-QR-green)](https://pic2.zhimg.com/50/v2-4c1f2eff30128ff7ce009dfc7778a3e3_r.jpg)
+[![codecov](https://codecov.io/gh/wenbochang888/osc/branch/changwenbo-dev/graph/badge.svg?token=9FOTXHUFFL)](https://codecov.io/gh/wenbochang888/osc)
+[![codecov](https://tokei.rs/b1/github/wenbochang888/osc)](https://github.com/XAMPPRocky/tokei)
+
+---
+
 - 此项目最初为毕业设计。由于想法很好，并发到了论坛，使得此小程序的用户量十分的不错。
 
 - 每天的日活基本上千，因此想要把这个项目做的很好。所以我的毕生所学基本全部用到了这个项目中去了。
